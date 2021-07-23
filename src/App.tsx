@@ -8,15 +8,20 @@
 
 import React from 'react';
 // import type {Node} from 'react';
-import {StyleSheet, Text, useColorScheme} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
+import styled, {css} from 'styled-components/native';
 
-import {
-  Colors,
-  // DebugInstructions,
-  // Header,
-  // LearnMoreLinks,
-  // ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+// import // DebugInstructions,
+// // Header,
+// // LearnMoreLinks,
+// // ReloadInstructions,
+// 'react-native/Libraries/NewAppScreen';
+
+const TestStyle = styled.Text`
+  padding: 30px;
+  background-color: yellow;
+  text-align: center;
+`;
 
 const App: () => JSX.Element = () => {
   // const isDarkMode = useColorScheme() === 'dark';
@@ -25,7 +30,12 @@ const App: () => JSX.Element = () => {
   //   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   // };
 
-  return <Text>hello~~~`</Text>;
+  return (
+    <View>
+      <Text>hello~~~`</Text>
+      <TestStyle>TestButton</TestStyle>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
