@@ -6,55 +6,21 @@
  * @flow strict-local
  */
 
+import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
-// import type {Node} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import styled, {css} from 'styled-components/native';
-
-// import // DebugInstructions,
-// // Header,
-// // LearnMoreLinks,
-// // ReloadInstructions,
-// 'react-native/Libraries/NewAppScreen';
-
-const TestStyle = styled.Text`
-  padding: 30px;
-  background-color: yellow;
-  text-align: center;
-`;
+import styled, {css, ThemeProvider} from 'styled-components/native';
+import {theme} from './assets/styles/theme';
+import HomeNav from './navigators/HomeNav';
 
 const App: () => JSX.Element = () => {
-  // const isDarkMode = useColorScheme() === 'dark';
-
-  // const backgroundStyle = {
-  //   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  // };
-
   return (
-    <View>
-      <Text>hello~~~`</Text>
-      <TestStyle>TestButton</TestStyle>
-    </View>
+    <NavigationContainer>
+      <ThemeProvider theme={theme}>
+        <HomeNav />
+      </ThemeProvider>
+    </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
