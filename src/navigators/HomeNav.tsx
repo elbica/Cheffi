@@ -4,7 +4,7 @@ import {
 } from '@react-navigation/stack';
 import React from 'react';
 import HomePage from '../pages/HomePage';
-import TestPage from '../pages/TestPage';
+import RefrigerPage from '../pages/RefrigerPage';
 
 const Stack = createStackNavigator();
 const Header: StackNavigationOptions = {
@@ -19,18 +19,18 @@ const Header: StackNavigationOptions = {
   },
   headerBackTitleVisible: false,
 };
-export default function HomeNav() {
+export default function HomeNav(props: any) {
+  console.log(props);
   return (
     <Stack.Navigator headerMode="screen" screenOptions={Header}>
       <Stack.Screen name="home" component={HomePage} />
       <Stack.Screen
-        name="test"
-        // options={{headerShown: false}}
-        component={TestPage}
+        name="refrigerator"
+        options={{headerShown: false}}
+        component={RefrigerPage}
       />
       {/*
         냉장고 페이지 라우터 설정
-        <Stack.Screen name="refrigerator" options={{headerShown: false}} component={RefrigeratorPage} />
 
         레시피 추천목록 페이지 라우터 설정
         <Stack.Screen name="recipeList" component={RecipeListPage} />
