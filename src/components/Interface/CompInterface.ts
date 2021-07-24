@@ -5,4 +5,5 @@ export interface ButtonsProps {
   onPress: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
   width: string;
   height: string;
+  margin?: string;
 }

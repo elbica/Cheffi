@@ -10,5 +10,12 @@ declare module 'styled-components' {
     padding: {
       main: string;
     };
+    text: {
+      [key: string]: string;
+      xlarge: string;
+      large: string;
+      medium: string;
+      small: string;
+    };
   }
 }
