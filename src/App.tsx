@@ -8,16 +8,20 @@
 
 import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
-// import {StyleSheet, Text, View} from 'react-native';
-// import styled, {css, ThemeProvider} from 'styled-components/native';
-// import {theme} from './assets/styles/theme';
-import HomeNav from './navigators/HomeNav';
+import {StatusBar} from 'react-native';
+
+import MainNav from './navigators/MainNav';
 
 const App: () => JSX.Element = () => {
   return (
+    // <SafeAreaView style={{flex: 1}}>
     <NavigationContainer>
-      <HomeNav />
+      {Platform.OS === 'android' ? (
+        <StatusBar translucent backgroundColor="transparent" />
+      ) : null}
+      <MainNav />
     </NavigationContainer>
+    // </SafeAreaView>
   );
 };
 
