@@ -5,8 +5,18 @@ import 'styled-components';
 declare module 'styled-components' {
   export interface DefaultTheme {
     color: {
-      main: string;
-      sub: string;
+      black: string;
+      tableBlack: string;
+      tableGray: string;
+      light: string;
+      bgColor: string;
+      carrot: string;
+      vegetable: string;
+      citrus: string;
+      white: string;
+      deepOrange: string;
+      deepGreen: string;
+      deepYellow: string;
     };
     padding: {
       main: string;

@@ -28,7 +28,7 @@ const tabScreenData: TabScreenDataProps[] = [
   {name: '마이페이지', screenName: 'profile', iconName: 'profile'},
 ];
 
-export default function HomeNav(props: any) {
+export default function MainNav() {
   return (
     <Tabs.Navigator tabBarOptions={tabBarOption} initialRouteName="홈">
       {tabScreenData.map((tabData, idx) => (

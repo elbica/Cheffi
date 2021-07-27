@@ -1,3 +1,4 @@
+import {Dimensions} from 'react-native';
 import {
   ButtonsProps,
   DefaultTheme,
@@ -9,8 +10,18 @@ import styled from 'styled-components/native';
 //자주 쓰는 스타일들 정의
 export const theme: DefaultTheme = {
   color: {
-    main: 'green',
-    sub: '#fff',
+    black: '#231b16',
+    tableBlack: '#695f57',
+    tableGray: '#b1a396',
+    light: '#f5f3e8',
+    bgColor: '#fff8f2',
+    carrot: '#ff9140',
+    vegetable: '#11f0a3',
+    citrus: '#ffe839',
+    white: '#ffffff',
+    deepOrange: '#e78034',
+    deepGreen: '#83ba9e',
+    deepYellow: 'fae01e',
   },
   padding: {
     main: '5% 7% 0% 7%',
@@ -22,22 +33,22 @@ export const theme: DefaultTheme = {
     small: '14px',
   },
 };
-
 export const AppWrap = styled.View`
   padding: ${theme.padding.main};
   width: 100%;
   height: 100%;
 `;
-
+export const vw = Dimensions.get('window').width / 100;
+export const vh = Dimensions.get('window').height / 100;
 export const Section = styled.View`
   flex: ${(props: SectionProps) => props.flexNumber};
   background-color: ${(props: SectionProps) => props.background};
   flex-direction: ${(props: SectionProps) => (props.row ? 'row' : 'column')};
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   padding: ${(props: SectionProps) => props.paddings};
-  /* padding:${'10px 5px'} */
   margin: ${(props: SectionProps) => props.margins};
   justify-content: ${(props: SectionProps) => props.justify};
+  align-items: center;
   width: 100%;
   height: 100%;
 `;
@@ -46,7 +57,7 @@ export const Font = styled.Text`
   font-size: ${(props: FontProps) => theme.text[props.size]};
 `;
 
-export const TouchButton = styled.TouchableHighlight`
+export const TouchButton = styled.TouchableOpacity`
   width: ${(props: ButtonsProps) => props.width};
   height: ${(props: ButtonsProps) => props.height};
   background-color: red;

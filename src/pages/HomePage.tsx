@@ -9,6 +9,9 @@ import LinkButton from '../components/Buttons';
 const HomeWrap = styled(AppWrap)`
   flex: 8;
 `;
+const HotRecipeWrap = styled(Section)`
+  flex-wrap: wrap;
+`;
 
 export default function HomePage(props) {
   console.log(props);
@@ -104,7 +107,7 @@ export default function HomePage(props) {
         </Section>
         <Section flexNumber={1} background="green" className="HotWrap">
           <Font size="large">오늘의 레시피</Font>
-          <Section
+          <HotRecipeWrap
             flexNumber={1}
             background="black"
             row
@@ -119,7 +122,7 @@ export default function HomePage(props) {
                 margin="3px 0"
               />
             ))}
-          </Section>
+          </HotRecipeWrap>
         </Section>
       </ScrollView>
     </HomeWrap>
