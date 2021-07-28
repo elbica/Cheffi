@@ -4,6 +4,8 @@ import {Section} from '../assets/styles/theme';
 import {IntroPageProps} from './Interface';
 import styled from 'styled-components/native';
 import LinkButton from '../components/Buttons';
+import {useDispatch} from 'react-redux';
+import {userLogin} from '../redux/actions/actions';
 
 const WrapSection = styled(Section)`
   background: ${({theme}) => theme.color.bgColor};
@@ -11,17 +13,15 @@ const WrapSection = styled(Section)`
 const TestLogoSection = styled(Section)``;
 const LoginSection = styled(Section)``;
 
-export default function IntroPage({
-  setLogin,
-  navigation,
-}: IntroPageProps): JSX.Element {
+export default function IntroPage({navigation}: IntroPageProps): JSX.Element {
   const authCheck = () => {
     //카카오 또는 구글 로그인이 됐을 경우
     //asychStroage에 토큰 저장한 후
     //초기 프로필 정보를 입력한 후
     //로그인 처리를 한다
-    setLogin(true);
+    dispatch(userLogin('sohee'));
   };
+  const dispatch = useDispatch();
 
   return (
     <WrapSection flexNumber={1}>

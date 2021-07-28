@@ -5,34 +5,20 @@
  * @format
  * @flow strict-local
  */
-
-import {NavigationContainer} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
-import {Platform, StatusBar} from 'react-native';
-import {ThemeProvider} from 'styled-components/native';
-import {theme} from './assets/styles/theme';
-import IntroNav from './navigators/IntroNav';
-
-import MainNav from './navigators/MainNav';
+import React from 'react';
+import {Provider} from 'react-redux';
+import NavSelect from './NavSelect';
+import {store, persistor} from './redux/store';
+import {PersistGate} from 'redux-persist/lib/integration/react';
 
 const App: () => JSX.Element = () => {
-  const [login, setLogin] = useState(false);
-  useEffect(() => {
-    ///유저 로그인 처리
-    //async storage에 토큰 저장되어 있으면 login true
-    //없을 경우 IntroNav로 이동해 회원가입/로그인 처리
-  }, []);
-
   return (
     // <SafeAreaView style={{flex: 1}}>
-    <NavigationContainer>
-      <ThemeProvider theme={theme}>
-        {Platform.OS === 'android' ? (
-          <StatusBar translucent backgroundColor="transparent" />
-        ) : null}
-        {login ? <MainNav /> : <IntroNav setLogin={setLogin} />}
-      </ThemeProvider>
-    </NavigationContainer>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavSelect />
+      </PersistGate>
+    </Provider>
     // </SafeAreaView>
   );
 };

@@ -1,11 +1,11 @@
 import React from 'react';
 import {Text} from 'react-native';
-import {Section} from '../../assets/styles/theme';
+import {BackgroundSection} from '../../assets/styles/theme';
 import LinkButton from '../../components/Buttons';
 
 export default function Join5({navigation}) {
   return (
-    <Section flexNumber={1}>
+    <BackgroundSection>
       <Text>join 5555</Text>
       <LinkButton
         title="next"
@@ -13,6 +13,6 @@ export default function Join5({navigation}) {
         width="100px"
         height="50px"
       />
-    </Section>
+    </BackgroundSection>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {IntroNavParamList, IntroNavProps} from './Interface';
+import {IntroNavParamList} from './Interface';
 import {
   createStackNavigator,
   StackNavigationOptions,
@@ -13,7 +13,7 @@ import Join5 from '../pages/ProfileSetting/Join5';
 import Join6 from '../pages/ProfileSetting/Join6';
 import {Image} from 'react-native';
 import {ImageStyle} from 'react-native';
-import {vh} from '../assets/styles/theme';
+import {theme, vh} from '../assets/styles/theme';
 
 const Stack = createStackNavigator<IntroNavParamList>();
 const prevArrowStyle: ImageStyle = {
@@ -25,9 +25,10 @@ const prevArrowStyle: ImageStyle = {
 };
 const StackNavOptions: StackNavigationOptions = {
   headerStyle: {
-    backgroundColor: 'transparent',
+    backgroundColor: theme.color.bgColor,
     height: 10 * vh,
     elevation: 0,
+    shadowOpacity: 0,
   },
   headerTitleStyle: {
     color: 'transparent',
@@ -41,17 +42,10 @@ const StackNavOptions: StackNavigationOptions = {
       style={prevArrowStyle}
     />
   ),
+  animationEnabled: true,
 };
 
-export default function IntroNav({setLogin}: IntroNavProps): JSX.Element {
-  const authCheck = () => {
-    //카카오 또는 구글 로그인이 됐을 경우
-    //asychStroage에 토큰 저장한 후
-    //초기 프로필 정보를 입력한 후
-    //로그인 처리를 한다
-    setLogin(true);
-  };
-
+export default function IntroNav(): JSX.Element {
   return (
     <Stack.Navigator
       mode="card"
@@ -67,10 +61,7 @@ export default function IntroNav({setLogin}: IntroNavProps): JSX.Element {
       <Stack.Screen name="join3" component={Join3} />
       <Stack.Screen name="join4" component={Join4} />
       <Stack.Screen name="join5" component={Join5} />
-      <Stack.Screen
-        name="join6"
-        children={() => <Join6 setLogin={setLogin} />}
-      />
+      <Stack.Screen name="join6" component={Join6} />
     </Stack.Navigator>
   );
 }

@@ -1,5 +1,4 @@
 export interface IntroPageProps {
-  setLogin: React.Dispatch<React.SetStateAction<boolean>>;
   navigation?: any;
 }
 

@@ -52,6 +52,10 @@ export const Section = styled.View`
   width: 100%;
   height: 100%;
 `;
+export const BackgroundSection = styled.View`
+  flex: 1;
+  background-color: ${theme.color.bgColor};
+`;
 
 export const Font = styled.Text`
   font-size: ${(props: FontProps) => theme.text[props.size]};
