@@ -40,6 +40,7 @@ export const theme: DefaultTheme = {
     large: '27px',
     medium: '22px',
     small: '16px',
+    none: '0',
   },
   vw: vw,
   vh: vh,
@@ -60,7 +61,7 @@ export const Section = styled.View`
   padding: ${(props: SectionProps) => props.paddings};
   margin: ${(props: SectionProps) => props.margins};
   justify-content: ${(props: SectionProps) => props.justify};
-  align-items: center;
+  align-items: ${(props: SectionProps) => props.align};
   width: 100%;
   height: 100%;
 `;
@@ -93,9 +94,10 @@ Section.defaultProps = {
   paddings: '0',
   margins: '0',
   justify: 'center',
+  align: 'center',
 };
 Font.defaultProps = {
   size: 'medium',
   fontColor: 'black',
-  lineHeight: 'medium',
+  lineHeight: 'none',
 };

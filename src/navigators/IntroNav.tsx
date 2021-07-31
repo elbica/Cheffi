@@ -7,28 +7,21 @@ import {
   TransitionPresets,
 } from '@react-navigation/stack';
 import IntroPage from '../pages/IntroPage';
-import Join1 from '../pages/ProfileSetting/Join1';
-import Join2 from '../pages/ProfileSetting/Join2';
-import Join3 from '../pages/ProfileSetting/Join3';
-import Join4 from '../pages/ProfileSetting/Join4';
-import Join5 from '../pages/ProfileSetting/Join5';
-import Join6 from '../pages/ProfileSetting/Join6';
-import {Image} from 'react-native';
-import {ImageStyle} from 'react-native';
+import Join1 from '../pages/Join/Join1';
+import Join2 from '../pages/Join/Join2';
+import Join3 from '../pages/Join/Join3';
+import Join4 from '../pages/Join/Join4';
+import Join5 from '../pages/Join/Join5';
+import Join6 from '../pages/Join/Join6';
 import {theme, vh} from '../assets/styles/theme';
+import {PrevArrow} from '../components/elements/Images';
 
 const Stack = createStackNavigator<IntroNavParamList>();
-const prevArrowStyle: ImageStyle = {
-  margin: 3 * vh,
-  width: 36,
-  height: 26,
-  resizeMode: 'contain',
-  opacity: 0.8,
-};
+
 const StackNavOptions: StackNavigationOptions = {
   headerStyle: {
     backgroundColor: theme.color.bgColor,
-    height: 10 * vh,
+    height: 12 * vh,
     elevation: 0,
     shadowOpacity: 0,
   },
@@ -38,12 +31,8 @@ const StackNavOptions: StackNavigationOptions = {
   headerBackTitleStyle: {
     color: 'transparent',
   },
-  headerBackImage: () => (
-    <Image
-      source={require('../assets/icons/prevArrow.png')}
-      style={prevArrowStyle}
-    />
-  ),
+  headerBackImage: () => <PrevArrow />,
+  // headerLeft: () => <PrevArrow />,
 
   animationEnabled: true,
   ...TransitionPresets.SlideFromRightIOS,

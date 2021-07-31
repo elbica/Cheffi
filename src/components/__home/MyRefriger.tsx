@@ -3,7 +3,7 @@ import {Image, ImageStyle} from 'react-native';
 import styled, {css} from 'styled-components/native';
 import {homeIcons} from '../../assets/icons/icons';
 import {Section, vh, vw} from '../../assets/styles/theme';
-import Divs from '../Divs';
+import Divs from '../elements/Divs';
 import Fonts from '../Fonts';
 import {CenterTouchOpacity, LeftTouchOpacity} from '../layout/PageMoveLayout';
 
@@ -20,7 +20,9 @@ const TouchIconAndText = ({
     <LeftTouchOpacity goal="refrigerator">
       <Section row flexNumber={flexNumber} justify="flex-start">
         <Image source={homeIcons[imageName]} style={IconStyleOption} />
-        <Fonts padV="6%">{text}</Fonts>
+        <Fonts padV="6%" lineHeight="medium">
+          {text}
+        </Fonts>
       </Section>
     </LeftTouchOpacity>
   );

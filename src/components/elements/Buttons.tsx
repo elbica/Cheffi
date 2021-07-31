@@ -4,10 +4,12 @@ import {
   NativeSyntheticEvent,
   NativeTouchEvent,
   Text,
+  TouchableOpacity,
 } from 'react-native';
 import styled from 'styled-components/native';
-import {TouchButton} from '../assets/styles/theme';
-import {CenterTouchOpacity} from './layout/PageMoveLayout';
+import {TouchButton} from '../../assets/styles/theme';
+import Divs, {CenterDivs} from './Divs';
+import {CenterTouchOpacity} from '../layout/PageMoveLayout';
 
 export interface LinkButtonsProps {
   title?: string;
@@ -24,21 +26,51 @@ interface ImageButtonProps {
   marginH?: string;
   children?: React.ReactNode;
 }
+interface ActionButtonProps {
+  onPress(ev: NativeSyntheticEvent<NativeTouchEvent>): void;
+  padV?: string;
+  padH?: string;
+  marginV?: string;
+  marginH?: string;
+  children?: React.ReactNode;
+}
+
 export default function LinkButton({
   title,
   onPress,
   width,
   height,
   margin,
+  ...rest
 }: LinkButtonsProps) {
   return (
     <TouchButton
       width={width}
       height={height}
       onPress={onPress}
-      margin={margin}>
+      margin={margin}
+      {...rest}>
       <Text>{title}</Text>
     </TouchButton>
+  );
+}
+export function ActionButton({
+  onPress,
+  padV = '0%',
+  padH = '0%',
+  marginV = '0%',
+  marginH = '0%',
+  children = null,
+  ...rest
+}: ActionButtonProps) {
+  return (
+    <CenterDivs marginV={marginV} marginH={marginH} {...rest}>
+      <TouchableOpacity onPress={onPress}>
+        <Divs padH={padH} padV={padV}>
+          {children}
+        </Divs>
+      </TouchableOpacity>
+    </CenterDivs>
   );
 }
 
@@ -49,6 +81,7 @@ export function ImageButton({
   marginV = '0%',
   marginH = '0%',
   children = null,
+  ...rest
 }: ImageButtonProps) {
   return (
     <CenterTouchOpacity goal="refrigerator">
@@ -56,7 +89,8 @@ export function ImageButton({
         width={width}
         height={height}
         marginV={marginV}
-        marginH={marginH}>
+        marginH={marginH}
+        {...rest}>
         <ImageBackground
           source={{uri: uri}}
           // eslint-disable-next-line react-native/no-inline-styles
@@ -78,5 +112,5 @@ const ImageButtonContainer = styled.View`
   margin-bottom: ${(props: any) => props.marginV};
   margin-left: ${(props: any) => props.marginH};
   margin-right: ${(props: any) => props.marginH};
-  flex: 1;
+  /* flex: 1; */
 `;

@@ -1,8 +1,15 @@
 import {NativeSyntheticEvent, NativeTouchEvent} from 'react-native';
-import 'styled-components';
+import 'styled-components/native';
 
 //DefaultTheme 타입 정의
 declare module 'styled-components' {
+  export type Sort =
+    | 'flex-start'
+    | 'center'
+    | 'flex-end'
+    | 'space-between'
+    | 'space-around'
+    | 'space-evenly';
   export interface DefaultTheme {
     // [key: string]: string;
 
@@ -43,19 +50,14 @@ declare module 'styled-components' {
     vh: number;
   }
   export interface SectionProps {
-    flexNumber?: number;
+    flexNumber?: number | string;
     className?: string;
     background?: string;
     row?: boolean;
     paddings?: string;
     margins?: string;
-    justify?:
-      | 'flex-start'
-      | 'center'
-      | 'flex-end'
-      | 'space-between'
-      | 'space-around'
-      | 'space-evenly';
+    justify?: Sort;
+    align?: Sort;
   }
 
   export type Colors =
@@ -74,9 +76,9 @@ declare module 'styled-components' {
   export type Sizes = 'xlarge' | 'large' | 'medium' | 'small';
 
   export interface FontProps {
-    size: 'xlarge' | 'large' | 'medium' | 'small';
+    size: Sizes;
     fontColor: Colors;
-    lineHeight: string;
+    lineHeight: Sizes | 'none';
     bold: boolean;
   }
 

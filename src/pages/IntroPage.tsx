@@ -3,7 +3,7 @@ import {Image} from 'react-native';
 import {Section} from '../assets/styles/theme';
 import {IntroPageProps} from './Interface';
 import styled from 'styled-components/native';
-import LinkButton from '../components/Buttons';
+import LinkButton from '../components/elements/Buttons';
 import {useDispatch} from 'react-redux';
 import {userLogin} from '../redux/actions/actions';
 

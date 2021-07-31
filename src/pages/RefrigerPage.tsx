@@ -1,10 +1,11 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Text} from 'react-native';
+import {Section} from '../assets/styles/theme';
 
 export default function RefrigerPage() {
   return (
-    <View>
-      <Text>refrigerator</Text>
-    </View>
+    <Section background="red">
+      <Text>??sddsaf?</Text>
+    </Section>
   );
 }

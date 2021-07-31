@@ -1,4 +1,3 @@
-import {Font} from '../assets/styles/theme';
 import React from 'react';
 import {Colors, Sizes} from 'styled-components';
 import styled, {css} from 'styled-components/native';
@@ -7,7 +6,7 @@ interface FontsProps {
   children: string;
   center?: boolean;
   size?: Sizes;
-  lineHeight?: Sizes;
+  lineHeight?: Sizes | 'none';
   padH?: string;
   padV?: string;
   color?: Colors;
@@ -18,7 +17,7 @@ export default function Fonts({
   children,
   center = false,
   size = 'medium',
-  lineHeight = 'medium',
+  lineHeight,
   padH = '0%',
   padV = '0%',
   color = 'black',
@@ -26,9 +25,13 @@ export default function Fonts({
 }: FontsProps) {
   return (
     <FontContainer padV={padV} padH={padH} center={center}>
-      <Font size={size} lineHeight={lineHeight} fontColor={color} bold={bold}>
-        {children}
-      </Font>
+      <TextStyle
+        size={size}
+        lineHeight={lineHeight}
+        fontColor={color}
+        bold={bold}
+        children={children}
+      />
     </FontContainer>
   );
 }
@@ -39,18 +42,31 @@ const FontContainer = styled.View`
   padding-bottom: ${(props: any) => props.padV};
   padding-left: ${(props: any) => props.padH};
   padding-right: ${(props: any) => props.padH};
-  /* margin-top: ${(props: any) => props.marginV};
-  margin-bottom: ${(props: any) => props.marginV};
-  margin-left: ${(props: any) => props.marginH};
-  margin-right: ${(props: any) => props.marginH}; */
   ${(props: any) =>
     props.center
       ? css`
           justify-content: center;
-          flex-direction: row;
+          /* flex-direction: row; */
         `
       : css`
           justify-content: flex-start;
           flex-direction: column;
         `}
 `;
+
+const TextStyle = styled.Text`
+  font-size: ${(props: any) => props.theme.text[props.size]};
+  color: ${(props: any) => props.theme.color[props.fontColor]};
+  ${(props: any) =>
+    props.lineHeight &&
+    css`
+      line-height: ${props.theme.lineHeight[props.lineHeight]};
+    `}
+
+  font-weight: ${(props: any) => (props.bold ? 'bold' : 'normal')};
+`;
+
+TextStyle.defaultProps = {
+  size: 'medium',
+  fontColor: 'black',
+};

@@ -2,7 +2,7 @@ import React from 'react';
 import {Text} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {BackgroundSection} from '../../assets/styles/theme';
-import LinkButton from '../../components/Buttons';
+import LinkButton from '../../components/elements/Buttons';
 import {userLogin} from '../../redux/actions/actions';
 
 export default function Join6() {

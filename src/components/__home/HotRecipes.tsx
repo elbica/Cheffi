@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import Fonts from '../Fonts';
-import {ImageButton} from '../Buttons';
+import {ImageButton} from '../elements/Buttons';
 
 const DUMMY_URI = 'https://source.unsplash.com/random';
 
