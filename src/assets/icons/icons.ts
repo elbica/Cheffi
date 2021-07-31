@@ -1,6 +1,6 @@
 import {ImageSourcePropType} from 'react-native';
 
-interface iconsTypes {
+interface TabIconsTypes {
   [index: string]: {
     active: ImageSourcePropType;
     default: ImageSourcePropType;
@@ -27,7 +27,14 @@ interface iconsTypes {
   };
 }
 
-export const icons: iconsTypes = {
+interface HomeIconTypes {
+  [key: string]: ImageSourcePropType;
+  homeIcon1: ImageSourcePropType;
+  homeIcon2: ImageSourcePropType;
+  homeIcon3: ImageSourcePropType;
+}
+
+export const icons: TabIconsTypes = {
   home: {
     active: require('./homeActive.png'),
     default: require('./homeDefault.png'),
@@ -48,4 +55,9 @@ export const icons: iconsTypes = {
     active: require('./refrigeratorActive.png'),
     default: require('./refrigeratorDefault.png'),
   },
+};
+export const homeIcons: HomeIconTypes = {
+  homeIcon1: require('./homeIcon1.png'),
+  homeIcon2: require('./homeIcon2.png'),
+  homeIcon3: require('./homeIcon3.png'),
 };

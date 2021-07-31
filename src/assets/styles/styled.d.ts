@@ -4,7 +4,10 @@ import 'styled-components';
 //DefaultTheme 타입 정의
 declare module 'styled-components' {
   export interface DefaultTheme {
+    // [key: string]: string;
+
     color: {
+      [key: string]: string;
       black: string;
       tableBlack: string;
       tableGray: string;
@@ -19,7 +22,8 @@ declare module 'styled-components' {
       deepYellow: string;
     };
     padding: {
-      main: string;
+      android: string;
+      ios: string;
     };
     text: {
       [key: string]: string;
@@ -28,9 +32,18 @@ declare module 'styled-components' {
       medium: string;
       small: string;
     };
+    lineHeight: {
+      [key: string]: string;
+      xlarge: string;
+      large: string;
+      medium: string;
+      small: string;
+    };
+    vw: number;
+    vh: number;
   }
   export interface SectionProps {
-    flexNumber: number;
+    flexNumber?: number;
     className?: string;
     background?: string;
     row?: boolean;
@@ -45,9 +58,26 @@ declare module 'styled-components' {
       | 'space-evenly';
   }
 
+  export type Colors =
+    | 'black'
+    | 'tableBlack'
+    | 'tableGray'
+    | 'light'
+    | 'bgColor'
+    | 'carrot'
+    | 'vegetable'
+    | 'citrus'
+    | 'white'
+    | 'deepOrange'
+    | 'deepGreen'
+    | 'deepYellow';
+  export type Sizes = 'xlarge' | 'large' | 'medium' | 'small';
+
   export interface FontProps {
-    [key: string]: string;
     size: 'xlarge' | 'large' | 'medium' | 'small';
+    fontColor: Colors;
+    lineHeight: string;
+    bold: boolean;
   }
 
   export interface ButtonsProps {

@@ -10,15 +10,16 @@ import RecommendPage from '../pages/RecommnedPage';
 import ProfilePage from '../pages/ProfilePage';
 import {StackNavFactoryScreenName} from './Interface';
 import {Platform} from 'react-native';
+import styled from 'styled-components/native';
+import {vh} from '../assets/styles/theme';
 
 const Stack = createStackNavigator();
 const Header: StackNavigationOptions = {
   title: '소희님 다이어트 1일차',
+  headerTransparent: true,
+  headerBackground: () => <CustomStackHeader />,
   headerStyle: {
-    backgroundColor: '#FF9140',
-    borderBottomLeftRadius: 18,
-    borderBottomRightRadius: 18,
-    height: Platform.OS === 'android' ? 80 : 100,
+    height: Platform.OS === 'android' ? 10.5 * vh : 12 * vh,
   },
   headerTitleAlign: 'center',
   headerTintColor: '#fff',
@@ -26,13 +27,14 @@ const Header: StackNavigationOptions = {
     fontWeight: 'bold',
   },
   headerBackTitleVisible: false,
+  // headerTransparent:true,
 };
 
 export default function StackNavFactory({
   screenName,
 }: StackNavFactoryScreenName) {
   return (
-    <Stack.Navigator screenOptions={Header}>
+    <Stack.Navigator screenOptions={Header} mode="card" headerMode="screen">
       {screenName === 'myRecipe' ? (
         <Stack.Screen name={'myRecipe'} component={MyRecipePage} />
       ) : null}
@@ -49,3 +51,10 @@ export default function StackNavFactory({
     </Stack.Navigator>
   );
 }
+
+const CustomStackHeader = styled.View`
+  background-color: #ff9140;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  flex: 1;
+`;

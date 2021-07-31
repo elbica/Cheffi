@@ -1,4 +1,4 @@
-import {Dimensions} from 'react-native';
+import {Dimensions, Platform} from 'react-native';
 import {
   ButtonsProps,
   DefaultTheme,
@@ -7,6 +7,8 @@ import {
 } from 'styled-components';
 import styled from 'styled-components/native';
 
+export const vw = Dimensions.get('window').width / 100;
+export const vh = Dimensions.get('window').height / 100;
 //자주 쓰는 스타일들 정의
 export const theme: DefaultTheme = {
   color: {
@@ -24,22 +26,32 @@ export const theme: DefaultTheme = {
     deepYellow: 'fae01e',
   },
   padding: {
-    main: '5% 7% 0% 7%',
+    android: `${12.5 * vh}px 5% 0% 5%`,
+    ios: `${14 * vh}px 5% 0% 5%`,
   },
   text: {
-    xlarge: '28px',
-    large: '22px',
-    medium: '18px',
-    small: '14px',
+    xlarge: '24px',
+    large: '20px',
+    medium: '16px',
+    small: '12px',
   },
+  lineHeight: {
+    xlarge: '32px',
+    large: '27px',
+    medium: '22px',
+    small: '16px',
+  },
+  vw: vw,
+  vh: vh,
 };
 export const AppWrap = styled.View`
-  padding: ${theme.padding.main};
+  padding: ${Platform.OS === 'android'
+    ? theme.padding.android
+    : theme.padding.ios};
   width: 100%;
+  flex: 1;
   height: 100%;
 `;
-export const vw = Dimensions.get('window').width / 100;
-export const vh = Dimensions.get('window').height / 100;
 export const Section = styled.View`
   flex: ${(props: SectionProps) => props.flexNumber};
   background-color: ${(props: SectionProps) => props.background};
@@ -59,6 +71,9 @@ export const BackgroundSection = styled.View`
 
 export const Font = styled.Text`
   font-size: ${(props: FontProps) => theme.text[props.size]};
+  color: ${(props: FontProps) => theme.color[props.fontColor]};
+  line-height: ${(props: FontProps) => theme.lineHeight[props.lineHeight]};
+  font-weight: ${(props: FontProps) => (props.bold ? 'bold' : 'normal')};
 `;
 
 export const TouchButton = styled.TouchableOpacity`
@@ -72,9 +87,15 @@ export const TouchButton = styled.TouchableOpacity`
 
 /* Default props */
 Section.defaultProps = {
+  flexNumber: 1,
   background: 'transparent',
   row: false,
   paddings: '0',
   margins: '0',
   justify: 'center',
+};
+Font.defaultProps = {
+  size: 'medium',
+  fontColor: 'black',
+  lineHeight: 'medium',
 };

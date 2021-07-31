@@ -42,6 +42,7 @@ const StackNavOptions: StackNavigationOptions = {
       style={prevArrowStyle}
     />
   ),
+
   animationEnabled: true,
 };
 

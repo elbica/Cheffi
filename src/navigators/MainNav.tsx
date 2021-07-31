@@ -11,12 +11,12 @@ import {icons} from '../assets/icons/icons';
 const Tabs = createBottomTabNavigator();
 const tabBarOption: BottomTabBarOptions = {
   activeTintColor: '#ff9140',
-  safeAreaInsets: {bottom: Platform.OS === 'ios' ? 38 : 10},
+  safeAreaInsets: {bottom: Platform.OS === 'ios' ? 34 : 6},
   style: {
-    height: Platform.OS === 'ios' ? 94 : 70,
+    height: Platform.OS === 'ios' ? 88 : 62,
   },
   labelStyle: {
-    fontSize: 14,
+    fontSize: 12,
     textAlign: 'justify',
   },
 };

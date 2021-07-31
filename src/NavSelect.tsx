@@ -1,6 +1,5 @@
-import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
-import {Platform, StatusBar} from 'react-native';
+import {Platform, StatusBar, View} from 'react-native';
 import {ThemeProvider} from 'styled-components/native';
 import {theme} from './assets/styles/theme';
 import IntroNav from './navigators/IntroNav';
@@ -25,16 +24,13 @@ const NavSelect: () => JSX.Element = () => {
     };
     fetchUserToken();
   }, []);*/
-
   return (
-    <NavigationContainer>
-      <ThemeProvider theme={theme}>
-        {Platform.OS === 'android' ? (
-          <StatusBar translucent backgroundColor="transparent" />
-        ) : null}
-        {isLogin ? <MainNav /> : <IntroNav />}
-      </ThemeProvider>
-    </NavigationContainer>
+    <ThemeProvider theme={theme}>
+      {Platform.OS === 'android' ? (
+        <StatusBar translucent backgroundColor="transparent" />
+      ) : null}
+      {isLogin ? <MainNav /> : <IntroNav />}
+    </ThemeProvider>
   );
 };
 
