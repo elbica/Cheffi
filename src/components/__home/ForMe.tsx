@@ -10,7 +10,7 @@ const DUMMY_TEXT_DESC = '15종 다이어트 식판';
 export default function ForMe() {
   return (
     <ForMeContainer>
-      <Fonts size="large" padH="2%" padV="0%">
+      <Fonts size="large" padH="2%" padV="10px">
         나를 위한 추천 레시피
       </Fonts>
       <ImageButton uri={DUMMY_URI} width="100%" height="200px" marginV="2%" />

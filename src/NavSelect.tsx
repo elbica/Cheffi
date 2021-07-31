@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform, StatusBar, View} from 'react-native';
+import {Platform, StatusBar} from 'react-native';
 import {ThemeProvider} from 'styled-components/native';
 import {theme} from './assets/styles/theme';
 import IntroNav from './navigators/IntroNav';

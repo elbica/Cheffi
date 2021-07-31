@@ -2,7 +2,9 @@ import React from 'react';
 import {IntroNavParamList} from './Interface';
 import {
   createStackNavigator,
+  HeaderStyleInterpolators,
   StackNavigationOptions,
+  TransitionPresets,
 } from '@react-navigation/stack';
 import IntroPage from '../pages/IntroPage';
 import Join1 from '../pages/ProfileSetting/Join1';
@@ -44,6 +46,8 @@ const StackNavOptions: StackNavigationOptions = {
   ),
 
   animationEnabled: true,
+  ...TransitionPresets.SlideFromRightIOS,
+  headerStyleInterpolator: HeaderStyleInterpolators.forSlideLeft,
 };
 
 export default function IntroNav(): JSX.Element {

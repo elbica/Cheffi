@@ -8,7 +8,7 @@ const DUMMY_URI = 'https://source.unsplash.com/random';
 export default function HotRecipes() {
   return (
     <HotRecipeWrap>
-      <Fonts size="large" padH="2%" padV="2%">
+      <Fonts size="large" padH="2%" padV="10px">
         Hot 레시피
       </Fonts>
       {hotRecipes.map((recipe, idx) => (

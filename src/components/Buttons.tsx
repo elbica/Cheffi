@@ -59,7 +59,9 @@ export function ImageButton({
         marginH={marginH}>
         <ImageBackground
           source={{uri: uri}}
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{flex: 1, justifyContent: 'center'}}
+          // eslint-disable-next-line react-native/no-inline-styles
           imageStyle={{borderRadius: 16}}
           resizeMode="cover">
           {children}

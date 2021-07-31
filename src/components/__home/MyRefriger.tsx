@@ -79,7 +79,7 @@ export default function MyRefriger({empty}) {
 const Container: any = styled(Section)`
   /* height: 200px; */
   flex: 2;
-  margin-bottom: ${5 * vh}px;
+  margin-bottom: ${3 * vh}px;
   ${(props: any) =>
     props.empty &&
     css`

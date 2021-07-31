@@ -1,7 +1,9 @@
 import React from 'react';
 import {
   createStackNavigator,
+  HeaderStyleInterpolators,
   StackNavigationOptions,
+  TransitionPresets,
 } from '@react-navigation/stack';
 import RefrigerPage from '../pages/RefrigerPage';
 import MyRecipePage from '../pages/MyRecipePage';
@@ -27,14 +29,16 @@ const Header: StackNavigationOptions = {
     fontWeight: 'bold',
   },
   headerBackTitleVisible: false,
-  // headerTransparent:true,
+  cardOverlayEnabled: true,
+  ...TransitionPresets.SlideFromRightIOS,
+  headerStyleInterpolator: HeaderStyleInterpolators.forSlideLeft,
 };
 
 export default function StackNavFactory({
   screenName,
 }: StackNavFactoryScreenName) {
   return (
-    <Stack.Navigator screenOptions={Header} mode="card" headerMode="screen">
+    <Stack.Navigator screenOptions={Header} headerMode="float">
       {screenName === 'myRecipe' ? (
         <Stack.Screen name={'myRecipe'} component={MyRecipePage} />
       ) : null}

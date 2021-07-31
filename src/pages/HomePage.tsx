@@ -19,6 +19,7 @@ export default function HomePage() {
   const empty = false;
 
   return (
+    // eslint-disable-next-line react-native/no-inline-styles
     <ScrollView contentContainerStyle={{flexGrow: 1}}>
       <HomeWrap>
         <MyRefriger empty={empty} />
