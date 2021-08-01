@@ -4,7 +4,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 import {Section} from '../assets/styles/theme';
 import LinkButton from '../components/elements/Buttons';
-import {userLogout} from '../redux/actions/actions';
+import {userLogout} from '../redux/modules/auth';
 
 const array = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 export default function ProfilePage() {

@@ -5,7 +5,7 @@ import {IntroPageProps} from './Interface';
 import styled from 'styled-components/native';
 import LinkButton from '../components/elements/Buttons';
 import {useDispatch} from 'react-redux';
-import {userLogin} from '../redux/actions/actions';
+import {userLogin} from '../redux/modules/auth';
 
 const WrapSection = styled(Section)`
   background: ${({theme}) => theme.color.bgColor};

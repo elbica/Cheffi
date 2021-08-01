@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import {ImageButton} from '../elements/Buttons';
-import Fonts from '../Fonts';
+import Fonts from '../elements/Fonts';
 
 const DUMMY_URI = 'https://source.unsplash.com/random';
 const DUMMY_TEXT = '1+1 더 주니어 세트 15종';

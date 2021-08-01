@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 // redux-persist merge level
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 // root reducer - reducers/index.js
-import rootReducer from './reducers';
+import rootReducer from './modules/index';
 // the component we'll use to wrap our component tree
 
 import {composeWithDevTools} from 'redux-devtools-extension';

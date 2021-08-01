@@ -4,7 +4,7 @@ import styled, {css} from 'styled-components/native';
 import {homeIcons} from '../../assets/icons/icons';
 import {Section, vh, vw} from '../../assets/styles/theme';
 import Divs from '../elements/Divs';
-import Fonts from '../Fonts';
+import Fonts from '../elements/Fonts';
 import {CenterTouchOpacity, LeftTouchOpacity} from '../layout/PageMoveLayout';
 
 const TouchIconAndText = ({

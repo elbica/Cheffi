@@ -3,7 +3,7 @@ import {Text} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {BackgroundSection} from '../../assets/styles/theme';
 import LinkButton from '../../components/elements/Buttons';
-import {userLogin} from '../../redux/actions/actions';
+import {userLogin} from '../../redux/modules/auth';
 
 export default function Join6() {
   const dispatch = useDispatch();

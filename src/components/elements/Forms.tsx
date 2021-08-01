@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 import {vw} from '../../assets/styles/theme';
 import {ActionButton} from './Buttons';
 import {RowDivs} from './Divs';
-import Fonts from '../Fonts';
+import Fonts from './Fonts';
 import {NextArrow} from './Images';
 
 interface FormProps {

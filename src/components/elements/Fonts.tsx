@@ -3,7 +3,7 @@ import {Colors, Sizes} from 'styled-components';
 import styled, {css} from 'styled-components/native';
 
 interface FontsProps {
-  children: string;
+  children: React.ReactNode;
   center?: boolean;
   size?: Sizes;
   lineHeight?: Sizes | 'none';
@@ -11,6 +11,13 @@ interface FontsProps {
   padV?: string;
   color?: Colors;
   bold?: boolean;
+}
+interface TextStyleProps {
+  size?: Sizes;
+  lineHeight?: Sizes | 'none';
+  fontColor?: Colors;
+  bold?: boolean;
+  children?: React.ReactNode;
 }
 
 export default function Fonts({
@@ -36,7 +43,7 @@ export default function Fonts({
   );
 }
 
-const FontContainer = styled.View`
+const FontContainer = styled.View<FontsProps>`
   /* flex: 1; */
   padding-top: ${(props: any) => props.padV};
   padding-bottom: ${(props: any) => props.padV};
@@ -54,7 +61,7 @@ const FontContainer = styled.View`
         `}
 `;
 
-const TextStyle = styled.Text`
+const TextStyle = styled.Text<TextStyleProps>`
   font-size: ${(props: any) => props.theme.text[props.size]};
   color: ${(props: any) => props.theme.color[props.fontColor]};
   ${(props: any) =>

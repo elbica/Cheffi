@@ -66,7 +66,7 @@ export function RowDivs({
     </RowDivsContainer>
   );
 }
-const DivsContainer = styled.View`
+const DivsContainer = styled.View<DivsProps>`
   /* flex: 1; */
   padding-top: ${(props: any) => props.padV};
   padding-bottom: ${(props: any) => props.padV};

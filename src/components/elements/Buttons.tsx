@@ -34,7 +34,12 @@ interface ActionButtonProps {
   marginH?: string;
   children?: React.ReactNode;
 }
-
+interface ImageButtonStyleProps {
+  width?: string;
+  height?: string;
+  marginV?: string;
+  marginH?: string;
+}
 export default function LinkButton({
   title,
   onPress,
@@ -105,7 +110,7 @@ export function ImageButton({
   );
 }
 
-const ImageButtonContainer = styled.View`
+const ImageButtonContainer = styled.View<ImageButtonStyleProps>`
   width: ${(props: any) => props.width};
   height: ${(props: any) => props.height};
   margin-top: ${(props: any) => props.marginV};
