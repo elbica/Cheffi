@@ -3,28 +3,21 @@ import {Section} from '../../assets/styles/theme';
 import Fonts from '../elements/Fonts';
 import {Form, NextSubmit, FormSelectPhoto} from '../elements/Forms';
 
-export default function SelectNickname() {
+export default function SelectProfile() {
   return (
     <Form formName="profile">
-      {({control, handleSubmit, formName}) => (
-        <>
-          <Section flexNumber="1.4">
-            <Section justify="flex-start" margins="4% 0%">
-              <Fonts size="xlarge" color="tableBlack" padV="8%" center>
-                프로필을 선택하세요!
-              </Fonts>
-              <FormSelectPhoto control={control} formName={formName} />
-            </Section>
-            <Section justify="flex-end" align="flex-end">
-              <NextSubmit
-                handleSubmit={handleSubmit}
-                goal="join3"
-                marginH="5%"
-                marginV="10%"
-              />
-            </Section>
+      {({formName}) => (
+        <Section flexNumber="1.4">
+          <Section justify="flex-start" margins="4% 0%">
+            <Fonts size="xlarge" color="tableBlack" padV="8%" center>
+              프로필을 선택하세요!
+            </Fonts>
+            <FormSelectPhoto formName={formName} />
           </Section>
-        </>
+          <Section justify="flex-end" align="flex-end">
+            <NextSubmit goal="join3" marginH="7%" marginV="10%" />
+          </Section>
+        </Section>
       )}
     </Form>
   );

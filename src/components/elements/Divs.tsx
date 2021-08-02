@@ -2,79 +2,35 @@ import React from 'react';
 import styled from 'styled-components/native';
 import {DivsProps} from './interface';
 
-export default function Divs({
-  padV = '0',
-  marginV = '0',
-  marginH = '0',
-  padH = '0',
-  children,
-  ...rest
-}: DivsProps) {
-  return (
-    <DivsContainer
-      padV={padV}
-      marginV={marginV}
-      padH={padH}
-      marginH={marginH}
-      {...rest}>
-      {children}
-    </DivsContainer>
-  );
+export default function Divs({children, ...rest}: DivsProps) {
+  return <DivsContainer {...rest}>{children}</DivsContainer>;
 }
-export function CenterDivs({
-  padV = '0',
-  marginV = '0',
-  marginH = '0',
-  padH = '0',
-  children,
-  ...rest
-}: DivsProps) {
-  return (
-    <CenterDivsContainer
-      padV={padV}
-      marginV={marginV}
-      padH={padH}
-      marginH={marginH}
-      {...rest}>
-      {children}
-    </CenterDivsContainer>
-  );
+export function CenterDivs({children, ...rest}: DivsProps) {
+  return <CenterDivsContainer {...rest}>{children}</CenterDivsContainer>;
 }
-export function RowDivs({
-  padV = '0',
-  marginV = '0',
-  marginH = '0',
-  padH = '0',
-  children,
-  ...rest
-}: DivsProps) {
-  return (
-    <RowDivsContainer
-      padV={padV}
-      marginV={marginV}
-      padH={padH}
-      marginH={marginH}
-      {...rest}>
-      {children}
-    </RowDivsContainer>
-  );
+export function RowDivs({children, ...rest}: DivsProps) {
+  return <RowDivsContainer {...rest}>{children}</RowDivsContainer>;
 }
 const DivsContainer = styled.View<DivsProps>`
   /* flex: 1; */
-  padding-top: ${(props: any) => props.padV};
-  padding-bottom: ${(props: any) => props.padV};
-  padding-left: ${(props: any) => props.padH};
-  padding-right: ${(props: any) => props.padH};
-  margin-top: ${(props: any) => props.marginV};
-  margin-bottom: ${(props: any) => props.marginV};
-  margin-left: ${(props: any) => props.marginH};
-  margin-right: ${(props: any) => props.marginH};
+  padding-top: ${props => props.padV || '0px'};
+  padding-bottom: ${props => props.padV || '0px'};
+  padding-left: ${props => props.padH || '0px'};
+  padding-right: ${props => props.padH || '0px'};
+  margin-top: ${props => props.marginV || '0px'};
+  margin-bottom: ${props => props.marginV || '0px'};
+  margin-left: ${props => props.marginH || '0px'};
+  margin-right: ${props => props.marginH || '0px'};
+  width: ${({width}) => width || '100%'};
+  height: ${({height}) => height || '100%'};
 `;
 const RowDivsContainer = styled(DivsContainer)`
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 `;
 const CenterDivsContainer = styled(DivsContainer)`
+  /* background-color: black; */
   justify-content: center;
   align-items: center;
 `;

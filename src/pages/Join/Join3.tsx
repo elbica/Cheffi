@@ -1,18 +1,13 @@
 import React from 'react';
-import {Text} from 'react-native';
 import {BackgroundSection} from '../../assets/styles/theme';
-import LinkButton from '../../components/elements/Buttons';
+import {Hand} from '../../components/elements/Images';
+import SelectProblem from '../../components/__join/SelectProblem';
 
-export default function Join3({navigation}) {
+export default function Join3() {
   return (
     <BackgroundSection>
-      <Text>join 333</Text>
-      <LinkButton
-        title="next"
-        onPress={() => navigation.navigate('join4')}
-        width="100px"
-        height="50px"
-      />
+      <Hand />
+      <SelectProblem />
     </BackgroundSection>
   );
 }

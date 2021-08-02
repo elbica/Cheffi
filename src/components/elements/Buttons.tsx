@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
-import {ImageBackground, Text, TouchableOpacity} from 'react-native';
+import {ImageBackground, Text, TouchableOpacity, View} from 'react-native';
 import styled, {css} from 'styled-components/native';
-import {TouchButton} from '../../assets/styles/theme';
+import {theme, TouchButton} from '../../assets/styles/theme';
 import Divs, {CenterDivs} from './Divs';
 import {CenterTouchOpacity} from '../layout/PageMoveLayout';
 import {
@@ -35,30 +35,68 @@ export default function LinkButton({
 }
 export function ActionButton({
   onPress,
-  padV = '0%',
-  padH = '0%',
+  width = '0%',
+  height = '0%',
   marginV = '0%',
   marginH = '0%',
   children = null,
   ...rest
 }: ActionButtonProps) {
   return (
-    <CenterDivs marginV={marginV} marginH={marginH} {...rest}>
-      <TouchableOpacity onPress={onPress}>
-        <Divs padH={padH} padV={padV}>
-          {children}
-        </Divs>
-      </TouchableOpacity>
+    <CenterDivs
+      marginV={marginV}
+      marginH={marginH}
+      width={width}
+      height={height}
+      {...rest}>
+      <FullContainTouchOpacity onPress={onPress}>
+        <CenterDivs>{children}</CenterDivs>
+      </FullContainTouchOpacity>
     </CenterDivs>
+    // <View />
   );
 }
 
 export function SelectButton({
-  onPress,
-  padV = '10px',
-  padH = '10px',
-  marginV = '0%',
-  marginH = '0%',
+  children = null,
+  onPress = () => {},
+  color = theme.color.carrot,
+  border = theme.color.deepOrange,
+  size = 'large',
+  ...rest
+}: SelectButtonProps) {
+  const [select, setSelect] = useState(false);
+  const handle = useCallback(
+    ev => {
+      onPress(ev);
+      setSelect(!select);
+    },
+    [select, onPress],
+  );
+  return (
+    <SelectButtonContainer
+      color={color}
+      border={border}
+      select={select}
+      {...rest}>
+      <FullContainTouchOpacity onPress={handle}>
+        <Fonts
+          size={size}
+          // bold={select}
+          lineHeight="large"
+          center
+          color={select ? 'white' : 'tableGray'}>
+          {children}
+        </Fonts>
+      </FullContainTouchOpacity>
+    </SelectButtonContainer>
+  );
+}
+
+export function CheckBoxButton({
+  onPress = () => {},
+  color = theme.color.carrot,
+  border = theme.color.deepOrange,
   children = null,
   size = 'large',
   ...rest
@@ -66,22 +104,24 @@ export function SelectButton({
   const [select, setSelect] = useState(false);
   const handle = useCallback(
     ev => {
-      if (!select) onPress(ev);
+      onPress(ev);
       setSelect(!select);
     },
     [select, onPress],
   );
   return (
     <SelectButtonContainer
-      marginV={marginV}
-      marginH={marginH}
+      color={color}
+      border={border}
       select={select}
       {...rest}>
       <TouchableOpacity onPress={handle}>
         <Fonts
           size={size}
           padH={padH}
-          bold={select}
+          // bold={select}
+          lineHeight="large"
+          center
           padV={padV}
           color={select ? 'white' : 'tableGray'}>
           {children}
@@ -134,6 +174,15 @@ const ImageButtonContainer = styled.View<ImageButtonStyleProps>`
 const SelectButtonContainer = styled(CenterDivs)<SelectButtonStyleProps>`
   border-width: 1px;
   border-radius: 10px;
+  background-color: black;
+  /* height: 100%; */
+  /* width: ${({width}) => width}; */
+  /* height: ${({height}) => height}; */
+  /* width: 300px; */
+  /* flex: 1; */
+  /* flex-direction: row; */
+  /* justify-content: center; */
+  /* align-items: center; */
   ${({select, color, border}) =>
     select
       ? css`
@@ -144,4 +193,11 @@ const SelectButtonContainer = styled(CenterDivs)<SelectButtonStyleProps>`
           background-color: ${color + '33'};
           border-color: ${color + '88'};
         `}
+`;
+
+const FullContainTouchOpacity = styled.TouchableOpacity`
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  /* background-color: red; */
 `;

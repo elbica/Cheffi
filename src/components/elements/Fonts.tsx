@@ -6,7 +6,7 @@ export default function Fonts({
   children,
   center = false,
   size = 'medium',
-  lineHeight,
+  lineHeight = 'large',
   padH = '0%',
   padV = '0%',
   color = 'black',
@@ -20,6 +20,7 @@ export default function Fonts({
         fontColor={color}
         bold={bold}
         children={children}
+        center={center}
       />
     </FontContainer>
   );
@@ -35,7 +36,8 @@ const FontContainer = styled.View<FontsProps>`
     props.center
       ? css`
           justify-content: center;
-          /* flex-direction: row; */
+          align-items: center;
+          flex-direction: row;
         `
       : css`
           justify-content: flex-start;
@@ -51,6 +53,15 @@ const TextStyle = styled.Text<TextStyleProps>`
     css`
       line-height: ${props.theme.lineHeight[props.lineHeight]};
     `}
+
+  ${(props: any) =>
+    props.center
+      ? css`
+          text-align: center;
+        `
+      : css`
+          text-align: left;
+        `}
 
   font-weight: ${(props: any) => (props.bold ? 'bold' : 'normal')};
 `;

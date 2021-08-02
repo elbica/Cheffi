@@ -1,3 +1,4 @@
+import React from 'react';
 import {NativeSyntheticEvent, NativeTouchEvent} from 'react-native';
 import {Colors, Sizes} from 'styled-components';
 
@@ -6,6 +7,8 @@ export interface DivsProps {
   padH?: string;
   marginV?: string;
   marginH?: string;
+  width?: string;
+  height?: string;
   children?: React.ReactNode;
 }
 
@@ -25,9 +28,9 @@ export interface ImageButtonProps {
   children?: React.ReactNode;
 }
 export interface ActionButtonProps {
-  onPress(ev: NativeSyntheticEvent<NativeTouchEvent>): void;
-  padV?: string;
-  padH?: string;
+  onPress?: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
+  width?: string;
+  height?: string;
   marginV?: string;
   marginH?: string;
   children?: React.ReactNode;
@@ -39,11 +42,13 @@ export interface ImageButtonStyleProps {
   marginH?: string;
 }
 export interface SelectButtonProps extends ActionButtonProps {
-  color: string;
-  border: string;
+  color?: string;
+  border?: string;
   size?: Sizes;
 }
 export interface SelectButtonStyleProps {
+  width?: string;
+  height?: string;
   select?: boolean;
   color?: string;
   border?: string;
@@ -60,6 +65,7 @@ export interface FontsProps {
   bold?: boolean;
 }
 export interface TextStyleProps {
+  center?: boolean;
   size?: Sizes;
   lineHeight?: Sizes | 'none';
   fontColor?: Colors;
@@ -72,7 +78,6 @@ export interface FormProps {
   children(param: any): React.ReactElement;
 }
 export interface NextSubmitProps {
-  handleSubmit: any;
   goal: string;
   marginV?: string;
   marginH?: string;
@@ -80,11 +85,8 @@ export interface NextSubmitProps {
   padH?: string;
 }
 
-export interface FormPhotoProps {
-  control: any;
+export interface FormElementProps {
   formName: string;
-}
-
-export interface FormInputProps extends FormPhotoProps {
-  placeholder: string;
+  placeholder?: string;
+  children?: React.ReactElement | React.ReactElement[] | string;
 }

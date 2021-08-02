@@ -7,8 +7,8 @@ export function FryPan() {
     <Section justify="flex-end" align="flex-end">
       <Image
         source={require('../../assets/images/FryPan.png')}
-        style={{width: 70 * vw, height: 26 * vh}}
-        resizeMode="contain"
+        style={{width: 70 * vw, height: 27 * vh}}
+        resizeMode="stretch"
       />
     </Section>
   );
@@ -18,7 +18,7 @@ export function Hand() {
     <Section justify="flex-end" align="flex-end">
       <Image
         source={require('../../assets/images/Hand.png')}
-        style={{width: 30 * vw, height: 15 * vh}}
+        style={{width: 40 * vw, height: 15 * vh}}
         resizeMode="contain"
       />
     </Section>
