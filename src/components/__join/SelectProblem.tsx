@@ -1,5 +1,7 @@
 import React from 'react';
+import {Alert} from 'react-native';
 import {Section} from '../../assets/styles/theme';
+import {CheckBoxButton} from '../elements/Buttons';
 import Fonts from '../elements/Fonts';
 import {
   Form,
@@ -18,13 +20,35 @@ const problemText2 = [
   {text: '자극적인 것을\n싫어해요', width: '42%'},
 ];
 
+const CheckBoxes = () => {
+  return (
+    <Section
+      // background="red"
+      flexNumber="0.32"
+      align="flex-start"
+      justify="space-evenly">
+      <CheckBoxButton
+        children=" 이 음식은 못 먹어요."
+        size="medium"
+        onPress={() => Alert.alert('hello')}
+      />
+      <CheckBoxButton children=" 알러지가 있어요." size="medium" />
+    </Section>
+  );
+};
+
 export default function SelectProblem() {
   return (
     <Form formName="problems">
       {({formName}) => (
-        <Section flexNumber="6">
-          <Section justify="flex-start">
-            <Fonts size="large" color="tableBlack" padV="8%" center>
+        <Section flexNumber="7" width="85%" margins="0 auto">
+          <Section justify="flex-end">
+            <Fonts
+              size="large"
+              color="tableBlack"
+              padV="8%"
+              center
+              lineHeight="xlarge">
               {'아래에 해당사항이\n있으시다면 선택하여 주세요.'}
             </Fonts>
             <FormSetContainer formName={formName}>
@@ -48,8 +72,9 @@ export default function SelectProblem() {
               ))}
             </FormSetContainer>
           </Section>
+          <CheckBoxes />
           <Section justify="flex-end" align="flex-end" flexNumber="0.3">
-            <NextSubmit goal="join4" marginH="7%" marginV="10%" />
+            <NextSubmit goal="join4" marginV="10%" />
           </Section>
         </Section>
       )}

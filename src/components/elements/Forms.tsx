@@ -134,8 +134,7 @@ const FormSelectSetContainer = styled.View`
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-between;
-  /* background-color: red; */
-  width: ${86 * vw}px;
+  width: 100%;
   margin: 10px auto;
   height: ${14 * vh}px;
 `;

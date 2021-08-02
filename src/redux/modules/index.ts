@@ -5,4 +5,10 @@ const rootReducer = combineReducers({
   auth,
 });
 
+export type RootState = {
+  auth: {
+    isLogin: boolean;
+    token: any;
+  };
+};
 export default rootReducer;

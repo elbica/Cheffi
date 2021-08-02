@@ -1,8 +1,8 @@
 import React, {useCallback, useState} from 'react';
-import {ImageBackground, Text, TouchableOpacity, View} from 'react-native';
+import {ImageBackground, Text} from 'react-native';
 import styled, {css} from 'styled-components/native';
 import {theme, TouchButton} from '../../assets/styles/theme';
-import Divs, {CenterDivs} from './Divs';
+import {CenterDivs, RowDivs} from './Divs';
 import {CenterTouchOpacity} from '../layout/PageMoveLayout';
 import {
   ActionButtonProps,
@@ -13,6 +13,7 @@ import {
   SelectButtonStyleProps,
 } from './interface';
 import Fonts from './Fonts';
+import {Check} from './Images';
 
 export default function LinkButton({
   title,
@@ -95,39 +96,39 @@ export function SelectButton({
 
 export function CheckBoxButton({
   onPress = () => {},
+  checkColor = 'white',
   color = theme.color.carrot,
-  border = theme.color.deepOrange,
   children = null,
   size = 'large',
+  height = '30px',
   ...rest
-}: SelectButtonProps) {
+}: {checkColor?: string} & SelectButtonProps) {
   const [select, setSelect] = useState(false);
   const handle = useCallback(
     ev => {
-      onPress(ev);
+      if (!select) onPress(ev);
       setSelect(!select);
     },
     [select, onPress],
   );
   return (
-    <SelectButtonContainer
-      color={color}
-      border={border}
-      select={select}
-      {...rest}>
-      <TouchableOpacity onPress={handle}>
-        <Fonts
-          size={size}
-          padH={padH}
-          // bold={select}
-          lineHeight="large"
-          center
-          padV={padV}
-          color={select ? 'white' : 'tableGray'}>
-          {children}
-        </Fonts>
-      </TouchableOpacity>
-    </SelectButtonContainer>
+    <CenterDivs height={height} {...rest}>
+      <FullContainTouchOpacity onPress={handle}>
+        <RowDivs align>
+          <CheckBoxContainer
+            color={color}
+            select={select}
+            height={height}
+            {...rest}
+            width={height}>
+            {select && <Check color={checkColor} />}
+          </CheckBoxContainer>
+          <Fonts size={size} lineHeight="large" color="black" padH="5px">
+            {children}
+          </Fonts>
+        </RowDivs>
+      </FullContainTouchOpacity>
+    </CenterDivs>
   );
 }
 
@@ -174,15 +175,6 @@ const ImageButtonContainer = styled.View<ImageButtonStyleProps>`
 const SelectButtonContainer = styled(CenterDivs)<SelectButtonStyleProps>`
   border-width: 1px;
   border-radius: 10px;
-  background-color: black;
-  /* height: 100%; */
-  /* width: ${({width}) => width}; */
-  /* height: ${({height}) => height}; */
-  /* width: 300px; */
-  /* flex: 1; */
-  /* flex-direction: row; */
-  /* justify-content: center; */
-  /* align-items: center; */
   ${({select, color, border}) =>
     select
       ? css`
@@ -200,4 +192,19 @@ const FullContainTouchOpacity = styled.TouchableOpacity`
   width: 100%;
   justify-content: center;
   /* background-color: red; */
+`;
+
+const CheckBoxContainer = styled(CenterDivs)<SelectButtonStyleProps>`
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: ${props => props.color};
+
+  ${({select, color}) =>
+    select
+      ? css`
+          background-color: ${color};
+        `
+      : css`
+          background-color: transparent;
+        `}
 `;

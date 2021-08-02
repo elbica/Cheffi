@@ -62,12 +62,13 @@ export const Section = styled.View`
   margin: ${(props: SectionProps) => props.margins};
   justify-content: ${(props: SectionProps) => props.justify};
   align-items: ${(props: SectionProps) => props.align};
-  width: 100%;
-  height: 100%;
+  width: ${(props: SectionProps) => props.width || '100%'};
+  height: ${(props: SectionProps) => props.height || '100%'};
 `;
 export const BackgroundSection = styled.View`
   flex: 1;
   background-color: ${theme.color.bgColor};
+  padding-top: ${11 * vh}px;
 `;
 
 export const Font = styled.Text`

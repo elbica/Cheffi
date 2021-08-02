@@ -58,6 +58,8 @@ declare module 'styled-components' {
     margins?: string;
     justify?: Sort;
     align?: Sort;
+    width?: string;
+    height?: string;
   }
 
   export type Colors =

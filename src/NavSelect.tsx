@@ -4,7 +4,8 @@ import {ThemeProvider} from 'styled-components/native';
 import {theme} from './assets/styles/theme';
 import IntroNav from './navigators/IntroNav';
 import MainNav from './navigators/MainNav';
-import {RootState, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
+import {RootState} from './redux/modules';
 
 const NavSelect: () => JSX.Element = () => {
   const {isLogin} = useSelector((state: RootState) => state.auth);
@@ -27,7 +28,11 @@ const NavSelect: () => JSX.Element = () => {
   return (
     <ThemeProvider theme={theme}>
       {Platform.OS === 'android' ? (
-        <StatusBar translucent backgroundColor="transparent" />
+        <StatusBar
+          translucent
+          barStyle="dark-content"
+          backgroundColor="transparent"
+        />
       ) : null}
       {isLogin ? <MainNav /> : <IntroNav />}
     </ThemeProvider>

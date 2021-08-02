@@ -1,5 +1,6 @@
 import React from 'react';
 import {Image, ImageStyle} from 'react-native';
+import styled from 'styled-components/native';
 import {Section, vh, vw} from '../../assets/styles/theme';
 
 export function FryPan() {
@@ -41,6 +42,14 @@ export function PrevArrow() {
     />
   );
 }
+export function Check({color}: {color: string}) {
+  return (
+    <ImageContainer
+      source={require('../../assets/icons/check.png')}
+      tintColor={color}
+    />
+  );
+}
 
 const prevArrowStyle: ImageStyle = {
   marginLeft: 24,
@@ -53,3 +62,8 @@ const nextArrowStyle: ImageStyle = {
   ...prevArrowStyle,
   marginLeft: 0,
 };
+
+const ImageContainer = styled.Image<ImageStyle>`
+  width: 70%;
+  height: 60%;
+`;

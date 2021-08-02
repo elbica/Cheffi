@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/native';
+import styled, {css} from 'styled-components/native';
 import {DivsProps} from './interface';
 
 export default function Divs({children, ...rest}: DivsProps) {
@@ -8,8 +8,16 @@ export default function Divs({children, ...rest}: DivsProps) {
 export function CenterDivs({children, ...rest}: DivsProps) {
   return <CenterDivsContainer {...rest}>{children}</CenterDivsContainer>;
 }
-export function RowDivs({children, ...rest}: DivsProps) {
-  return <RowDivsContainer {...rest}>{children}</RowDivsContainer>;
+export function RowDivs({
+  align = false,
+  children,
+  ...rest
+}: {align?: boolean} & DivsProps) {
+  return (
+    <RowDivsContainer align={align} {...rest}>
+      {children}
+    </RowDivsContainer>
+  );
 }
 const DivsContainer = styled.View<DivsProps>`
   /* flex: 1; */
@@ -24,9 +32,19 @@ const DivsContainer = styled.View<DivsProps>`
   width: ${({width}) => width || '100%'};
   height: ${({height}) => height || '100%'};
 `;
-const RowDivsContainer = styled(DivsContainer)`
+const RowDivsContainer = styled(DivsContainer)<{align?: boolean}>`
   flex-direction: row;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  /* justify-content: ${({align}) =>
+    align ? 'flex-align' : 'space-between'}; */
+  ${props =>
+    props.align
+      ? css`
+          justify-content: flex-start;
+        `
+      : css`
+          justify-content: space-between;
+        `}
   align-items: center;
 `;
 const CenterDivsContainer = styled(DivsContainer)`

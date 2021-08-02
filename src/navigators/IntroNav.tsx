@@ -28,6 +28,7 @@ const StackNavOptions: StackNavigationOptions = {
   headerTitleStyle: {
     color: 'transparent',
   },
+
   headerBackTitleStyle: {
     color: 'transparent',
   },
@@ -37,6 +38,7 @@ const StackNavOptions: StackNavigationOptions = {
   animationEnabled: true,
   ...TransitionPresets.SlideFromRightIOS,
   headerStyleInterpolator: HeaderStyleInterpolators.forSlideLeft,
+  headerTransparent: true,
 };
 
 export default function IntroNav(): JSX.Element {
