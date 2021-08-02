@@ -1,13 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-
-interface DivsProps {
-  padV?: string;
-  padH?: string;
-  marginV?: string;
-  marginH?: string;
-  children: React.ReactNode;
-}
+import {DivsProps} from './interface';
 
 export default function Divs({
   padV = '0',

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Section} from '../../assets/styles/theme';
 import Fonts from '../elements/Fonts';
-import {Form, NextSubmit, SelectPhoto} from '../elements/Forms';
+import {Form, NextSubmit, FormSelectPhoto} from '../elements/Forms';
 
 export default function SelectNickname() {
   return (
@@ -13,7 +13,7 @@ export default function SelectNickname() {
               <Fonts size="xlarge" color="tableBlack" padV="8%" center>
                 프로필을 선택하세요!
               </Fonts>
-              <SelectPhoto control={control} formName={formName} />
+              <FormSelectPhoto control={control} formName={formName} />
             </Section>
             <Section justify="flex-end" align="flex-end">
               <NextSubmit

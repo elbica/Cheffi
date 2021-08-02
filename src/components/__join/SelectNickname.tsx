@@ -1,7 +1,7 @@
 import React from 'react';
 import {Section} from '../../assets/styles/theme';
 import Fonts from '../elements/Fonts';
-import {Form, Input, NextSubmit} from '../elements/Forms';
+import {Form, FormInputText, NextSubmit} from '../elements/Forms';
 
 export default function SelectNickname() {
   return (
@@ -13,7 +13,7 @@ export default function SelectNickname() {
               <Fonts size="xlarge" color="tableBlack" padV="8%" center>
                 당신의 닉네임은?
               </Fonts>
-              <Input
+              <FormInputText
                 control={control}
                 formName={formName}
                 placeholder="닉네임을 입력해주세요."

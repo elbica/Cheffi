@@ -1,24 +1,6 @@
 import React from 'react';
-import {Colors, Sizes} from 'styled-components';
 import styled, {css} from 'styled-components/native';
-
-interface FontsProps {
-  children: React.ReactNode;
-  center?: boolean;
-  size?: Sizes;
-  lineHeight?: Sizes | 'none';
-  padH?: string;
-  padV?: string;
-  color?: Colors;
-  bold?: boolean;
-}
-interface TextStyleProps {
-  size?: Sizes;
-  lineHeight?: Sizes | 'none';
-  fontColor?: Colors;
-  bold?: boolean;
-  children?: React.ReactNode;
-}
+import {FontsProps, TextStyleProps} from './interface';
 
 export default function Fonts({
   children,

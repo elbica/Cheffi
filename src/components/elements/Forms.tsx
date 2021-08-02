@@ -8,28 +8,12 @@ import {ActionButton} from './Buttons';
 import {RowDivs} from './Divs';
 import Fonts from './Fonts';
 import {NextArrow} from './Images';
-
-interface FormProps {
-  formName: string;
-  children(param: any): React.ReactElement;
-}
-interface NextSubmitProps {
-  handleSubmit: any;
-  goal: string;
-  marginV?: string;
-  marginH?: string;
-  padV?: string;
-  padH?: string;
-}
-
-interface PhotoProps {
-  control: any;
-  formName: string;
-}
-
-interface InputProps extends PhotoProps {
-  placeholder: string;
-}
+import {
+  FormInputProps,
+  FormPhotoProps,
+  FormProps,
+  NextSubmitProps,
+} from './interface';
 
 export function NextSubmit({handleSubmit, goal, ...rest}: NextSubmitProps) {
   const navigation = useNavigation();
@@ -58,15 +42,18 @@ export const Form = ({formName, children}: FormProps) => {
       [formName]: '',
     },
   });
-
   return children({handleSubmit, control, formName});
 };
-export const Input = ({control, formName, placeholder}: InputProps) => {
+export const FormInputText = ({
+  control,
+  formName,
+  placeholder,
+}: FormInputProps) => {
   return (
     <Controller
       control={control}
       render={({field: {onChange, onBlur, value}}) => (
-        <FormInput
+        <FormInputStyle
           onBlur={onBlur}
           onChangeText={value => onChange(value)}
           value={value}
@@ -74,12 +61,27 @@ export const Input = ({control, formName, placeholder}: InputProps) => {
         />
       )}
       name={formName}
-      rules={{required: true}}
+      // rules={{required: true}}
     />
   );
 };
 
-export const SelectPhoto = ({control, formName}: PhotoProps) => {
+// export const FormSetContainer({control, formName, children}){
+//   return <Controller
+//   control={control}
+//       render={({field: {onChange, onBlur, value}}) => (
+//         <FormInputStyle
+//           onBlur={onBlur}
+//           onChangeText={value => onChange(value)}
+//           value={value}
+//         />
+//       )}
+//       name={formName}
+//       // rules={{required: true}}
+//     />
+// }
+
+export const FormSelectPhoto = ({control, formName}: FormPhotoProps) => {
   const onPress = () => {
     Alert.alert('사진 가져오기');
   };
@@ -94,12 +96,12 @@ export const SelectPhoto = ({control, formName}: PhotoProps) => {
         </SelectPhotoButton>
       )}
       name={formName}
-      rules={{required: true}}
+      // rules={{required: true}}
     />
   );
 };
 
-const FormInput = styled.TextInput`
+const FormInputStyle = styled.TextInput`
   color: ${props => props.theme.color.tableGray};
   border-bottom-width: 1px;
   border-color: ${props => props.theme.color.tableGray};

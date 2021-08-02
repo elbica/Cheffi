@@ -1,45 +1,19 @@
-import React from 'react';
-import {
-  ImageBackground,
-  NativeSyntheticEvent,
-  NativeTouchEvent,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
-import styled from 'styled-components/native';
+import React, {useCallback, useState} from 'react';
+import {ImageBackground, Text, TouchableOpacity} from 'react-native';
+import styled, {css} from 'styled-components/native';
 import {TouchButton} from '../../assets/styles/theme';
 import Divs, {CenterDivs} from './Divs';
 import {CenterTouchOpacity} from '../layout/PageMoveLayout';
+import {
+  ActionButtonProps,
+  ImageButtonProps,
+  ImageButtonStyleProps,
+  LinkButtonsProps,
+  SelectButtonProps,
+  SelectButtonStyleProps,
+} from './interface';
+import Fonts from './Fonts';
 
-export interface LinkButtonsProps {
-  title?: string;
-  onPress: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
-  width: string;
-  height: string;
-  margin?: string;
-}
-interface ImageButtonProps {
-  uri: string;
-  width?: string;
-  height?: string;
-  marginV?: string;
-  marginH?: string;
-  children?: React.ReactNode;
-}
-interface ActionButtonProps {
-  onPress(ev: NativeSyntheticEvent<NativeTouchEvent>): void;
-  padV?: string;
-  padH?: string;
-  marginV?: string;
-  marginH?: string;
-  children?: React.ReactNode;
-}
-interface ImageButtonStyleProps {
-  width?: string;
-  height?: string;
-  marginV?: string;
-  marginH?: string;
-}
 export default function LinkButton({
   title,
   onPress,
@@ -76,6 +50,44 @@ export function ActionButton({
         </Divs>
       </TouchableOpacity>
     </CenterDivs>
+  );
+}
+
+export function SelectButton({
+  onPress,
+  padV = '10px',
+  padH = '10px',
+  marginV = '0%',
+  marginH = '0%',
+  children = null,
+  size = 'large',
+  ...rest
+}: SelectButtonProps) {
+  const [select, setSelect] = useState(false);
+  const handle = useCallback(
+    ev => {
+      if (!select) onPress(ev);
+      setSelect(!select);
+    },
+    [select, onPress],
+  );
+  return (
+    <SelectButtonContainer
+      marginV={marginV}
+      marginH={marginH}
+      select={select}
+      {...rest}>
+      <TouchableOpacity onPress={handle}>
+        <Fonts
+          size={size}
+          padH={padH}
+          bold={select}
+          padV={padV}
+          color={select ? 'white' : 'tableGray'}>
+          {children}
+        </Fonts>
+      </TouchableOpacity>
+    </SelectButtonContainer>
   );
 }
 
@@ -118,4 +130,18 @@ const ImageButtonContainer = styled.View<ImageButtonStyleProps>`
   margin-left: ${(props: any) => props.marginH};
   margin-right: ${(props: any) => props.marginH};
   /* flex: 1; */
+`;
+const SelectButtonContainer = styled(CenterDivs)<SelectButtonStyleProps>`
+  border-width: 1px;
+  border-radius: 10px;
+  ${({select, color, border}) =>
+    select
+      ? css`
+          background-color: ${color};
+          border-color: ${border};
+        `
+      : css`
+          background-color: ${color + '33'};
+          border-color: ${color + '88'};
+        `}
 `;

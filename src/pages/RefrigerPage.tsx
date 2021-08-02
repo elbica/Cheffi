@@ -1,11 +1,21 @@
 import React from 'react';
-import {Text} from 'react-native';
-import {Section} from '../assets/styles/theme';
+import {Alert, Text} from 'react-native';
+import {Section, theme} from '../assets/styles/theme';
+import {SelectButton} from '../components/elements/Buttons';
 
+const onPress = () => {
+  // Alert.alert('hello');
+};
 export default function RefrigerPage() {
   return (
-    <Section background="red">
+    <Section>
       <Text>??sddsaf?</Text>
+      <SelectButton
+        onPress={onPress}
+        color={theme.color.carrot}
+        border={theme.color.deepOrange}>
+        안녕~
+      </SelectButton>
     </Section>
   );
 }
