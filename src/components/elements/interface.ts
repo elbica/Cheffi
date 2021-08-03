@@ -1,5 +1,11 @@
 import React from 'react';
-import {NativeSyntheticEvent, NativeTouchEvent} from 'react-native';
+import {
+  NativeSyntheticEvent,
+  NativeTouchEvent,
+  StyleProp,
+  TextInputSubmitEditingEventData,
+  ViewStyle,
+} from 'react-native';
 import {Colors, Sizes} from 'styled-components';
 
 export interface DivsProps {
@@ -42,16 +48,21 @@ export interface ImageButtonStyleProps {
   marginH?: string;
 }
 export interface SelectButtonProps extends ActionButtonProps {
-  color?: string;
-  border?: string;
+  color?: Colors;
+  border?: Colors;
   size?: Sizes;
 }
 export interface SelectButtonStyleProps {
   width?: string;
   height?: string;
   select?: boolean;
-  color?: string;
-  border?: string;
+  color?: Colors;
+  border?: Colors;
+}
+
+export interface ChipButtonProps extends ActionButtonProps {
+  color?: Colors;
+  size?: Sizes;
 }
 
 export interface FontsProps {
@@ -85,8 +96,28 @@ export interface NextSubmitProps {
   padH?: string;
 }
 
-export interface FormElementProps {
+export interface FormElementProps<T = ViewStyle> {
   formName: string;
   placeholder?: string;
+  style?: StyleProp<T>;
   children?: React.ReactElement | React.ReactElement[] | string;
 }
+
+export interface ImageStyleProps {
+  Width?: string;
+  width?: string;
+  Height?: string;
+  height?: string;
+  color?: Colors;
+}
+
+export interface InputStyleProps {
+  width?: string;
+  placeholder?: string;
+  icon?: boolean;
+  fontSize?: Sizes;
+  color?: Colors;
+  onEndEditing(e: NativeSyntheticEvent<TextInputSubmitEditingEventData>): void;
+}
+
+export type InputEvent = NativeSyntheticEvent<TextInputSubmitEditingEventData>;

@@ -6,6 +6,7 @@ import {CenterDivs, RowDivs} from './Divs';
 import {CenterTouchOpacity} from '../layout/PageMoveLayout';
 import {
   ActionButtonProps,
+  ChipButtonProps,
   ImageButtonProps,
   ImageButtonStyleProps,
   LinkButtonsProps,
@@ -14,6 +15,7 @@ import {
 } from './interface';
 import Fonts from './Fonts';
 import {Check} from './Images';
+import {Colors} from 'styled-components';
 
 export default function LinkButton({
   title,
@@ -58,11 +60,39 @@ export function ActionButton({
   );
 }
 
+export function ChipButton({
+  children = null,
+  onPress = () => {},
+  color = 'carrot',
+  size = 'medium',
+  width = 'auto',
+  height = '45px',
+  marginH = '5px',
+  marginV = '5px',
+  ...rest
+}: ChipButtonProps) {
+  return (
+    <ChipButtonContainer
+      color={color}
+      width={width}
+      height={height}
+      marginH={marginH}
+      marginV={marginV}
+      {...rest}>
+      <FullContainTouchOpacity onPress={onPress}>
+        <Fonts size={size} padH="12px" color="tableBlack">
+          {children}
+        </Fonts>
+      </FullContainTouchOpacity>
+    </ChipButtonContainer>
+  );
+}
+
 export function SelectButton({
   children = null,
   onPress = () => {},
-  color = theme.color.carrot,
-  border = theme.color.deepOrange,
+  color = 'carrot',
+  border = 'deepOrange',
   size = 'large',
   ...rest
 }: SelectButtonProps) {
@@ -97,12 +127,12 @@ export function SelectButton({
 export function CheckBoxButton({
   onPress = () => {},
   checkColor = 'white',
-  color = theme.color.carrot,
+  color = 'carrot',
   children = null,
   size = 'large',
   height = '30px',
   ...rest
-}: {checkColor?: string} & SelectButtonProps) {
+}: {checkColor?: Colors} & SelectButtonProps) {
   const [select, setSelect] = useState(false);
   const handle = useCallback(
     ev => {
@@ -178,12 +208,12 @@ const SelectButtonContainer = styled(CenterDivs)<SelectButtonStyleProps>`
   ${({select, color, border}) =>
     select
       ? css`
-          background-color: ${color};
-          border-color: ${border};
+          background-color: ${theme.color[color || 'black']};
+          border-color: ${theme.color[border || 'black']};
         `
       : css`
-          background-color: ${color + '33'};
-          border-color: ${color + '88'};
+          background-color: ${theme.color[color || 'black'] + '22'};
+          border-color: ${theme.color[color || 'black'] + '88'};
         `}
 `;
 
@@ -197,14 +227,21 @@ const FullContainTouchOpacity = styled.TouchableOpacity`
 const CheckBoxContainer = styled(CenterDivs)<SelectButtonStyleProps>`
   border-width: 1px;
   border-radius: 5px;
-  border-color: ${props => props.color};
+  border-color: ${({color}) => theme.color[color || 'black']};
 
   ${({select, color}) =>
     select
       ? css`
-          background-color: ${color};
+          background-color: ${theme.color[color || 'black']};
         `
       : css`
           background-color: transparent;
         `}
+`;
+
+const ChipButtonContainer = styled(CenterDivs)<SelectButtonStyleProps>`
+  border-width: 1px;
+  border-radius: 10px;
+  border-color: ${({color}) => theme.color[color || 'black'] + '77'};
+  background-color: ${({color}) => theme.color[color || 'black'] + '20'};
 `;

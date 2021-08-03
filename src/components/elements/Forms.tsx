@@ -26,14 +26,17 @@ export const Form = ({formName, children}: FormProps) => {
   return <FormProvider {...method}>{children({formName})}</FormProvider>;
 };
 
-export const FormSetContainer = ({formName, children}: FormElementProps) => {
+export const FormSetContainer = ({
+  formName,
+  children,
+  style,
+}: FormElementProps) => {
   const {setValue, register, getValues} = useFormContext();
   const handleChange = useCallback(
-    (idx: number) => {
-      setValue(
-        formName + `.${idx}`,
-        getValues(formName)[idx] ? '' : idx.toString(),
-      );
+    (idx: number, text?: string) => {
+      const value = text || idx.toString();
+
+      setValue(formName + `.${idx}`, getValues(formName)[idx] ? '' : value);
       console.log(getValues(formName));
     },
     [formName, setValue, getValues],
@@ -55,7 +58,11 @@ export const FormSetContainer = ({formName, children}: FormElementProps) => {
     [children, handleChange],
   );
 
-  return <FormSelectSetContainer>{childrenWithProps}</FormSelectSetContainer>;
+  return (
+    <FormSelectSetContainer style={style}>
+      {childrenWithProps}
+    </FormSelectSetContainer>
+  );
 };
 
 export const FormSelectButton = ({handleChange, idx, ...rest}: any) => {
@@ -137,4 +144,5 @@ const FormSelectSetContainer = styled.View`
   width: 100%;
   margin: 10px auto;
   height: ${14 * vh}px;
+  /* background: red; */
 `;

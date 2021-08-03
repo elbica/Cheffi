@@ -1,5 +1,5 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Alert} from 'react-native';
 import {Section} from '../../assets/styles/theme';
 import {CheckBoxButton} from '../elements/Buttons';
 import Fonts from '../elements/Fonts';
@@ -10,17 +10,8 @@ import {
   FormSelectButton,
 } from '../elements/Forms';
 
-const problemText1 = [
-  {text: '고기를\n먹지\n않아요', width: '28%'},
-  {text: '당분을\n조금만\n섭취해야해요', width: '36%'},
-  {text: '칼로리를\n조절해야\n해요', width: '30%'},
-];
-const problemText2 = [
-  {text: '밀가루를 먹지\n않아요', width: '55%'},
-  {text: '자극적인 것을\n싫어해요', width: '42%'},
-];
-
 const CheckBoxes = () => {
+  const navigation = useNavigation();
   return (
     <Section
       // background="red"
@@ -30,9 +21,13 @@ const CheckBoxes = () => {
       <CheckBoxButton
         children=" 이 음식은 못 먹어요."
         size="medium"
-        onPress={() => Alert.alert('hello')}
+        onPress={() => navigation.navigate('join4')}
       />
-      <CheckBoxButton children=" 알러지가 있어요." size="medium" />
+      <CheckBoxButton
+        children=" 알러지가 있어요."
+        size="medium"
+        onPress={() => navigation.navigate('join4')}
+      />
     </Section>
   );
 };
@@ -74,10 +69,20 @@ export default function SelectProblem() {
           </Section>
           <CheckBoxes />
           <Section justify="flex-end" align="flex-end" flexNumber="0.3">
-            <NextSubmit goal="join4" marginV="10%" />
+            <NextSubmit goal="join5" marginV="10%" />
           </Section>
         </Section>
       )}
     </Form>
   );
 }
+
+const problemText1 = [
+  {text: '고기를\n먹지\n않아요', width: '28%'},
+  {text: '당분을\n조금만\n섭취해야해요', width: '36%'},
+  {text: '칼로리를\n조절해야\n해요', width: '30%'},
+];
+const problemText2 = [
+  {text: '밀가루를 먹지\n않아요', width: '55%'},
+  {text: '자극적인 것을\n싫어해요', width: '42%'},
+];

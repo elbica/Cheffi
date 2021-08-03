@@ -52,3 +52,13 @@ const CenterDivsContainer = styled(DivsContainer)`
   justify-content: center;
   align-items: center;
 `;
+
+export const TestCenterDivs = styled(CenterDivsContainer)`
+  background-color: green;
+`;
+export const TestRowDivs = styled(RowDivsContainer)`
+  background-color: green;
+`;
+export const TestDivs = styled(DivsContainer)`
+  background-color: green;
+`;

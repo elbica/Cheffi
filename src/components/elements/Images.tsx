@@ -1,7 +1,8 @@
 import React from 'react';
 import {Image, ImageStyle} from 'react-native';
 import styled from 'styled-components/native';
-import {Section, vh, vw} from '../../assets/styles/theme';
+import {Section, theme, vh, vw} from '../../assets/styles/theme';
+import {ImageStyleProps} from './interface';
 
 export function FryPan() {
   return (
@@ -42,11 +43,21 @@ export function PrevArrow() {
     />
   );
 }
-export function Check({color}: {color: string}) {
+export function Check({color}: ImageStyleProps) {
+  return (
+    <CheckContainer
+      source={require('../../assets/icons/check.png')}
+      color={color}
+    />
+  );
+}
+export function Search({width, height, color}: ImageStyleProps) {
   return (
     <ImageContainer
-      source={require('../../assets/icons/check.png')}
-      tintColor={color}
+      source={require('../../assets/icons/search.png')}
+      Width={width}
+      Height={height}
+      color={color}
     />
   );
 }
@@ -63,7 +74,13 @@ const nextArrowStyle: ImageStyle = {
   marginLeft: 0,
 };
 
-const ImageContainer = styled.Image<ImageStyle>`
+const ImageContainer = styled.Image<ImageStyleProps & ImageStyle>`
+  width: ${({Width}) => Width || '100%'};
+  height: ${({Height}) => Height || '100%'};
+  tint-color: ${({color}) => theme.color[color || 'black']};
+`;
+const CheckContainer = styled.Image<ImageStyleProps>`
   width: 70%;
   height: 60%;
+  tint-color: ${({color}) => color};
 `;
