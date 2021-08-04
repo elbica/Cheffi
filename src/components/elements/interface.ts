@@ -25,13 +25,18 @@ export interface LinkButtonsProps {
   height: string;
   margin?: string;
 }
-export interface ImageButtonProps {
-  uri: string;
+export interface ImageButtonProps extends ImageButtonStyleProps {
+  uri?: string;
+  onPress: (ev?: NativeSyntheticEvent<NativeTouchEvent>) => void;
+  children?: React.ReactNode;
+}
+export interface ImageButtonStyleProps {
   width?: string;
   height?: string;
+  radius?: number;
+  color?: Colors;
   marginV?: string;
   marginH?: string;
-  children?: React.ReactNode;
 }
 export interface ActionButtonProps {
   onPress?: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
@@ -39,13 +44,8 @@ export interface ActionButtonProps {
   height?: string;
   marginV?: string;
   marginH?: string;
+  radius?: number;
   children?: React.ReactNode;
-}
-export interface ImageButtonStyleProps {
-  width?: string;
-  height?: string;
-  marginV?: string;
-  marginH?: string;
 }
 export interface SelectButtonProps extends ActionButtonProps {
   color?: Colors;
@@ -55,6 +55,7 @@ export interface SelectButtonProps extends ActionButtonProps {
 export interface SelectButtonStyleProps {
   width?: string;
   height?: string;
+  radius?: number;
   select?: boolean;
   color?: Colors;
   border?: Colors;
@@ -90,6 +91,7 @@ export interface FormProps {
 }
 export interface NextSubmitProps {
   goal: string;
+  check?: boolean;
   marginV?: string;
   marginH?: string;
   padV?: string;

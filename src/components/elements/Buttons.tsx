@@ -38,7 +38,7 @@ export default function LinkButton({
 }
 export function ActionButton({
   onPress,
-  width = '0%',
+  width = '100%',
   height = '0%',
   marginV = '0%',
   marginH = '0%',
@@ -124,6 +124,24 @@ export function SelectButton({
   );
 }
 
+export function SelectCircleButton({
+  radius = 50,
+  color,
+  ...rest
+}: SelectButtonProps) {
+  const length = radius * 2 + 'px';
+  return (
+    <SelectButton
+      width={length}
+      height={length}
+      radius={radius}
+      color={color}
+      border={color}
+      {...rest}
+    />
+  );
+}
+
 export function CheckBoxButton({
   onPress = () => {},
   checkColor = 'white',
@@ -165,31 +183,43 @@ export function CheckBoxButton({
 export function ImageButton({
   uri,
   width = '100%',
+  onPress = () => {},
   height = '100%',
   marginV = '0%',
   marginH = '0%',
+  radius = 16,
   children = null,
   ...rest
 }: ImageButtonProps) {
   return (
-    <CenterTouchOpacity goal="refrigerator">
+    <CenterTouchOpacity onPress={onPress}>
       <ImageButtonContainer
         width={width}
         height={height}
         marginV={marginV}
         marginH={marginH}
+        radius={radius}
         {...rest}>
-        <ImageBackground
-          source={{uri: uri}}
-          // eslint-disable-next-line react-native/no-inline-styles
-          style={{flex: 1, justifyContent: 'center'}}
-          // eslint-disable-next-line react-native/no-inline-styles
-          imageStyle={{borderRadius: 16}}
-          resizeMode="cover">
-          {children}
-        </ImageBackground>
+        {uri ? (
+          <ImageBackground
+            source={{uri: uri}}
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{flex: 1, justifyContent: 'center'}}
+            resizeMode="cover">
+            {children}
+          </ImageBackground>
+        ) : (
+          <CenterDivs>{children}</CenterDivs>
+        )}
       </ImageButtonContainer>
     </CenterTouchOpacity>
+  );
+}
+
+export function CircleButton({radius = 50, ...rest}: ImageButtonProps) {
+  const length = radius * 2 + 'px';
+  return (
+    <ImageButton width={length} height={length} radius={radius} {...rest} />
   );
 }
 
@@ -200,11 +230,13 @@ const ImageButtonContainer = styled.View<ImageButtonStyleProps>`
   margin-bottom: ${(props: any) => props.marginV};
   margin-left: ${(props: any) => props.marginH};
   margin-right: ${(props: any) => props.marginH};
-  /* flex: 1; */
+  border-radius: ${({radius}) => radius + 'px'};
+  overflow: hidden;
+  background-color: ${({color}) => theme.color[color || 'bgColor']};
 `;
 const SelectButtonContainer = styled(CenterDivs)<SelectButtonStyleProps>`
   border-width: 1px;
-  border-radius: 10px;
+  border-radius: ${({radius}) => (radius || 10) + 'px'};
   ${({select, color, border}) =>
     select
       ? css`

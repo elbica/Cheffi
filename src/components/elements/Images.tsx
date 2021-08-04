@@ -82,5 +82,5 @@ const ImageContainer = styled.Image<ImageStyleProps & ImageStyle>`
 const CheckContainer = styled.Image<ImageStyleProps>`
   width: 70%;
   height: 60%;
-  tint-color: ${({color}) => color};
+  tint-color: ${({color}) => theme.color[color || 'black']};
 `;

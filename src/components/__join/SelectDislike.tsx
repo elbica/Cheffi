@@ -1,3 +1,4 @@
+import {RouteProp, useRoute} from '@react-navigation/native';
 import React from 'react';
 import {useCallback} from 'react';
 import {useState} from 'react';
@@ -20,12 +21,7 @@ import {InputEvent} from '../elements/interface';
  * 버튼 개수 * 2 - 1 만큼 호출된다. 어떻게 해결할까?
  */
 
-export const DislikeChip = ({
-  handleChange,
-  idx,
-  text,
-  setArray,
-}: DislikeChipProps) => {
+const DislikeChip = ({handleChange, idx, text, setArray}: DislikeChipProps) => {
   useEffect(() => {
     handleChange(idx, text);
     return () => handleChange(idx);
@@ -39,7 +35,10 @@ export const DislikeChip = ({
 };
 
 export default function SelectDislike() {
-  const [dislikeArray, setDislikeArray] = useState<Array<string>>([]);
+  const [dislikeArray, setDislikeArray] = useState<string[]>([]);
+  const {
+    params: {formName},
+  } = useRoute<RouteProp<{join4: {formName: string}}, 'join4'>>();
 
   const checkValidation = (text: string) => {
     if (dislikeArray.includes(text)) return false;
@@ -54,7 +53,7 @@ export default function SelectDislike() {
   };
 
   return (
-    <Form formName="dislike">
+    <Form formName={formName}>
       {({formName}) => (
         <Section flexNumber="1.4">
           <Section justify="flex-start" margins="8% 0%" paddings="0% 8%">
@@ -83,7 +82,7 @@ export default function SelectDislike() {
             </CenterDivs>
           </Section>
           <Section justify="flex-end" align="flex-end">
-            <NextSubmit goal="join3" marginH="7%" marginV="10%" />
+            <NextSubmit goal="join3" check marginH="7%" marginV="10%" />
           </Section>
         </Section>
       )}

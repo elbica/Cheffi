@@ -5,12 +5,13 @@ import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   children: React.ReactNode;
-  goal: string;
-  // navigation: StackNavigationProp<any>;
-  route?: any;
+  goal?: string;
+  onPress(): void;
 }
 const centerStyle: ViewStyle = {
-  flex: 0.1,
+  // flex: ,
+  // height: 100,
+  // backgroundColor: 'yellow',
   justifyContent: 'center',
   alignItems: 'center',
   // position: 'absolute',
@@ -21,12 +22,9 @@ const leftStyle: ViewStyle = {
   alignItems: 'flex-start',
   // position: 'absolute',
 };
-export function CenterTouchOpacity({children, goal}: Props) {
-  const navigation = useNavigation();
+export function CenterTouchOpacity({children, onPress = () => {}}: Props) {
   return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate(goal)}
-      style={centerStyle}>
+    <TouchableOpacity onPress={onPress} style={centerStyle}>
       {children}
     </TouchableOpacity>
   );

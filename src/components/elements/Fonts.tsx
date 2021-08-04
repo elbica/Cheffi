@@ -27,7 +27,6 @@ export default function Fonts({
 }
 
 const FontContainer = styled.View<FontsProps>`
-  /* flex: 1; */
   padding-top: ${(props: any) => props.padV};
   padding-bottom: ${(props: any) => props.padV};
   padding-left: ${(props: any) => props.padH};

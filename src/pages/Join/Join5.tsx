@@ -1,18 +1,11 @@
 import React from 'react';
-import {Text} from 'react-native';
 import {BackgroundSection} from '../../assets/styles/theme';
-import LinkButton from '../../components/elements/Buttons';
+import SelectLike from '../../components/__join/SelectLike';
 
-export default function Join5({navigation}) {
+export default function Join5() {
   return (
     <BackgroundSection>
-      <Text>join 5555</Text>
-      <LinkButton
-        title="next"
-        onPress={() => navigation.navigate('join6')}
-        width="100px"
-        height="50px"
-      />
+      <SelectLike />
     </BackgroundSection>
   );
 }

@@ -8,12 +8,19 @@ import {
   useFormContext,
 } from 'react-hook-form';
 import {Alert} from 'react-native';
+import {useDispatch} from 'react-redux';
 import styled from 'styled-components/native';
 import {vh, vw} from '../../assets/styles/theme';
-import {ActionButton, SelectButton} from './Buttons';
-import {RowDivs} from './Divs';
+import {formSet} from '../../redux/modules/form';
+import {
+  ActionButton,
+  ImageButton,
+  SelectButton,
+  SelectCircleButton,
+} from './Buttons';
+import {CenterDivs, RowDivs} from './Divs';
 import Fonts from './Fonts';
-import {NextArrow} from './Images';
+import {Check, NextArrow} from './Images';
 import {FormElementProps, FormProps, NextSubmitProps} from './interface';
 
 export const Form = ({formName, children}: FormProps) => {
@@ -37,7 +44,6 @@ export const FormSetContainer = ({
       const value = text || idx.toString();
 
       setValue(formName + `.${idx}`, getValues(formName)[idx] ? '' : value);
-      console.log(getValues(formName));
     },
     [formName, setValue, getValues],
   );
@@ -65,8 +71,34 @@ export const FormSetContainer = ({
   );
 };
 
-export const FormSelectButton = ({handleChange, idx, ...rest}: any) => {
-  return <SelectButton onPress={() => handleChange(idx)} {...rest} />;
+export const FormSelectButton = ({
+  handleChange,
+  idx,
+  circle,
+  radius,
+  children,
+  ...rest
+}: any) => {
+  return (
+    <>
+      {circle ? (
+        <SelectCircleButton
+          radius={radius}
+          onPress={() => handleChange(idx, children)}
+          marginV="8px"
+          children={children}
+          {...rest}
+        />
+      ) : (
+        <SelectButton
+          onPress={() => handleChange(idx, children)}
+          marginV="8px"
+          children={children}
+          {...rest}
+        />
+      )}
+    </>
+  );
 };
 
 export const FormInputText = ({formName, placeholder}: FormElementProps) => {
@@ -100,11 +132,12 @@ export const FormSelectPhoto = ({formName}: FormElementProps) => {
     </SelectPhotoButton>
   );
 };
-export function NextSubmit({goal, ...rest}: NextSubmitProps) {
+export function NextSubmit({goal, check, ...rest}: NextSubmitProps) {
   const {handleSubmit} = useFormContext();
   const navigation = useNavigation();
-  const onSubmit: SubmitHandler<any> = (data: string) => {
-    console.log(data);
+  const dispatch = useDispatch();
+  const onSubmit: SubmitHandler<any> = (data: object) => {
+    dispatch(formSet(data));
     navigation.navigate(goal);
   };
   return (
@@ -114,14 +147,54 @@ export function NextSubmit({goal, ...rest}: NextSubmitProps) {
       {...rest}
       height={`${10 * vh}px`}>
       <RowDivs>
-        <Fonts center color="tableBlack">
-          다음
-        </Fonts>
-        <NextArrow />
+        {check ? (
+          <>
+            <CenterDivs width="38px" height="36px">
+              <Check color="tableBlack" />
+            </CenterDivs>
+            <Fonts center color="tableBlack">
+              완료
+            </Fonts>
+          </>
+        ) : (
+          <>
+            <Fonts center color="tableBlack">
+              다음
+            </Fonts>
+            <NextArrow />
+          </>
+        )}
       </RowDivs>
     </ActionButton>
   );
 }
+
+export function FormCompleteButton({goal, ...rest}: NextSubmitProps) {
+  const {handleSubmit} = useFormContext();
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const onSubmit: SubmitHandler<any> = (data: object) => {
+    dispatch(formSet(data));
+    navigation.navigate(goal);
+  };
+  return (
+    // <Section background="black">
+    <ImageButton
+      onPress={handleSubmit(onSubmit)}
+      height="80px"
+      color="black"
+      radius={0}
+      // marginV="10px"
+      {...rest}>
+      <Fonts color="white" size="large" bold>
+        선택 완료
+      </Fonts>
+    </ImageButton>
+    // </Section>
+  );
+}
+
 const FormInputStyle = styled.TextInput`
   color: ${props => props.theme.color.tableGray};
   border-bottom-width: 1px;
