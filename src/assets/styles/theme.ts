@@ -23,7 +23,7 @@ export const theme: DefaultTheme = {
     white: '#ffffff',
     deepOrange: '#e78034',
     deepGreen: '#83ba9e',
-    deepYellow: 'fae01e',
+    deepYellow: '#fae01e',
   },
   padding: {
     android: `${12.5 * vh}px 5% 0% 5%`,

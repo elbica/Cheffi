@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useMemo} from 'react';
+import React from 'react';
 import {useEffect} from 'react';
 import {
   FormProvider,
@@ -11,6 +11,7 @@ import {Alert} from 'react-native';
 import {useDispatch} from 'react-redux';
 import styled from 'styled-components/native';
 import {vh, vw} from '../../assets/styles/theme';
+import {useFormContainer} from '../../hooks/useFormContainer';
 import {formSet} from '../../redux/modules/form';
 import {
   ActionButton,
@@ -33,40 +34,16 @@ export const Form = ({formName, children}: FormProps) => {
   return <FormProvider {...method}>{children({formName})}</FormProvider>;
 };
 
-export const FormSetContainer = ({
+export const FormViewContainer = ({
   formName,
   children,
   style,
 }: FormElementProps) => {
-  const {setValue, register, getValues} = useFormContext();
-  const handleChange = useCallback(
-    (idx: number, text?: string) => {
-      const value = text || idx.toString();
-
-      setValue(formName + `.${idx}`, getValues(formName)[idx] ? '' : value);
-    },
-    [formName, setValue, getValues],
-  );
-
-  useEffect(() => {
-    register(formName + '.0');
-  }, [formName, register]);
-
-  const childrenWithProps = useMemo(
-    () =>
-      React.Children.map<React.ReactNode, React.ReactNode>(children, child => {
-        if (React.isValidElement(child)) {
-          return React.cloneElement(child, {
-            handleChange,
-          });
-        }
-      }),
-    [children, handleChange],
-  );
+  const addFormChildren = useFormContainer(children, formName);
 
   return (
     <FormSelectSetContainer style={style}>
-      {childrenWithProps}
+      {addFormChildren}
     </FormSelectSetContainer>
   );
 };
@@ -84,14 +61,14 @@ export const FormSelectButton = ({
       {circle ? (
         <SelectCircleButton
           radius={radius}
-          onPress={() => handleChange(idx, children)}
+          onPress={children ? () => handleChange(idx, children) : undefined}
           marginV="8px"
           children={children}
           {...rest}
         />
       ) : (
         <SelectButton
-          onPress={() => handleChange(idx, children)}
+          onPress={children ? () => handleChange(idx, children) : undefined}
           marginV="8px"
           children={children}
           {...rest}

@@ -8,7 +8,7 @@ import {Section, vh} from '../../assets/styles/theme';
 import {ChipButton} from '../elements/Buttons';
 import {CenterDivs} from '../elements/Divs';
 import Fonts from '../elements/Fonts';
-import {Form, FormSetContainer, NextSubmit} from '../elements/Forms';
+import {Form, FormViewContainer, NextSubmit} from '../elements/Forms';
 import IngredientInput from '../elements/Inputs';
 import {InputEvent} from '../elements/interface';
 
@@ -90,7 +90,7 @@ export default function SelectDislike() {
   );
 }
 
-const DislikeInputSet = styled(FormSetContainer)`
+const DislikeInputSet = styled(FormViewContainer)`
   justify-content: flex-start;
   align-items: flex-start;
 `;

@@ -6,7 +6,7 @@ import Fonts from '../elements/Fonts';
 import {
   Form,
   NextSubmit,
-  FormSetContainer,
+  FormViewContainer,
   FormSelectButton,
 } from '../elements/Forms';
 
@@ -43,7 +43,7 @@ export default function SelectProblem() {
               lineHeight="xlarge">
               {'아래에 해당사항이\n있으시다면 선택하여 주세요.'}
             </Fonts>
-            <FormSetContainer formName={formName}>
+            <FormViewContainer formName={formName}>
               {problemText.map(({text, width}, idx) => (
                 <FormSelectButton
                   key={idx}
@@ -52,7 +52,7 @@ export default function SelectProblem() {
                   width={width}
                 />
               ))}
-            </FormSetContainer>
+            </FormViewContainer>
           </Section>
           <CheckBoxes />
           <Section justify="flex-end" align="flex-end" flexNumber="0.3">
