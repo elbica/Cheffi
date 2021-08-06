@@ -1,17 +1,22 @@
-import axios from 'axios';
 import React from 'react';
-import {useEffect} from 'react';
 import {Text, View} from 'react-native';
+import {useRecipeNumber} from '../hooks/useAxios';
 
 export default function RecommendPage() {
-  useEffect(() => {
-    axios
-      .get('http://18.220.121.204:2001/')
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => console.log(err));
-  }, []);
+  const {status, data, isLoading} = useRecipeNumber({
+    ingre: [
+      '당근',
+      '소금',
+      '양파',
+      '후추',
+      '맛살',
+      '올리브유',
+      '참치',
+      '쪽파',
+      '설탕',
+    ],
+  });
+  console.log(status, data, isLoading);
   return (
     <View>
       <Text>RecommendPage</Text>

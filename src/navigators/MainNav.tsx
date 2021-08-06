@@ -7,7 +7,9 @@ import StackNavFactory from './StackNavFactory';
 import {TabScreenDataProps} from './Interface';
 import {Image, Platform} from 'react-native';
 import {icons} from '../assets/icons/icons';
+import {QueryClient, QueryClientProvider} from 'react-query';
 
+const queryClient = new QueryClient();
 const Tabs = createBottomTabNavigator();
 const tabBarOption: BottomTabBarOptions = {
   activeTintColor: '#ff9140',
@@ -30,29 +32,31 @@ const tabScreenData: TabScreenDataProps[] = [
 
 export default function MainNav() {
   return (
-    <Tabs.Navigator tabBarOptions={tabBarOption} initialRouteName="홈">
-      {tabScreenData.map((tabData, idx) => (
-        <Tabs.Screen
-          key={idx}
-          name={tabData.name}
-          options={{
-            tabBarIcon: ({focused}) => {
-              const source = focused
-                ? icons[tabData.iconName].active
-                : icons[tabData.iconName].default;
-              return (
-                <Image
-                  source={source}
-                  // eslint-disable-next-line react-native/no-inline-styles
-                  style={{height: 28}}
-                  resizeMode="contain"
-                />
-              );
-            },
-          }}
-          children={() => <StackNavFactory screenName={tabData.screenName} />}
-        />
-      ))}
-    </Tabs.Navigator>
+    <QueryClientProvider client={queryClient}>
+      <Tabs.Navigator tabBarOptions={tabBarOption} initialRouteName="홈">
+        {tabScreenData.map((tabData, idx) => (
+          <Tabs.Screen
+            key={idx}
+            name={tabData.name}
+            options={{
+              tabBarIcon: ({focused}) => {
+                const source = focused
+                  ? icons[tabData.iconName].active
+                  : icons[tabData.iconName].default;
+                return (
+                  <Image
+                    source={source}
+                    // eslint-disable-next-line react-native/no-inline-styles
+                    style={{height: 28}}
+                    resizeMode="contain"
+                  />
+                );
+              },
+            }}
+            children={() => <StackNavFactory screenName={tabData.screenName} />}
+          />
+        ))}
+      </Tabs.Navigator>
+    </QueryClientProvider>
   );
 }
