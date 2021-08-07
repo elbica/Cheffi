@@ -192,7 +192,7 @@ export function ImageButton({
   ...rest
 }: ImageButtonProps) {
   return (
-    <CenterTouchOpacity onPress={onPress}>
+    <CenterTouchOpacity onPress={onPress} goal="home">
       <ImageButtonContainer
         width={width}
         height={height}

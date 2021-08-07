@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   children: React.ReactNode;
-  goal?: string;
+  goal: string;
   onPress(): void;
 }
 const centerStyle: ViewStyle = {

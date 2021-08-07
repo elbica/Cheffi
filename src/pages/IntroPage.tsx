@@ -1,11 +1,12 @@
 import React from 'react';
 import {Image} from 'react-native';
-import {Section} from '../assets/styles/theme';
+import {Section, vw} from '../assets/styles/theme';
 import {IntroPageProps} from './Interface';
 import styled from 'styled-components/native';
-import LinkButton from '../components/elements/Buttons';
+import {ImageButton} from '../components/elements/Buttons';
 import {useDispatch} from 'react-redux';
 import {userLogin} from '../redux/modules/auth';
+import {LoginButtons} from '../assets/icons/icons';
 
 const WrapSection = styled(Section)`
   background: ${({theme}) => theme.color.bgColor};
@@ -25,7 +26,7 @@ export default function IntroPage({navigation}: IntroPageProps): JSX.Element {
 
   return (
     <WrapSection flexNumber={1}>
-      <TestLogoSection flexNumber={1.25} justify="flex-end">
+      <TestLogoSection flexNumber={1.2} justify="flex-end">
         <Image
           source={require('../assets/images/CheffiLogo.png')}
           // eslint-disable-next-line react-native/no-inline-styles
@@ -33,18 +34,30 @@ export default function IntroPage({navigation}: IntroPageProps): JSX.Element {
           resizeMode="contain"
         />
       </TestLogoSection>
-      <LoginSection flexNumber={1}>
-        <LinkButton
-          title="바로 로그인"
-          width="100px"
-          height="30px"
+      <LoginSection>
+        <ImageButton
           onPress={authCheck}
+          height="60px"
+          radius={0}
+          children={
+            <Image
+              source={LoginButtons.kakao}
+              style={{width: 80 * vw}}
+              resizeMode="contain"
+            />
+          }
         />
-        <LinkButton
-          title="프로필 설정"
-          width="100px"
-          height="30px"
+        <ImageButton
           onPress={() => navigation.navigate('join1')}
+          height="70px"
+          radius={2}
+          children={
+            <Image
+              source={LoginButtons.google}
+              style={{width: 80 * vw}}
+              resizeMode="contain"
+            />
+          }
         />
       </LoginSection>
     </WrapSection>
