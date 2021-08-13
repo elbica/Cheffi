@@ -52,6 +52,7 @@ export const AppWrap = styled.View`
   width: 100%;
   flex: 1;
   height: 100%;
+  background-color: white;
 `;
 export const Section = styled.View`
   flex: ${(props: SectionProps) => props.flexNumber};

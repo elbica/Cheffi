@@ -1,18 +1,18 @@
 import React from 'react';
-import styled, {css} from 'styled-components/native';
-import {DivsProps} from './interface';
+import styled, { css } from 'styled-components/native';
+import { DivsProps } from './interface';
 
-export default function Divs({children, ...rest}: DivsProps) {
+export default function Divs({ children, ...rest }: DivsProps) {
   return <DivsContainer {...rest}>{children}</DivsContainer>;
 }
-export function CenterDivs({children, ...rest}: DivsProps) {
+export function CenterDivs({ children, ...rest }: DivsProps) {
   return <CenterDivsContainer {...rest}>{children}</CenterDivsContainer>;
 }
 export function RowDivs({
   align = false,
   children,
   ...rest
-}: {align?: boolean} & DivsProps) {
+}: { align?: boolean } & DivsProps) {
   return (
     <RowDivsContainer align={align} {...rest}>
       {children}
@@ -29,13 +29,13 @@ const DivsContainer = styled.View<DivsProps>`
   margin-bottom: ${props => props.marginV || '0px'};
   margin-left: ${props => props.marginH || '0px'};
   margin-right: ${props => props.marginH || '0px'};
-  width: ${({width}) => width || '100%'};
-  height: ${({height}) => height || '100%'};
+  width: ${({ width }) => width || '100%'};
+  height: ${({ height }) => height || '100%'};
 `;
-const RowDivsContainer = styled(DivsContainer)<{align?: boolean}>`
+const RowDivsContainer = styled(DivsContainer)<{ align?: boolean }>`
   flex-direction: row;
   /* justify-content: space-between; */
-  /* justify-content: ${({align}) =>
+  /* justify-content: ${({ align }) =>
     align ? 'flex-align' : 'space-between'}; */
   ${props =>
     props.align
@@ -48,8 +48,8 @@ const RowDivsContainer = styled(DivsContainer)<{align?: boolean}>`
   align-items: center;
 `;
 const CenterDivsContainer = styled(DivsContainer)`
-  /* background-color: black; */
   justify-content: center;
+  /* background-color: red; */
   align-items: center;
 `;
 

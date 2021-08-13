@@ -38,7 +38,7 @@ const EmptyRefriger = () => {
         <Fonts size="large" padV="0%">
           냉장고가 비어있어요.
         </Fonts>
-        <Fonts color="tableBlack" padV="3%">
+        <Fonts color="tableBlack" padV="1%">
           지금 냉장고에 뭐가 들어있나요?
         </Fonts>
       </CenterTouchOpacity>

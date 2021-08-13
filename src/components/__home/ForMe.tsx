@@ -3,7 +3,8 @@ import styled from 'styled-components/native';
 import {ImageButton} from '../elements/Buttons';
 import Fonts from '../elements/Fonts';
 
-const DUMMY_URI = 'https://source.unsplash.com/random';
+const DUMMY_URI =
+  'https://cheffi.s3.ap-northeast-2.amazonaws.com/Image/Haemuk/5738.jpg';
 const DUMMY_TEXT = '1+1 더 주니어 세트 15종';
 const DUMMY_TEXT_DESC = '15종 다이어트 식판';
 

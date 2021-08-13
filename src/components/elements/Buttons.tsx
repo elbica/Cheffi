@@ -20,8 +20,8 @@ import {Colors} from 'styled-components';
 export default function LinkButton({
   title,
   onPress,
-  width,
-  height,
+  width = '100px',
+  height = '45px',
   margin,
   ...rest
 }: LinkButtonsProps) {
@@ -47,8 +47,8 @@ export function ActionButton({
 }: ActionButtonProps) {
   return (
     <CenterDivs
-      marginV={marginV}
-      marginH={marginH}
+      // marginV={marginV}
+      // marginH={marginH}
       width={width}
       height={height}
       {...rest}>
@@ -236,6 +236,9 @@ const ImageButtonContainer = styled.View<ImageButtonStyleProps>`
 `;
 const SelectButtonContainer = styled(CenterDivs)<SelectButtonStyleProps>`
   border-width: 1px;
+  background-color: red;
+  /* width: 50px; */
+  /* height: 50px; */
   border-radius: ${({radius}) => (radius || 10) + 'px'};
   ${({select, color, border}) =>
     select
@@ -260,7 +263,6 @@ const CheckBoxContainer = styled(CenterDivs)<SelectButtonStyleProps>`
   border-width: 1px;
   border-radius: 5px;
   border-color: ${({color}) => theme.color[color || 'black']};
-
   ${({select, color}) =>
     select
       ? css`

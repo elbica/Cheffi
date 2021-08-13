@@ -27,10 +27,12 @@ export default function Fonts({
 }
 
 const FontContainer = styled.View<FontsProps>`
+  width: auto;
   padding-top: ${(props: any) => props.padV};
   padding-bottom: ${(props: any) => props.padV};
   padding-left: ${(props: any) => props.padH};
   padding-right: ${(props: any) => props.padH};
+  /* background-color: red; */
   ${(props: any) =>
     props.center
       ? css`

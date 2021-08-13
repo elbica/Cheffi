@@ -3,7 +3,8 @@ import styled from 'styled-components/native';
 import Fonts from '../elements/Fonts';
 import {ImageButton} from '../elements/Buttons';
 
-const DUMMY_URI = 'https://source.unsplash.com/random';
+const DUMMY_URI =
+  'https://cheffi.s3.ap-northeast-2.amazonaws.com/Image/Haemuk/5549.jpg';
 
 export default function HotRecipes() {
   return (

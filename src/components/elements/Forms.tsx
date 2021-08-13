@@ -159,7 +159,7 @@ export function FormCompleteButton({goal, ...rest}: NextSubmitProps) {
     // <Section background="black">
     <ImageButton
       onPress={handleSubmit(onSubmit)}
-      height="80px"
+      height="75px"
       color="black"
       radius={0}
       // marginV="10px"
