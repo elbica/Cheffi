@@ -1,5 +1,5 @@
 import React from 'react';
-import {IntroNavParamList} from './Interface';
+import { IntroNavParamList } from './Interface';
 import {
   createStackNavigator,
   HeaderStyleInterpolators,
@@ -13,8 +13,8 @@ import Join3 from '../pages/Join/Join3';
 import Join4 from '../pages/Join/Join4';
 import Join5 from '../pages/Join/Join5';
 import Join6 from '../pages/Join/Join6';
-import {theme, vh} from '../assets/styles/theme';
-import {PrevArrow} from '../components/elements/Images';
+import { theme, vh } from '../assets/styles/theme';
+import { PrevArrow } from '../components/elements/Images';
 
 const Stack = createStackNavigator<IntroNavParamList>();
 
@@ -50,7 +50,7 @@ export default function IntroNav(): JSX.Element {
       <Stack.Screen
         name="intro"
         component={IntroPage}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen name="join1" component={Join1} />
       <Stack.Screen name="join2" component={Join2} />

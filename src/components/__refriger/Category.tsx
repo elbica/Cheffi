@@ -19,7 +19,7 @@ const subCategory: { [key: string]: string[] } = mainCategory.reduce(
 export const MainCategory = React.memo(
   ({ setCategory, notAll }: MainCategoryProps) => {
     return (
-      <Divs height="auto" marginV="22px">
+      <Divs height="auto" marginV="15px">
         <Fonts children="카테고리" bold />
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {mainCategory.map((category, idx) =>
@@ -40,7 +40,7 @@ export const MainCategory = React.memo(
 
 export const SubCategory = ({ setCategory, pickMain }: SubCategoryProps) => {
   return (
-    <Divs height="auto" marginV="22px">
+    <Divs height="auto" marginV="15px">
       <Fonts children="카테고리" bold />
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {subCategory[pickMain].map((category, idx) => (
@@ -63,7 +63,7 @@ export const ContentCategory = ({
   handleAdd,
 }: ContentCategoryProps) => {
   return (
-    <Divs height={`${40 * vh}px`}>
+    <Divs height={`${42 * vh}px`}>
       <Fonts children="재료 선택" bold />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -86,12 +86,14 @@ export const ContentCategory = ({
               />
             ))}
       </ScrollView>
-      <ChipButton
-        color="vegetable"
-        onPress={handlePrev}
-        width="auto"
-        children="이전"
-      />
+      {pickCategory.sub && (
+        <ChipButton
+          color="deepGreen"
+          onPress={handlePrev}
+          width="auto"
+          children="이전"
+        />
+      )}
     </Divs>
   );
 };

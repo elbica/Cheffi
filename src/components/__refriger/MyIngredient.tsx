@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useCallback } from 'react';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import { vh } from '../../assets/styles/theme';
 import { useRecipeNumber } from '../../hooks/useAxios';
 import { RefrigerState } from '../../redux/modules/refriger';
 import { ChipButton } from '../elements/Buttons';
-import Divs, { RowDivs } from '../elements/Divs';
+import Divs, { RightDivs, RowDivs } from '../elements/Divs';
 import Fonts from '../elements/Fonts';
 import { MainCategory } from './Category';
 
@@ -29,9 +30,11 @@ import { MainCategory } from './Category';
  * 버튼 내 Font 길이가 Secion title 길이에 맞춰서 바뀐다...
  *
  */
-export default React.memo(function MyIngredient({
+export default function MyIngredient({
   init,
   save,
+  now,
+  complete,
   setViewModal,
 }: MyIngredientProps) {
   const [ingre, setIngre] = useState<RefrigerState>(init);
@@ -39,6 +42,9 @@ export default React.memo(function MyIngredient({
   const { data: number, isLoading } = useRecipeNumber({
     ingre: ingre.map(ing => ing.data).flat(),
   });
+  useEffect(() => {
+    setIngre(now);
+  }, [now]);
 
   const handleRemove = useCallback((title: string, ingredient: string) => {
     setIngre(ing =>
@@ -53,9 +59,15 @@ export default React.memo(function MyIngredient({
     );
   }, []);
   const handleModal = useCallback(() => setViewModal(true), [setViewModal]);
-  const handleSave = useCallback(() => save(ingre), [save, ingre]);
-
-  const handleCancle = useCallback(() => setIngre(init), [init]);
+  const handleSave = useCallback(
+    () => save(ingre, number as number),
+    [save, ingre, number],
+  );
+  // console.log(now);
+  const handleCancle = useCallback(() => {
+    complete(init);
+    setIngre(init);
+  }, [init, complete]);
   const handleCategory = useCallback(
     (cate: string, _?: any) => setCategory(cate as MainCategory),
     [],
@@ -66,71 +78,73 @@ export default React.memo(function MyIngredient({
       <Divs height={`${15 * vh}px`}>
         <ChipButton
           color="citrus"
-          marginV="5%"
+          // marginV="5%"
           children={
             isLoading ? '계산중..' : `${number} 개의 레시피를 만들 수 있어요!`
           }
         />
-        <RowDivs height="auto">
+        <RowDivs height="auto" marginV="8px">
           <ChipButton color="deepGreen" children="내 냉장고" />
           <AddButton
             color="vegetable"
-            children="재료 추가하기"
+            children="재료 추가"
             onPress={handleModal}
           />
         </RowDivs>
       </Divs>
-      <Divs height={`${50 * vh}px`}>
+      <Divs height={`${53 * vh}px`}>
         <MainCategory setCategory={handleCategory} notAll={false} />
         <ScrollView showsVerticalScrollIndicator={false}>
           {ingre.map(({ title, data }, index) =>
             title === category || category === '전체'
               ? data.length > 0 && (
-                  <>
-                    <Fonts children={title} key={title} />
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        marginBottom: 20,
-                        flexWrap: 'wrap',
-                      }}
-                      key={title + 'key' + index}>
+                  <View key={index}>
+                    <Fonts children={title} />
+                    <IngredientContainer>
                       {data.map((ingredient, idx) => (
                         <ChipButton
                           onPress={() => handleRemove(title, ingredient)}
-                          key={ingredient + idx + index + ingredient}
+                          key={idx}
                           children={ingredient}
                         />
                       ))}
-                    </View>
-                  </>
+                    </IngredientContainer>
+                  </View>
                 )
               : null,
           )}
         </ScrollView>
       </Divs>
 
-      <RowDivs height="auto" align>
+      <RightDivs height="auto" align>
         <SaveButton color="black" children="취소" onPress={handleCancle} />
         <SaveButton color="vegetable" children="저장" onPress={handleSave} />
-      </RowDivs>
+      </RightDivs>
     </>
   );
-});
+}
 
 interface MyIngredientProps {
   init: Category[];
-  save(ingredient: RefrigerState): void;
+  now: Category[];
+  save(ingredient: RefrigerState, recipeCount: number): void;
+  complete(ingredient: RefrigerState): void;
   setViewModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AddButton = styled(ChipButton)`
   /* align-self: flex-end; */
-  width: 33%;
+  width: auto;
 `;
 const SaveButton = styled(ChipButton)`
   width: 16%;
-  margin: 5% 5px;
+  margin: 3% 5px;
+  /* vertical-align: middle; */
+`;
+const IngredientContainer = styled.View`
+  flex-direction: row;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 `;
 
 /* <SectionList

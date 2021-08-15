@@ -1,37 +1,37 @@
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import {
   FormProvider,
   SubmitHandler,
   useForm,
   useFormContext,
 } from 'react-hook-form';
-import {Alert} from 'react-native';
-import {useDispatch} from 'react-redux';
+import { Alert } from 'react-native';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
-import {vh, vw} from '../../assets/styles/theme';
-import {useFormContainer} from '../../hooks/useFormContainer';
-import {formSet} from '../../redux/modules/form';
+import { vh, vw } from '../../assets/styles/theme';
+import { useFormContainer } from '../../hooks/useFormContainer';
+import { formSet } from '../../redux/modules/form';
 import {
   ActionButton,
   ImageButton,
   SelectButton,
   SelectCircleButton,
 } from './Buttons';
-import {CenterDivs, RowDivs} from './Divs';
+import { CenterDivs, RowDivs } from './Divs';
 import Fonts from './Fonts';
-import {Check, NextArrow} from './Images';
-import {FormElementProps, FormProps, NextSubmitProps} from './interface';
+import { Check, NextArrow } from './Images';
+import { FormElementProps, FormProps, NextSubmitProps } from './interface';
 
-export const Form = ({formName, children}: FormProps) => {
+export const Form = ({ formName, children }: FormProps) => {
   const method = useForm({
     defaultValues: {
       [formName]: '',
     },
   });
 
-  return <FormProvider {...method}>{children({formName})}</FormProvider>;
+  return <FormProvider {...method}>{children({ formName })}</FormProvider>;
 };
 
 export const FormViewContainer = ({
@@ -78,8 +78,8 @@ export const FormSelectButton = ({
   );
 };
 
-export const FormInputText = ({formName, placeholder}: FormElementProps) => {
-  const {setValue, register} = useFormContext();
+export const FormInputText = ({ formName, placeholder }: FormElementProps) => {
+  const { setValue, register } = useFormContext();
 
   useEffect(() => {
     register(formName);
@@ -92,8 +92,8 @@ export const FormInputText = ({formName, placeholder}: FormElementProps) => {
   );
 };
 
-export const FormSelectPhoto = ({formName}: FormElementProps) => {
-  const {setValue, register} = useFormContext();
+export const FormSelectPhoto = ({ formName }: FormElementProps) => {
+  const { setValue, register } = useFormContext();
 
   const onPress = () => {
     Alert.alert('사진 가져오기');
@@ -109,8 +109,8 @@ export const FormSelectPhoto = ({formName}: FormElementProps) => {
     </SelectPhotoButton>
   );
 };
-export function NextSubmit({goal, check, ...rest}: NextSubmitProps) {
-  const {handleSubmit} = useFormContext();
+export function NextSubmit({ goal, check, ...rest }: NextSubmitProps) {
+  const { handleSubmit } = useFormContext();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const onSubmit: SubmitHandler<any> = (data: object) => {
@@ -146,8 +146,8 @@ export function NextSubmit({goal, check, ...rest}: NextSubmitProps) {
   );
 }
 
-export function FormCompleteButton({goal, ...rest}: NextSubmitProps) {
-  const {handleSubmit} = useFormContext();
+export function FormCompleteButton({ goal, ...rest }: NextSubmitProps) {
+  const { handleSubmit } = useFormContext();
   const navigation = useNavigation();
   const dispatch = useDispatch();
 

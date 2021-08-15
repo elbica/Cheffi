@@ -6,11 +6,23 @@ import MyIngredient from '../components/__refriger/MyIngredient';
 import { useIngredient } from '../hooks/useIngredient';
 
 export default function RefrigerPage() {
-  const { ingredient, completeIngredient: complete, saveIngredient: save } = useIngredient();
+  const {
+    refriger,
+    ingredient,
+    completeIngredient: complete,
+    saveIngredient: save,
+  } = useIngredient();
   const [viewModal, setViewModal] = useState(false);
+  // console.log('refriger render');
   return (
     <AppWrap>
-      <MyIngredient init={ingredient} save={save} setViewModal={setViewModal} />
+      <MyIngredient
+        init={refriger}
+        now={ingredient}
+        save={save}
+        complete={complete}
+        setViewModal={setViewModal}
+      />
       <AddIngredient
         init={ingredient}
         complete={complete}

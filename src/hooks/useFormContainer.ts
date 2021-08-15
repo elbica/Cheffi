@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useMemo} from 'react';
-import {useFormContext} from 'react-hook-form';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 /**
  *
@@ -11,7 +11,7 @@ export const useFormContainer = (
   children: React.ReactNode | React.ReactNodeArray,
   formName = 'default',
 ) => {
-  const {setValue, register, getValues} = useFormContext();
+  const { setValue, register, getValues } = useFormContext();
   const handleChange = useCallback(
     (idx: number, text?: string) => {
       const value = text || idx.toString();

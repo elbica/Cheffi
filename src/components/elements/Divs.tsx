@@ -62,3 +62,6 @@ export const TestRowDivs = styled(RowDivsContainer)`
 export const TestDivs = styled(DivsContainer)`
   background-color: green;
 `;
+export const RightDivs = styled(RowDivs)`
+  justify-content: flex-end;
+`;

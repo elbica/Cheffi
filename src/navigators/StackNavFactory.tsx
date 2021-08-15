@@ -10,10 +10,12 @@ import MyRecipePage from '../pages/MyRecipePage';
 import HomePage from '../pages/HomePage';
 import RecommendPage from '../pages/RecommnedPage';
 import ProfilePage from '../pages/ProfilePage';
-import {StackNavFactoryScreenName} from './Interface';
-import {Platform} from 'react-native';
+import { StackNavFactoryScreenName } from './Interface';
+import { Platform } from 'react-native';
 import styled from 'styled-components/native';
-import {vh} from '../assets/styles/theme';
+import { vh } from '../assets/styles/theme';
+import RecipeInfoPage from '../pages/RecipeInfoPage';
+import { PrevArrow } from '../components/elements/Images';
 
 const Stack = createStackNavigator();
 const Header: StackNavigationOptions = {
@@ -23,6 +25,8 @@ const Header: StackNavigationOptions = {
   headerStyle: {
     height: Platform.OS === 'android' ? 10.5 * vh : 12 * vh,
   },
+  headerBackImage: () => <PrevArrow />,
+
   headerTitleAlign: 'center',
   headerTintColor: '#fff',
   headerTitleStyle: {
@@ -43,7 +47,10 @@ export default function StackNavFactory({
         <Stack.Screen name={'myRecipe'} component={MyRecipePage} />
       ) : null}
       {screenName === 'home' ? (
-        <Stack.Screen name={'home'} component={HomePage} />
+        <>
+          <Stack.Screen name={'home'} component={HomePage} />
+          <Stack.Screen name={'recommend'} component={RecommendPage} />
+        </>
       ) : null}
       {screenName === 'recommend' ? (
         <Stack.Screen name={'recommend'} component={RecommendPage} />
@@ -52,6 +59,16 @@ export default function StackNavFactory({
         <Stack.Screen name={'profile'} component={ProfilePage} />
       ) : null}
       <Stack.Screen name={'refrigerator'} component={RefrigerPage} />
+      <Stack.Screen
+        name={'recipeInfo'}
+        component={RecipeInfoPage}
+        options={{
+          headerBackground: undefined,
+          // headerTransparent: true,
+          headerTitleStyle: { color: 'transparent' },
+          // headerStyle: { backgroundColor: 'transparent' },
+        }}
+      />
     </Stack.Navigator>
   );
 }

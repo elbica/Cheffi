@@ -1,14 +1,16 @@
 import React from 'react';
-import {Platform, StatusBar} from 'react-native';
-import {ThemeProvider} from 'styled-components/native';
-import {theme} from './assets/styles/theme';
+import { Platform, StatusBar } from 'react-native';
+import { ThemeProvider } from 'styled-components/native';
+import { theme } from './assets/styles/theme';
 import IntroNav from './navigators/IntroNav';
 import MainNav from './navigators/MainNav';
-import {useSelector} from 'react-redux';
-import {RootState} from './redux/modules';
+import { useSelector } from 'react-redux';
+import { RootState } from './redux/modules';
+import { QueryClient, QueryClientProvider } from 'react-query';
+const queryClient = new QueryClient();
 
 const NavSelect: () => JSX.Element = () => {
-  const {isLogin} = useSelector((state: RootState) => state.auth);
+  const { isLogin } = useSelector((state: RootState) => state.auth);
   /*
   useEffect(() => {
     ///유저 로그인 처리
@@ -27,14 +29,16 @@ const NavSelect: () => JSX.Element = () => {
   }, []);*/
   return (
     <ThemeProvider theme={theme}>
-      {Platform.OS === 'android' ? (
-        <StatusBar
-          translucent
-          barStyle="dark-content"
-          backgroundColor="transparent"
-        />
-      ) : null}
-      {isLogin ? <MainNav /> : <IntroNav />}
+      <QueryClientProvider client={queryClient}>
+        {Platform.OS === 'android' ? (
+          <StatusBar
+            translucent
+            barStyle="dark-content"
+            backgroundColor="transparent"
+          />
+        ) : null}
+        {isLogin ? <MainNav /> : <IntroNav />}
+      </QueryClientProvider>
     </ThemeProvider>
   );
 };

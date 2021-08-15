@@ -1,7 +1,7 @@
 import React from 'react';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {ViewStyle} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ViewStyle } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 interface Props {
   children: React.ReactNode;
@@ -22,14 +22,14 @@ const leftStyle: ViewStyle = {
   alignItems: 'flex-start',
   // position: 'absolute',
 };
-export function CenterTouchOpacity({children, onPress = () => {}}: Props) {
+export function CenterTouchOpacity({ children, onPress = () => {} }: Props) {
   return (
     <TouchableOpacity onPress={onPress} style={centerStyle}>
       {children}
     </TouchableOpacity>
   );
 }
-export function LeftTouchOpacity({children, goal}: Props) {
+export function LeftTouchOpacity({ children, goal }: Props) {
   const navigation = useNavigation();
   return (
     <TouchableOpacity

@@ -1,9 +1,9 @@
-import React, {useCallback, useState} from 'react';
-import {ImageBackground, Text} from 'react-native';
-import styled, {css} from 'styled-components/native';
-import {theme, TouchButton} from '../../assets/styles/theme';
-import {CenterDivs, RowDivs} from './Divs';
-import {CenterTouchOpacity} from '../layout/PageMoveLayout';
+import React, { useCallback, useState } from 'react';
+import { ImageBackground, Text } from 'react-native';
+import styled, { css } from 'styled-components/native';
+import { theme, TouchButton } from '../../assets/styles/theme';
+import { CenterDivs, RowDivs } from './Divs';
+import { CenterTouchOpacity } from '../layout/PageMoveLayout';
 import {
   ActionButtonProps,
   ChipButtonProps,
@@ -14,8 +14,8 @@ import {
   SelectButtonStyleProps,
 } from './interface';
 import Fonts from './Fonts';
-import {Check} from './Images';
-import {Colors} from 'styled-components';
+import { Check } from './Images';
+import { Colors } from 'styled-components';
 
 export default function LinkButton({
   title,
@@ -80,7 +80,7 @@ export function ChipButton({
       marginV={marginV}
       {...rest}>
       <FullContainTouchOpacity onPress={onPress}>
-        <Fonts size={size} padH="12px" color="tableBlack">
+        <Fonts size={size} padH="12px" color="tableBlack" center>
           {children}
         </Fonts>
       </FullContainTouchOpacity>
@@ -150,7 +150,7 @@ export function CheckBoxButton({
   size = 'large',
   height = '30px',
   ...rest
-}: {checkColor?: Colors} & SelectButtonProps) {
+}: { checkColor?: Colors } & SelectButtonProps) {
   const [select, setSelect] = useState(false);
   const handle = useCallback(
     ev => {
@@ -202,9 +202,9 @@ export function ImageButton({
         {...rest}>
         {uri ? (
           <ImageBackground
-            source={{uri: uri}}
+            source={{ uri: uri }}
             // eslint-disable-next-line react-native/no-inline-styles
-            style={{flex: 1, justifyContent: 'center'}}
+            style={{ flex: 1, justifyContent: 'center' }}
             resizeMode="cover">
             {children}
           </ImageBackground>
@@ -216,7 +216,7 @@ export function ImageButton({
   );
 }
 
-export function CircleButton({radius = 50, ...rest}: ImageButtonProps) {
+export function CircleButton({ radius = 50, ...rest }: ImageButtonProps) {
   const length = radius * 2 + 'px';
   return (
     <ImageButton width={length} height={length} radius={radius} {...rest} />
@@ -230,17 +230,17 @@ const ImageButtonContainer = styled.View<ImageButtonStyleProps>`
   margin-bottom: ${(props: any) => props.marginV};
   margin-left: ${(props: any) => props.marginH};
   margin-right: ${(props: any) => props.marginH};
-  border-radius: ${({radius}) => radius + 'px'};
+  border-radius: ${({ radius }) => radius + 'px'};
   overflow: hidden;
-  background-color: ${({color}) => theme.color[color || 'bgColor']};
+  background-color: ${({ color }) => theme.color[color || 'bgColor']};
 `;
 const SelectButtonContainer = styled(CenterDivs)<SelectButtonStyleProps>`
   border-width: 1px;
   background-color: red;
   /* width: 50px; */
   /* height: 50px; */
-  border-radius: ${({radius}) => (radius || 10) + 'px'};
-  ${({select, color, border}) =>
+  border-radius: ${({ radius }) => (radius || 10) + 'px'};
+  ${({ select, color, border }) =>
     select
       ? css`
           background-color: ${theme.color[color || 'black']};
@@ -262,8 +262,8 @@ const FullContainTouchOpacity = styled.TouchableOpacity`
 const CheckBoxContainer = styled(CenterDivs)<SelectButtonStyleProps>`
   border-width: 1px;
   border-radius: 5px;
-  border-color: ${({color}) => theme.color[color || 'black']};
-  ${({select, color}) =>
+  border-color: ${({ color }) => theme.color[color || 'black']};
+  ${({ select, color }) =>
     select
       ? css`
           background-color: ${theme.color[color || 'black']};
@@ -276,6 +276,6 @@ const CheckBoxContainer = styled(CenterDivs)<SelectButtonStyleProps>`
 const ChipButtonContainer = styled(CenterDivs)<SelectButtonStyleProps>`
   border-width: 1px;
   border-radius: 10px;
-  border-color: ${({color}) => theme.color[color || 'black'] + '77'};
-  background-color: ${({color}) => theme.color[color || 'black'] + '20'};
+  border-color: ${({ color }) => theme.color[color || 'black'] + '77'};
+  background-color: ${({ color }) => theme.color[color || 'black'] + '20'};
 `;

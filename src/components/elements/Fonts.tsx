@@ -1,6 +1,6 @@
 import React from 'react';
-import styled, {css} from 'styled-components/native';
-import {FontsProps, TextStyleProps} from './interface';
+import styled, { css } from 'styled-components/native';
+import { FontsProps, TextStyleProps } from './interface';
 
 export default function Fonts({
   children,

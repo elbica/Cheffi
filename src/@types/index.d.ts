@@ -21,3 +21,14 @@ declare type MainCategory =
   | '가공식품'
   | '향신료/가루류'
   | '초콜릿/과자/견과류';
+
+declare interface Recipe {
+  scrap: string;
+  time: string;
+  calories: string;
+  id: string;
+  title: string;
+}
+declare interface RecipeInfo extends Recipe {
+  ingredient: string[];
+}

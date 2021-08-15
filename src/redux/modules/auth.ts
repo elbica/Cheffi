@@ -14,7 +14,7 @@ export const userLogout = () => ({
   type: USER_LOGOUT_ACTION,
 });
 
-type UserState = {
+type AuthState = {
   token: any;
   isLogin: boolean;
 };
@@ -22,14 +22,14 @@ type UserState = {
 type AuthAction = ReturnType<typeof userLogin> | ReturnType<typeof userLogout>;
 
 export default function reducer(
-  state: UserState = initState,
+  state: AuthState = initState,
   action: AuthAction,
 ) {
   switch (action.type) {
     case USER_LOGIN_ACTION:
-      return {...state, token: action.token, isLogin: true};
+      return { ...state, token: action.token, isLogin: true };
     case USER_LOGOUT_ACTION:
-      return {...state, token: null, isLogin: false};
+      return { ...state, token: null, isLogin: false };
     default:
       return state;
   }

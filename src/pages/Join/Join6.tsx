@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {BackgroundSection, Section} from '../../assets/styles/theme';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { BackgroundSection, Section } from '../../assets/styles/theme';
 import Fonts from '../../components/elements/Fonts';
-import {FryPan} from '../../components/elements/Images';
-import {RootState} from '../../redux/modules';
-import {userLogin} from '../../redux/modules/auth';
+import { FryPan } from '../../components/elements/Images';
+import { RootState } from '../../redux/modules';
+import { userLogin } from '../../redux/modules/auth';
 
 export default function Join6() {
   const dispatch = useDispatch();

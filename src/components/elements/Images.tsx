@@ -1,15 +1,15 @@
 import React from 'react';
-import {Image, ImageStyle} from 'react-native';
+import { Image, ImageStyle } from 'react-native';
 import styled from 'styled-components/native';
-import {Section, theme, vh, vw} from '../../assets/styles/theme';
-import {ImageStyleProps} from './interface';
+import { Section, theme, vh, vw } from '../../assets/styles/theme';
+import { ImageStyleProps } from './interface';
 
 export function FryPan() {
   return (
     <Section justify="flex-end" align="flex-end">
       <Image
         source={require('../../assets/images/FryPan.png')}
-        style={{width: 70 * vw, height: 27 * vh}}
+        style={{ width: 70 * vw, height: 27 * vh }}
         resizeMode="stretch"
       />
     </Section>
@@ -20,10 +20,46 @@ export function Hand() {
     <Section justify="flex-end" align="flex-end">
       <Image
         source={require('../../assets/images/Hand.png')}
-        style={{width: 40 * vw, height: 15 * vh}}
+        style={{ width: 40 * vw, height: 15 * vh }}
         resizeMode="contain"
       />
     </Section>
+  );
+}
+export function Star() {
+  return (
+    <StarContainer
+      source={require('../../assets/icons/star.png')}
+      // style={{width: 40 * vw, height: 15 * vh}}
+      resizeMode="contain"
+    />
+  );
+}
+export function Scrap() {
+  return (
+    <ScrapContainer
+      source={require('../../assets/icons/star.png')}
+      // style={{width: 40 * vw, height: 15 * vh}}
+      resizeMode="contain"
+    />
+  );
+}
+export function Time() {
+  return (
+    <ScrapContainer
+      source={require('../../assets/icons/time.png')}
+      // style={{width: 40 * vw, height: 15 * vh}}
+      resizeMode="contain"
+    />
+  );
+}
+export function Review() {
+  return (
+    <ScrapContainer
+      source={require('../../assets/icons/review.png')}
+      // style={{width: 40 * vw, height: 15 * vh}}
+      resizeMode="contain"
+    />
   );
 }
 export function NextArrow() {
@@ -43,7 +79,7 @@ export function PrevArrow() {
     />
   );
 }
-export function Check({color}: ImageStyleProps) {
+export function Check({ color }: ImageStyleProps) {
   return (
     <CheckContainer
       source={require('../../assets/icons/check.png')}
@@ -51,7 +87,7 @@ export function Check({color}: ImageStyleProps) {
     />
   );
 }
-export function Search({width, height, color}: ImageStyleProps) {
+export function Search({ width, height, color }: ImageStyleProps) {
   return (
     <ImageContainer
       source={require('../../assets/icons/search.png')}
@@ -75,12 +111,22 @@ const nextArrowStyle: ImageStyle = {
 };
 
 const ImageContainer = styled.Image<ImageStyleProps & ImageStyle>`
-  width: ${({Width}) => Width || '100%'};
-  height: ${({Height}) => Height || '100%'};
-  tint-color: ${({color}) => theme.color[color || 'black']};
+  width: ${({ Width }) => Width || '100%'};
+  height: ${({ Height }) => Height || '100%'};
+  tint-color: ${({ color }) => theme.color[color || 'black']};
 `;
 const CheckContainer = styled.Image<ImageStyleProps>`
   width: 70%;
   height: 60%;
-  tint-color: ${({color}) => theme.color[color || 'black']};
+  tint-color: ${({ color }) => theme.color[color || 'black']};
+`;
+const StarContainer = styled.Image<ImageStyleProps>`
+  /* justify-items: flex-end; */
+  margin-right: 10px;
+  width: 25px;
+  height: 25px;
+`;
+const ScrapContainer = styled.Image`
+  width: 40px;
+  height: 40px;
 `;

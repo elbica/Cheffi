@@ -1,30 +1,29 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import {Image, ImageStyle} from 'react-native';
-import styled, {css} from 'styled-components/native';
-import {homeIcons} from '../../assets/icons/icons';
-import {Section, vh, vw} from '../../assets/styles/theme';
+import { Image, ImageStyle, TouchableOpacity } from 'react-native';
+import styled, { css } from 'styled-components/native';
+import { homeIcons } from '../../assets/icons/icons';
+import { Section, vh, vw } from '../../assets/styles/theme';
+import { useRecipeCount } from '../../hooks/useRedux';
 import Divs from '../elements/Divs';
 import Fonts from '../elements/Fonts';
-import {CenterTouchOpacity, LeftTouchOpacity} from '../layout/PageMoveLayout';
+import { CenterTouchOpacity } from '../layout/PageMoveLayout';
 
 const TouchIconAndText = ({
   flexNumber,
   imageName,
   text,
-}: {
-  flexNumber: number;
-  imageName: string;
-  text: string;
-}) => {
+  onPress,
+}: TouchIconTextProps) => {
   return (
-    <LeftTouchOpacity goal="refrigerator">
+    <TouchableOpacity onPress={onPress}>
       <Section row flexNumber={flexNumber} justify="flex-start">
         <Image source={homeIcons[imageName]} style={IconStyleOption} />
         <Fonts padV="6%" lineHeight="medium">
           {text}
         </Fonts>
       </Section>
-    </LeftTouchOpacity>
+    </TouchableOpacity>
   );
 };
 const EmptyRefriger = () => {
@@ -46,35 +45,44 @@ const EmptyRefriger = () => {
   );
 };
 
-export default function MyRefriger({empty}) {
+const ExistRefirger = () => {
+  const recipeCount = useRecipeCount();
+  const navigation = useNavigation();
+  const handleNavigation = (goal: string) => navigation.jumpTo(goal);
+
+  return (
+    <>
+      <OrangeContainer row justify="flex-start">
+        <TouchIconAndText
+          imageName="homeIcon1"
+          text={'냉장고\n관리'}
+          onPress={() => handleNavigation('내 냉장고')}
+          flexNumber={1}
+        />
+        <Divider />
+        <TouchIconAndText
+          flexNumber={2}
+          imageName="homeIcon2"
+          onPress={() => handleNavigation('추천레시피')}
+          text={`${recipeCount} 개의 레시피를\n만들 수 있어요!`}
+        />
+      </OrangeContainer>
+      <OrangeContainer justify="flex-start" row>
+        <TouchIconAndText
+          flexNumber={1}
+          imageName="homeIcon3"
+          onPress={() => handleNavigation('내 냉장고')}
+          text={'이 재료로 어떤 음식을 만들 수 있을까?'}
+        />
+      </OrangeContainer>
+    </>
+  );
+};
+
+export default function MyRefriger({ empty }: { empty: boolean }) {
   return (
     <Container empty={empty}>
-      {empty ? (
-        <EmptyRefriger />
-      ) : (
-        <>
-          <OrangeContainer row justify="flex-start">
-            <TouchIconAndText
-              imageName="homeIcon1"
-              text={'냉장고\n관리'}
-              flexNumber={1}
-            />
-            <Divider />
-            <TouchIconAndText
-              flexNumber={2}
-              imageName="homeIcon2"
-              text={'100개의 레시피를\n만들 수 있어요!'}
-            />
-          </OrangeContainer>
-          <OrangeContainer justify="flex-start" row>
-            <TouchIconAndText
-              flexNumber={1}
-              imageName="homeIcon3"
-              text={'이 재료로 어떤 음식을 만들 수 있을까?'}
-            />
-          </OrangeContainer>
-        </>
-      )}
+      {empty ? <EmptyRefriger /> : <ExistRefirger />}
     </Container>
   );
 }
@@ -93,15 +101,15 @@ const Container: any = styled(Section)`
 const Divider = styled.View`
   width: 1px;
   height: ${7 * vh}px;
-  background: ${({theme}) => theme.color.black + '22'};
+  background: ${({ theme }) => theme.color.black + '22'};
   margin-left: ${3 * vw}px;
   margin-right: ${1 * vw}px;
 `;
 const OrangeContainer = styled(Section)`
-  border-color: ${({theme}) => theme.color.carrot + '77'};
+  border-color: ${({ theme }) => theme.color.carrot + '77'};
   border-radius: 16px;
   border-width: 1px;
-  background-color: ${({theme}) => theme.color.carrot + '22'};
+  background-color: ${({ theme }) => theme.color.carrot + '22'};
   margin: 2.2% 0;
   flex: 1;
 `;
@@ -119,3 +127,10 @@ const IconStyleOption: ImageStyle = {
   marginRight: 3 * vw,
   marginLeft: 4 * vw,
 };
+
+interface TouchIconTextProps {
+  flexNumber: number;
+  imageName: string;
+  text: string;
+  onPress: () => void;
+}
