@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BackgroundSection, Section } from '../../assets/styles/theme';
 import Fonts from '../../components/elements/Fonts';
 import { FryPan } from '../../components/elements/Images';
+import { sendForm } from '../../hooks/useAxios';
 import { RootState } from '../../redux/modules';
 import { userLogin } from '../../redux/modules/auth';
 
@@ -16,7 +17,9 @@ export default function Join6() {
      * 추후 axios를 이용해
      * formData를 백엔드로 보내야 한다.
      */
-    console.log(formData);
+    const result = sendForm({ like: formData?.like?.flat() });
+
+    console.log(formData, '\nreuslt: ', result);
     setNickname(formData.nickname || '');
     setTimeout(() => dispatch(userLogin('sohee')), 2000);
   }, []);

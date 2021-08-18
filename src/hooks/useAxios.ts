@@ -42,7 +42,7 @@ export const useRecipeNumber = (data?: Ingredients) => {
  * @returns 재료 배열로 만들 수 있는 레시피 배열
  */
 const getRecipeList = async (ingredients: Ingredients): Promise<Recipe[]> => {
-  const { data } = await axios.post('/ListPossiRP', ingredients);
+  const { data } = await axios.post('/ListPossiRPWithRecc', ingredients);
   return data;
 };
 
@@ -71,13 +71,15 @@ const getRecipeInfo = async (recipeId: { id: string }): Promise<RecipeInfo> => {
 };
 
 export const useRecipeInfo = (data: { id: string }) => {
-  return useQuery<RecipeInfo>(
-    ['RecipeInfot', data],
-    () => getRecipeInfo(data),
-    {
-      enabled: !!data,
-    },
-  );
+  return useQuery<RecipeInfo>(['RecipeInfo', data], () => getRecipeInfo(data), {
+    enabled: !!data,
+  });
+};
+
+export const sendForm = async (form: { like: string[] }): Promise<string[]> => {
+  const { data } = await axios.post('/SaveLikeDemo', form);
+  console.log(data);
+  return data;
 };
 
 interface Ingredients {

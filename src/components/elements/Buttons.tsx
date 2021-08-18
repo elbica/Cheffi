@@ -40,8 +40,8 @@ export function ActionButton({
   onPress,
   width = '100%',
   height = '0%',
-  marginV = '0%',
-  marginH = '0%',
+  // marginV = '0%',
+  // marginH = '0%',
   children = null,
   ...rest
 }: ActionButtonProps) {

@@ -147,43 +147,11 @@ const IngredientContainer = styled.View`
   flex-wrap: wrap;
 `;
 
-/* <SectionList
-        // style={{paddingTop: 200}}
-        contentContainerStyle={{paddingTop: 200}}
-        // horizontal
-        sections={ingre}
-        keyExtractor={(item, index) => item + index}
-        renderItem={({item, section: {title}}) =>
-          title === category || category === '전체' ? (
-            <ChipButton>
-              <Text children={item} />
-            </ChipButton>
-          ) : (
-            <Fonts color="deepGreen" children={item} />
-          )
-        }
-        renderSectionHeader={
-          ({section: {title}}) =>
-            title === category || category === '전체' ? (
-              // <Divs width="100%" height="20px">
-              <Fonts color="carrot">{title}</Fonts>
-            ) : (
-              // </Divs>
-              // <Divs width="100%" height="20px">
-              <Fonts color="citrus">{title}</Fonts>
-            )
-          // null
-          // </Divs>
-        }
-      />
-
-      <Fonts>{data.data}</Fonts> */
-
 /**
  * const handleSave = useCallback(
     () =>
       save([
-        { title: '가공식품', data: [] },
+        { title: '가공식품', data: ["스팸",'즉석밥','햇반',] },
         { title: '계란/유제품', data: ['계란', '달걀'] },
         { title: '과일류', data: [] },
         { title: '떡/밥/곡류', data: ['밥'] },
@@ -200,6 +168,10 @@ const IngredientContainer = styled.View`
             '배추김치',
             '두부',
             '무',
+            '다진마늘',
+            '김치',
+            '고구마',
+            
           ],
         },
         { title: '수산/건어물', data: ['오징어'] },
@@ -207,7 +179,7 @@ const IngredientContainer = styled.View`
         { title: '음료/주류', data: [] },
         {
           title: '장/양념/소스류',
-          data: ['소금', '후추', '설탕', '간장', '고춧가루', '식용유'],
+          data: ['소금', '후추', '설탕', '간장', '고춧가루', '식용유','진간장','올리고당',],
         },
         { title: '초콜릿/과자/견과류', data: [] },
         { title: '향신료/가루류', data: [] },
