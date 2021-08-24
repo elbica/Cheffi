@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import { useRefrigerIngredient } from './useRedux';
+import { API_URL } from '../../config';
 
-axios.defaults.baseURL = 'http://18.220.121.204:8080';
+axios.defaults.baseURL = API_URL;
 
 export const useTestAxios = () => {
   axios

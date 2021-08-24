@@ -6,16 +6,16 @@
  * @flow strict-local
  */
 import React from 'react';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import NavSelect from './NavSelect';
-import {store, persistor} from './redux/store';
-import {PersistGate} from 'redux-persist/lib/integration/react';
+import { store, persistor } from './redux/store';
+import { PersistGate } from 'redux-persist/lib/integration/react';
 import {
   NavigationContainer,
   NavigationContainerRef,
 } from '@react-navigation/native';
-import {useReduxDevToolsExtension} from '@react-navigation/devtools';
-import {useRef} from 'react';
+import { useReduxDevToolsExtension } from '@react-navigation/devtools';
+import { useRef } from 'react';
 
 const App: () => JSX.Element = () => {
   const navigationRef = useRef<NavigationContainerRef>(null);

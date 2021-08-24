@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import { IMAGE_HAEMUK_URL } from '../../../config';
 import { Section } from '../../assets/styles/theme';
 import { ImageButton } from '../elements/Buttons';
 import Divs, { RowDivs } from '../elements/Divs';
@@ -16,7 +17,7 @@ export default function RecipeThumbmail({
 }: RecipeThumbnailProps) {
   return (
     <ImageButton
-      uri={`https://cheffi.s3.ap-northeast-2.amazonaws.com/Image/Haemuk/${id}.jpg`}
+      uri={`${IMAGE_HAEMUK_URL}/${id}.jpg`}
       width="100%"
       height="200px"
       onPress={() => onPress(id)}
