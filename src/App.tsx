@@ -7,7 +7,7 @@
  */
 import React from 'react';
 import { Provider } from 'react-redux';
-import NavSelect from './NavSelect';
+import NavSelect from './navigators/NavSelect';
 import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import {
