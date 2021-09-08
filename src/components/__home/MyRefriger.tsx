@@ -4,7 +4,6 @@ import { Image, ImageStyle, TouchableOpacity } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import { homeIcons } from '../../assets/icons/icons';
 import { Section, vh, vw } from '../../assets/styles/theme';
-import { useTestAxios } from '../../hooks/useAxios';
 import { useRecipeCount } from '../../hooks/useRedux';
 import Divs from '../elements/Divs';
 import Fonts from '../elements/Fonts';
@@ -81,7 +80,7 @@ const ExistRefirger = () => {
 };
 
 export default function MyRefriger({ empty }: { empty: boolean }) {
-  useTestAxios();
+  // useTestAxios();
   return (
     <Container empty={empty}>
       {empty ? <EmptyRefriger /> : <ExistRefirger />}

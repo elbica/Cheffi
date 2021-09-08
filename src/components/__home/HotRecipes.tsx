@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import Fonts from '../elements/Fonts';
-import {ImageButton} from '../elements/Buttons';
+import { ImageButton } from '../elements/Buttons';
 
 const DUMMY_URI =
   'https://cheffi.s3.ap-northeast-2.amazonaws.com/Image/Haemuk/5549.jpg';

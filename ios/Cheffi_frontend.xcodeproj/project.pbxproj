@@ -145,7 +145,6 @@
 				687BBBEF4D63389723DF788F /* Pods-Cheffi_frontend-Cheffi_frontendTests.debug.xcconfig */,
 				B5BA4B829922838A0BB0DE5F /* Pods-Cheffi_frontend-Cheffi_frontendTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
