@@ -8,7 +8,7 @@ axios.defaults.baseURL = API_URL;
 
 export const useTestAxios = () => {
   axios
-    .get('/')
+    .post('/')
     .then(res => console.log(res))
     .catch(err => console.log(err));
 };
@@ -28,7 +28,7 @@ let recipeNumberTimer = Date.now();
  */
 const delayData = debounce(
   async ingre => {
-    const data = await axios.post('/NumPossiRP', ingre);
+    const data = await axios.post('/recipe/NumPossiRP', ingre);
     console.log('🍉delay call', data);
     return data;
   },
@@ -68,7 +68,7 @@ export const useRecipeNumber = (data?: Ingredients) => {
  * @returns 재료 배열로 만들 수 있는 레시피 배열
  */
 const getRecipeList = async (ingredients: Ingredients): Promise<Recipe[]> => {
-  const { data } = await axios.post('/ListPossiRPWithRecc', ingredients);
+  const { data } = await axios.post('/recipe/ListPossiRPWithRecc', ingredients);
   return data;
 };
 
@@ -93,7 +93,7 @@ export const useRecipeList = (data?: Ingredients) => {
  */
 
 const getRecipeInfo = async (recipeId: { id: string }): Promise<RecipeInfo> => {
-  const { data } = await axios.post('/ShowRPInspect', recipeId);
+  const { data } = await axios.post('/recipe/ShowRPInspect', recipeId);
   return data;
 };
 
@@ -105,7 +105,7 @@ export const useRecipeInfo = (data: { id: string }) => {
 };
 
 export const sendForm = async (form: { like: string[] }): Promise<string[]> => {
-  const { data } = await axios.post('/SaveLikeDemo', form);
+  const { data } = await axios.post('/user/SaveLikeDemo', form);
   console.log(data);
   return data;
 };
