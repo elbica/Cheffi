@@ -5,13 +5,13 @@ import { IntroPageProps } from './Interface';
 import styled from 'styled-components/native';
 import { ImageButton } from '../components/elements/Buttons';
 import { useDispatch } from 'react-redux';
-import { userLogin } from '../redux/modules/auth';
 import { LoginButtons } from '../assets/icons/icons';
 import {
   GoogleSignin,
   GoogleSigninButton,
 } from '@react-native-google-signin/google-signin';
 import { CLIENT_ID, IOS_ID } from '../../config';
+import { GoogleLogin, KakaoLogin } from '../hooks/useAuth';
 
 GoogleSignin.configure({
   webClientId: CLIENT_ID,
@@ -27,14 +27,19 @@ export default function IntroPage({ navigation }: IntroPageProps): JSX.Element {
     //로그인 처리를 한다
     // dispatch(userLogin('sohee'));
     try {
-      const user = await GoogleSignin.signIn();
-      const token = await GoogleSignin.getTokens();
-      console.log('user : ', user, '\ntoken : ', token);
-      dispatch(userLogin(user.user.email));
+      dispatch(await GoogleLogin());
     } catch (e) {
       console.log(e);
     }
   };
+  const kakaoCheck = async () => {
+    try {
+      dispatch(await KakaoLogin());
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  // const goJoin = () => navigation.navigate('join1');
   const dispatch = useDispatch();
 
   return (
@@ -49,7 +54,7 @@ export default function IntroPage({ navigation }: IntroPageProps): JSX.Element {
       </TestLogoSection>
       <LoginSection>
         <ImageButton
-          onPress={() => navigation.navigate('join1')}
+          onPress={kakaoCheck}
           height="60px"
           radius={0}
           children={
