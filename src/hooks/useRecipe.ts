@@ -37,7 +37,7 @@ const delayData = debounce(
 );
 
 const GetRecipeNumber = async (ingre: Ingredients): Promise<number> => {
-  // console.log('recipe number api call🍎');
+  console.log('recipe number api call🍎');
   // const { data } = await axios.post('/NumPossiRP', ingre);
 
   const { data } = await delayData(ingre);
@@ -75,7 +75,7 @@ const getRecipeList = async (ingredients: Ingredients): Promise<Recipe[]> => {
 export const useRecipeList = (data?: Ingredients) => {
   const ingre = useRefrigerIngredient();
   if (!data) data = { ingre };
-  // console.log('useRecipeList');
+  console.log('useRecipeList');
   return useQuery<Recipe[]>(
     ['RecipeList', data],
     () => getRecipeList(data as Ingredients),

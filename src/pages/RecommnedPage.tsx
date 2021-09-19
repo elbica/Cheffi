@@ -4,7 +4,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { AppWrap } from '../assets/styles/theme';
 import { ChipButton } from '../components/elements/Buttons';
 import RecipeThumbmail from '../components/__recommend/RecipeThumbnail';
-import { useRecipeList } from '../hooks/useAxios';
+import { useRecipeList } from '../hooks/useRecipe';
 import { useRecipeCount } from '../hooks/useRedux';
 
 export default function RecommendPage() {

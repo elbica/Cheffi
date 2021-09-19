@@ -7,7 +7,7 @@ import StackNavFactory from './StackNavFactory';
 import { TabScreenDataProps } from './Interface';
 import { Image, Platform } from 'react-native';
 import { icons } from '../assets/icons/icons';
-import { useRecipeList } from '../hooks/useAxios';
+import { useRecipeList } from '../hooks/useRecipe';
 
 const Tabs = createBottomTabNavigator();
 const tabBarOption: BottomTabBarOptions = {

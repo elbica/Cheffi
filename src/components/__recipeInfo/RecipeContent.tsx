@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 import styled from 'styled-components/native';
-import { useRecipeInfo } from '../../hooks/useAxios';
+import { useRecipeInfo } from '../../hooks/useRecipe';
 import { CircleButton } from '../elements/Buttons';
 import Divs, { RowDivs } from '../elements/Divs';
 import Fonts from '../elements/Fonts';

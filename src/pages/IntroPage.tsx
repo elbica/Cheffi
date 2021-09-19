@@ -11,7 +11,8 @@ import {
   GoogleSigninButton,
 } from '@react-native-google-signin/google-signin';
 import { CLIENT_ID, IOS_ID } from '../../config';
-import { GoogleLogin, KakaoLogin } from '../hooks/useAuth';
+import { GoogleLogin, KakaoLogin, SendToken } from '../hooks/useAuth';
+import { userLogin } from '../redux/modules/auth';
 
 GoogleSignin.configure({
   webClientId: CLIENT_ID,
@@ -20,19 +21,41 @@ GoogleSignin.configure({
 });
 
 export default function IntroPage({ navigation }: IntroPageProps): JSX.Element {
-  const authCheck = async () => {
+  const handleFlow = async (token: string) => {
+    const { newUser } = await SendToken(token);
+    if (newUser) {
+      navigation.navigate('join1');
+    } else {
+      dispatch(userLogin(token));
+    }
+    // return newUser;
+  };
+  const handleGoogleLogin = async () => {
     //카카오 또는 구글 로그인이 됐을 경우
     //asychStroage에 토큰 저장한 후
     //초기 프로필 정보를 입력한 후
     //로그인 처리를 한다
     // dispatch(userLogin('sohee'));
     try {
+      const user = await GoogleSignin.signIn();
+      const token = await GoogleSignin.getTokens();
+      console.log('user : ', user, '\ntoken : ', token);
+      // const { newUser } = await SendToken(token.idToken);
+      // return userLogin(user.user.email);
+      if (handleFlow(token.idToken)) {
+      }
+    } catch (e) {
+      console.log(e);
+      throw new Error('google login failed.');
+    }
+
+    try {
       dispatch(await GoogleLogin());
     } catch (e) {
       console.log(e);
     }
   };
-  const kakaoCheck = async () => {
+  const handleKakaoLogin = async () => {
     try {
       dispatch(await KakaoLogin());
     } catch (e) {
@@ -54,7 +77,7 @@ export default function IntroPage({ navigation }: IntroPageProps): JSX.Element {
       </TestLogoSection>
       <LoginSection>
         <ImageButton
-          onPress={kakaoCheck}
+          onPress={handleKakaoLogin}
           height="60px"
           radius={0}
           children={
@@ -81,7 +104,7 @@ export default function IntroPage({ navigation }: IntroPageProps): JSX.Element {
           // style={{ width: 192, height: 48 }}
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Light}
-          onPress={authCheck}
+          onPress={handleGoogleLogin}
         />
       </LoginSection>
     </WrapSection>

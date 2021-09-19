@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BackgroundSection, Section } from '../../assets/styles/theme';
 import Fonts from '../../components/elements/Fonts';
 import { FryPan } from '../../components/elements/Images';
-import { sendForm } from '../../hooks/useAxios';
+import { sendForm } from '../../hooks/useRecipe';
 import { RootState } from '../../redux/modules';
 import { userLogin } from '../../redux/modules/auth';
 
