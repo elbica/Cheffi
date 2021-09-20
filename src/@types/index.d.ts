@@ -32,3 +32,21 @@ declare interface Recipe {
 declare interface RecipeInfo extends Recipe {
   ingredient: string[];
 }
+declare interface AuthResult {
+  auth: {
+    newUser: boolean;
+    token: string;
+  };
+  info: {
+    email: string;
+    nickname?: string;
+    statusMessage?: string;
+    photo?: string;
+    dislikeIngredient?: string[];
+    scrapRecipesId?: string[];
+    likeRecipesId?: string[];
+    historyRecipesId?: string[];
+    refriger?: { title: string; data: string[] }[];
+  };
+  error?: string;
+}

@@ -3,6 +3,7 @@ const USER_PROFILE_ACTION = 'user/PROFILE' as const;
 const USER_SCRAPRECIPE_ACTION = 'user/SCRAPRECIPE' as const;
 const USER_LIKERECIPE_ACTION = 'user/LIKERECIPE' as const;
 const USER_HISTORYRECIPE_ACTION = 'user/HISTORYRECIPE' as const;
+const USER_INIT_ACTION = 'user/INIT' as const;
 
 const initState = {
   recipeCount: 0,
@@ -22,6 +23,10 @@ const initState = {
  * @returns 액션 객체
  *
  */
+export const userInit = (init: UserState) => ({
+  type: USER_INIT_ACTION,
+  payload: init,
+});
 export const userRecipeCount = (recipeCount: number) => ({
   type: USER_RECIPECOUNT_ACTION,
   payload: recipeCount,
@@ -51,11 +56,11 @@ type UserProfile = {
 };
 export type UserState = {
   [key: string]: any;
-  recipeCount: number;
+  recipeCount?: number;
   email: string;
-  scrapRecipesId: string[];
-  likeRecipesId: string[];
-  historyRecipesId: string[];
+  scrapRecipesId?: string[];
+  likeRecipesId?: string[];
+  historyRecipesId?: string[];
 } & UserProfile;
 type UserAction = ReturnType<
   | typeof userRecipeCount
@@ -63,6 +68,7 @@ type UserAction = ReturnType<
   | typeof userLikeRecipe
   | typeof userHistoryRecipe
   | typeof userScrapRecipe
+  | typeof userInit
 >;
 
 export default function reducer(
@@ -73,6 +79,7 @@ export default function reducer(
     case USER_RECIPECOUNT_ACTION:
       return { ...state, recipeCount: action.payload };
     case USER_PROFILE_ACTION:
+    case USER_INIT_ACTION:
       return { ...state, ...action.payload };
     case USER_HISTORYRECIPE_ACTION:
     case USER_LIKERECIPE_ACTION:
@@ -84,6 +91,7 @@ export default function reducer(
           action.payload.recipeId,
         ],
       };
+
     default:
       return state;
   }

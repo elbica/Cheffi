@@ -1,59 +1,37 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import {
-  getProfile,
-  KakaoOAuthToken,
-  KakaoProfile,
-  login,
-} from '@react-native-seoul/kakao-login';
+import { KakaoOAuthToken, login } from '@react-native-seoul/kakao-login';
 import axios from 'axios';
 import { API_URL } from '../../config';
-import { userLogin } from '../redux/modules/auth';
-import { UserState } from '../redux/modules/user';
 axios.defaults.baseURL = API_URL;
 
-export const GoogleLogin = async () => {
+/**
+ * @description,
+ *  1. 로그인 시도
+ *  2. 토큰 서버에서 검증하고 결과 객체 리턴, 오류 발생 시 throw error
+ *  3. user redux dispatch
+ *  3-1. newUser 여부 따라 navigate로 회원가입 분기, 회원가입 완료 후 auth redux dispatch
+ *  3-2. 기존 유저일 경우 바로 auth redux dispatch
+ *
+ * @returns AUTH_RESULT | ERROR
+ */
+export const GoogleLogin = async (): Promise<AuthResult> => {
   try {
     const user = await GoogleSignin.signIn();
-    const token = await GoogleSignin.getTokens();
-    console.log('user : ', user, '\ntoken : ', token);
-    console.log(
-      (
-        await axios.get(
-          `https://oauth2.googleapis.com/tokeninfo?id_token=${token.idToken}`,
-        )
-      ).data,
-    );
-
-    return userLogin(user.user.email);
+    const { data } = await axios.post('/Auth/google', { it: user.idToken });
+    return data;
   } catch (e) {
-    console.log(e);
     throw new Error('google login failed.');
   }
 };
 
-export const KakaoLogin = async () => {
+export const KakaoLogin = async (): Promise<AuthResult> => {
   try {
     const token: KakaoOAuthToken = await login();
-    const profile: KakaoProfile = await getProfile();
-    console.log(token, '\n', profile);
-    return userLogin(profile.email);
+    const { data } = await axios.post('/Auth/kakao', { at: token.accessToken });
+    return data;
   } catch (e) {
-    console.log(e);
     throw new Error('kakao login failed.');
   }
-};
-
-/**
- *
- * @param token access token or id token
- * @returns data : newUser 여부 및 redux user 정보
- * db에 등록된 유저이면 redis token 갱신 후 바로 로그인 창으로, 없는 유저이면 회원가입 창으로
- */
-export const SendToken = async (
-  token: string,
-): Promise<{ newUser: boolean } & UserState> => {
-  const { data } = await axios.post('/user/test', token);
-  return data;
 };
 
 /**

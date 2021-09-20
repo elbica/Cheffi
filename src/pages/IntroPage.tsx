@@ -1,7 +1,6 @@
 import React from 'react';
 import { Image } from 'react-native';
 import { Section, vw } from '../assets/styles/theme';
-import { IntroPageProps } from './Interface';
 import styled from 'styled-components/native';
 import { ImageButton } from '../components/elements/Buttons';
 import { useDispatch } from 'react-redux';
@@ -11,8 +10,10 @@ import {
   GoogleSigninButton,
 } from '@react-native-google-signin/google-signin';
 import { CLIENT_ID, IOS_ID } from '../../config';
-import { GoogleLogin, KakaoLogin, SendToken } from '../hooks/useAuth';
+import { GoogleLogin, KakaoLogin } from '../hooks/useAuth';
+import { useNavigation } from '@react-navigation/core';
 import { userLogin } from '../redux/modules/auth';
+import { userInit } from '../redux/modules/user';
 
 GoogleSignin.configure({
   webClientId: CLIENT_ID,
@@ -20,50 +21,53 @@ GoogleSignin.configure({
   offlineAccess: true,
 });
 
-export default function IntroPage({ navigation }: IntroPageProps): JSX.Element {
-  const handleFlow = async (token: string) => {
-    const { newUser } = await SendToken(token);
-    if (newUser) {
+const MOCK_AUTH_RESULT: AuthResult = {
+  auth: {
+    newUser: false,
+    token: 'test_token',
+  },
+  info: { email: 'test_email' },
+};
+
+export default function IntroPage(): JSX.Element {
+  console.log('intro log');
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const handleFlow = async (result: AuthResult) => {
+    /**
+     * @todo 임시 유저 데이터 사용
+     *
+     * 3-1. newUser 여부 따라 navigate로 회원가입 분기, 회원가입 완료 후 auth redux dispatch
+     * 3-2. 기존 유저일 경우 바로 auth redux dispatch
+     */
+    dispatch(userInit(MOCK_AUTH_RESULT.info));
+    if (MOCK_AUTH_RESULT.auth.newUser) {
+      dispatch(
+        userLogin({ token: MOCK_AUTH_RESULT.auth.token, isLogin: false }),
+      );
       navigation.navigate('join1');
     } else {
-      dispatch(userLogin(token));
+      dispatch(
+        userLogin({ token: MOCK_AUTH_RESULT.auth.token, isLogin: true }),
+      );
     }
-    // return newUser;
   };
   const handleGoogleLogin = async () => {
-    //카카오 또는 구글 로그인이 됐을 경우
-    //asychStroage에 토큰 저장한 후
-    //초기 프로필 정보를 입력한 후
-    //로그인 처리를 한다
-    // dispatch(userLogin('sohee'));
     try {
-      const user = await GoogleSignin.signIn();
-      const token = await GoogleSignin.getTokens();
-      console.log('user : ', user, '\ntoken : ', token);
-      // const { newUser } = await SendToken(token.idToken);
-      // return userLogin(user.user.email);
-      if (handleFlow(token.idToken)) {
-      }
-    } catch (e) {
-      console.log(e);
-      throw new Error('google login failed.');
-    }
-
-    try {
-      dispatch(await GoogleLogin());
+      const AuthResult = await GoogleLogin();
+      handleFlow(AuthResult);
     } catch (e) {
       console.log(e);
     }
   };
   const handleKakaoLogin = async () => {
     try {
-      dispatch(await KakaoLogin());
+      const AuthResult = await KakaoLogin();
+      handleFlow(AuthResult);
     } catch (e) {
       console.log(e);
     }
   };
-  // const goJoin = () => navigation.navigate('join1');
-  const dispatch = useDispatch();
 
   return (
     <WrapSection flexNumber={1}>
@@ -88,18 +92,6 @@ export default function IntroPage({ navigation }: IntroPageProps): JSX.Element {
             />
           }
         />
-        {/* <ImageButton
-          onPress={() => navigation.navigate('join1')}
-          height="70px"
-          radius={2}
-          children={
-            <Image
-              source={LoginButtons.google}
-              style={{ width: 80 * vw }}
-              resizeMode="contain"
-            />
-          }
-        /> */}
         <GoogleSigninButton
           // style={{ width: 192, height: 48 }}
           size={GoogleSigninButton.Size.Wide}

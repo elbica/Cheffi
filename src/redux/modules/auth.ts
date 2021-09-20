@@ -6,9 +6,9 @@ const initState = {
   isLogin: false,
 };
 
-export const userLogin = (token: any) => ({
+export const userLogin = (payload: { isLogin: boolean; token?: string }) => ({
   type: USER_LOGIN_ACTION,
-  token,
+  payload,
 });
 export const userLogout = () => ({
   type: USER_LOGOUT_ACTION,
@@ -27,7 +27,7 @@ export default function reducer(
 ) {
   switch (action.type) {
     case USER_LOGIN_ACTION:
-      return { ...state, token: action.token, isLogin: true };
+      return { ...state, ...action.payload };
     case USER_LOGOUT_ACTION:
       return { ...state, token: null, isLogin: false };
     default:

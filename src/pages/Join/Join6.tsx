@@ -14,14 +14,15 @@ export default function Join6() {
   useEffect(() => {
     /**
      * @todo
-     * 추후 axios를 이용해
-     * formData를 백엔드로 보내야 한다.
+     * 추후 axios를 이용해 formData를 백엔드로 보내야 한다
+     * formData를 user redux에 저장해야 한다
+     * formData 구조를 바꿔야 한다
      */
     const result = sendForm({ like: formData?.like?.flat() });
 
     console.log(formData, '\nreuslt: ', result);
     setNickname(formData.nickname || '');
-    setTimeout(() => dispatch(userLogin('sohee')), 2000);
+    setTimeout(() => dispatch(userLogin({ isLogin: true })), 2000);
   }, []);
 
   return (

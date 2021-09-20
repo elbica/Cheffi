@@ -68,7 +68,7 @@ export const useRecipeNumber = (data?: Ingredients) => {
  * @returns 재료 배열로 만들 수 있는 레시피 배열
  */
 const getRecipeList = async (ingredients: Ingredients): Promise<Recipe[]> => {
-  const { data } = await axios.post('/recipe/ListPossiRPWithRecc', ingredients);
+  const { data } = await axios.post('/recipe/ListPossiRP', ingredients);
   return data;
 };
 
