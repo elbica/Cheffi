@@ -18,6 +18,7 @@ export const GoogleLogin = async (): Promise<AuthResult> => {
   try {
     const user = await GoogleSignin.signIn();
     const { data } = await axios.post('/Auth/google', { it: user.idToken });
+    // console.log('user: ', user, '\n backend: ', data);
     return data;
   } catch (e) {
     console.log(e);
@@ -29,7 +30,7 @@ export const KakaoLogin = async (): Promise<AuthResult> => {
   try {
     const token: KakaoOAuthToken = await login();
     const { data } = await axios.post('/Auth/kakao', { at: token.accessToken });
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (e) {
     console.log(e);
