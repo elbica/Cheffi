@@ -16,7 +16,15 @@ import {
 } from '@react-navigation/native';
 import { useReduxDevToolsExtension } from '@react-navigation/devtools';
 import { useRef } from 'react';
+import { LogBox } from 'react-native';
 
+/**
+ * @description
+ * android setTimeout warning
+ * 일단 로그를 무시하게 했다
+ * 추후 react native 0.65버전으로 업데이트 하면 고쳐질듯
+ */
+LogBox.ignoreLogs(['Setting a timer for a long period of time']);
 const App: () => JSX.Element = () => {
   const navigationRef = useRef<NavigationContainerRef>(null);
 

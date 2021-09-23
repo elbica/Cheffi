@@ -20,6 +20,7 @@ export const GoogleLogin = async (): Promise<AuthResult> => {
     const { data } = await axios.post('/Auth/google', { it: user.idToken });
     return data;
   } catch (e) {
+    console.log(e);
     throw new Error('google login failed.');
   }
 };
@@ -28,8 +29,10 @@ export const KakaoLogin = async (): Promise<AuthResult> => {
   try {
     const token: KakaoOAuthToken = await login();
     const { data } = await axios.post('/Auth/kakao', { at: token.accessToken });
+    console.log(data);
     return data;
   } catch (e) {
+    console.log(e);
     throw new Error('kakao login failed.');
   }
 };
