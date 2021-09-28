@@ -36,9 +36,9 @@ declare interface AuthResult {
   auth: {
     newUser: boolean;
     token: string;
+    platform: string;
   };
   info: {
-    email: string;
     nickname?: string;
     statusMessage?: string;
     photo?: string;
@@ -49,4 +49,8 @@ declare interface AuthResult {
     refriger?: { title: string; data: string[] }[];
   };
   error?: string;
+}
+
+declare interface Ingredients {
+  ingre: string[];
 }

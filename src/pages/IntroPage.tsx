@@ -10,10 +10,10 @@ import {
   GoogleSigninButton,
 } from '@react-native-google-signin/google-signin';
 import { CLIENT_ID, IOS_ID } from '../../config';
-import { GoogleLogin, KakaoLogin } from '../hooks/useAuth';
 import { useNavigation } from '@react-navigation/core';
 import { userLogin } from '../redux/modules/auth';
 import { userInit } from '../redux/modules/user';
+import { GoogleLogin, KakaoLogin } from '../api';
 
 GoogleSignin.configure({
   webClientId: CLIENT_ID,
@@ -23,17 +23,18 @@ GoogleSignin.configure({
 
 const MOCK_AUTH_RESULT: AuthResult = {
   auth: {
-    newUser: false,
+    newUser: true,
     token: 'test_token',
+    platform: 'test_platform',
   },
-  info: { email: 'test_email' },
+  info: {},
 };
 
 export default function IntroPage(): JSX.Element {
   console.log('intro log');
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const handleFlow = async (result: AuthResult) => {
+  const handleFlow = async (result: AuthResult, platform: string) => {
     /**
      * @todo 임시 유저 데이터 사용
      *
@@ -43,19 +44,27 @@ export default function IntroPage(): JSX.Element {
     dispatch(userInit(MOCK_AUTH_RESULT.info));
     if (MOCK_AUTH_RESULT.auth.newUser) {
       dispatch(
-        userLogin({ token: MOCK_AUTH_RESULT.auth.token, isLogin: false }),
+        userLogin({
+          token: MOCK_AUTH_RESULT.auth.token,
+          isLogin: false,
+          platform,
+        }),
       );
       navigation.navigate('join1');
     } else {
       dispatch(
-        userLogin({ token: MOCK_AUTH_RESULT.auth.token, isLogin: true }),
+        userLogin({
+          token: MOCK_AUTH_RESULT.auth.token,
+          isLogin: true,
+          platform,
+        }),
       );
     }
   };
   const handleGoogleLogin = async () => {
     try {
       const AuthResult = await GoogleLogin();
-      handleFlow(AuthResult);
+      handleFlow(AuthResult, 'google');
     } catch (e) {
       console.log(e);
     }
@@ -63,7 +72,7 @@ export default function IntroPage(): JSX.Element {
   const handleKakaoLogin = async () => {
     try {
       const AuthResult = await KakaoLogin();
-      handleFlow(AuthResult);
+      handleFlow(AuthResult, 'kakao');
     } catch (e) {
       console.log(e);
     }

@@ -9,7 +9,6 @@ const initState = {
   recipeCount: 0,
   nickname: '익명',
   statusMessage: '안녕하세요',
-  email: 'email@cheffi.com',
   photo: 's3.url.com',
   dislikeIngredeint: ['민트', '당근'],
   scrapRecipesId: ['1', '2'],
@@ -57,7 +56,6 @@ type UserProfile = {
 export type UserState = {
   [key: string]: any;
   recipeCount?: number;
-  email: string;
   scrapRecipesId?: string[];
   likeRecipesId?: string[];
   historyRecipesId?: string[];

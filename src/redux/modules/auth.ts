@@ -4,9 +4,14 @@ const USER_LOGOUT_ACTION = 'auth/LOGOUT' as const;
 const initState = {
   token: null,
   isLogin: false,
+  platform: 'testPlatform',
 };
 
-export const userLogin = (payload: { isLogin: boolean; token?: string }) => ({
+export const userLogin = (payload: {
+  isLogin: boolean;
+  token?: string;
+  platform?: string;
+}) => ({
   type: USER_LOGIN_ACTION,
   payload,
 });
@@ -17,6 +22,7 @@ export const userLogout = () => ({
 type AuthState = {
   token: any;
   isLogin: boolean;
+  platform: string;
 };
 
 type AuthAction = ReturnType<typeof userLogin> | ReturnType<typeof userLogout>;
@@ -29,7 +35,7 @@ export default function reducer(
     case USER_LOGIN_ACTION:
       return { ...state, ...action.payload };
     case USER_LOGOUT_ACTION:
-      return { ...state, token: null, isLogin: false };
+      return { ...state, token: null, isLogin: false, platform: 'null' };
     default:
       return state;
   }

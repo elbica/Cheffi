@@ -21,7 +21,12 @@ import { InputEvent } from '../elements/interface';
  * 버튼 개수 * 2 - 1 만큼 호출된다. 어떻게 해결할까?
  */
 
-const DislikeChip = ({ handleChange, idx, text, setArray }: DislikeChipProps) => {
+const DislikeChip = ({
+  handleChange,
+  idx,
+  text,
+  setArray,
+}: DislikeChipProps) => {
   useEffect(() => {
     handleChange(idx, text);
     return () => handleChange(idx);
@@ -71,7 +76,12 @@ export default function SelectDislike() {
                    * props가 중간에 React.cloneElement로 전달될 때는
                    * 타입을 어떻게 정의해야 할까?
                    * */
-                  <DislikeChip text={dislike} key={idx} idx={idx} setArray={setDislikeArray} />
+                  <DislikeChip
+                    text={dislike}
+                    key={idx}
+                    idx={idx}
+                    setArray={setDislikeArray}
+                  />
                 ))}
               </DislikeInputSet>
             </CenterDivs>

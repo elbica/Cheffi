@@ -9,11 +9,16 @@ import { FormElementProps } from '../elements/interface';
 
 export default function SelectLike() {
   return (
-    <Form formName="like">
+    <Form formName="likeRecipesId">
       {({ formName }) => (
         <>
           <Section justify="flex-start">
-            <Fonts size="large" color="tableBlack" padV="10%" center lineHeight="xlarge">
+            <Fonts
+              size="large"
+              color="tableBlack"
+              padV="10%"
+              center
+              lineHeight="xlarge">
               {'이중에 좋아하시는 음식이\n있다면 골라주세요.'}
             </Fonts>
             <FormScrollContainer formName={formName}>
@@ -37,7 +42,10 @@ export default function SelectLike() {
   );
 }
 
-export const FormScrollContainer = ({ formName, children }: FormElementProps) => {
+export const FormScrollContainer = ({
+  formName,
+  children,
+}: FormElementProps) => {
   const addFormChildren = useFormContainer(children, formName);
 
   return (

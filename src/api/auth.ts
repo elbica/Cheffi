@@ -1,8 +1,10 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { KakaoOAuthToken, login } from '@react-native-seoul/kakao-login';
-import axios from 'axios';
-import { API_URL } from '../../config';
-axios.defaults.baseURL = API_URL;
+import {
+  KakaoOAuthToken,
+  login,
+  logout,
+} from '@react-native-seoul/kakao-login';
+import API from '../api';
 
 /**
  * @description,
@@ -14,27 +16,52 @@ axios.defaults.baseURL = API_URL;
  *
  * @returns AUTH_RESULT | ERROR
  */
+
 export const GoogleLogin = async (): Promise<AuthResult> => {
   try {
     const user = await GoogleSignin.signIn();
-    const { data } = await axios.post('/Auth/google', { it: user.idToken });
+    const { data } = await API.post<AuthResult>('/Auth/google', {
+      it: user.idToken,
+    });
     // console.log('user: ', user, '\n backend: ', data);
+    API.defaults.headers.Authorization = `Bearer ${data.auth.token}`;
     return data;
   } catch (e) {
     console.log(e);
     throw new Error('google login failed.');
   }
 };
+export const GoogleLogout = async () => {
+  try {
+    await GoogleSignin.signOut();
+    API.defaults.headers.Authorization = '';
+  } catch (e) {
+    console.log(e);
+    throw new Error('google logout failed.');
+  }
+};
 
 export const KakaoLogin = async (): Promise<AuthResult> => {
   try {
     const token: KakaoOAuthToken = await login();
-    const { data } = await axios.post('/Auth/kakao', { at: token.accessToken });
+    const { data } = await API.post<AuthResult>('/Auth/kakao', {
+      at: token.accessToken,
+    });
     // console.log(data);
+    API.defaults.headers.Authorization = `Bearer ${data.auth.token}`;
     return data;
   } catch (e) {
     console.log(e);
     throw new Error('kakao login failed.');
+  }
+};
+export const KakaoLogout = async () => {
+  try {
+    console.log('kakao logout: ', await logout());
+    API.defaults.headers.Authorization = '';
+  } catch (e) {
+    console.log(e);
+    throw new Error('kakao logout failed.');
   }
 };
 
@@ -57,10 +84,22 @@ export const KakaoLogin = async (): Promise<AuthResult> => {
  * }
  *
  *
- * @fail sns 로그인 실패 (token 검증 실패)
- * @returns
+ * @description 401, unauthorized
+ * @response
  * {
  *    error: string
+ *    type: EXPIRE_TOKEN | INVALID_TOKEN
  * }
+ * @flow
+ *  expire : 자동 로그인해서 토큰 갱신 후 다시 요청
+ *  invalid : 초기 화면으로 이동
+ *
+ *
+ * @description 403, forbidden
+ * @response
+ * {
+ *    error: "권한이 없습니다."
+ * }
+ *
  *
  */

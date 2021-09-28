@@ -3,23 +3,30 @@ import React from 'react';
 import { Section } from '../../assets/styles/theme';
 import { CheckBoxButton } from '../elements/Buttons';
 import Fonts from '../elements/Fonts';
-import { Form, NextSubmit, FormViewContainer, FormSelectButton } from '../elements/Forms';
+import {
+  Form,
+  NextSubmit,
+  FormViewContainer,
+  FormSelectButton,
+} from '../elements/Forms';
 
 const CheckBoxes = () => {
   const navigation = useNavigation();
   return (
-    <Section flexNumber="0.3" align="flex-start" justify="flex-start">
+    <Section flexNumber="0.35" align="flex-start" justify="flex-start">
       <CheckBoxButton
-        children=" 이 음식은 못 먹어요."
+        children="못 먹거나 싫어하는 재료가 있어요."
         size="medium"
-        onPress={() => navigation.navigate('join4', { formName: 'dislike' })}
+        onPress={() =>
+          navigation.navigate('join4', { formName: 'dislikeIngredient' })
+        }
       />
-      <CheckBoxButton
+      {/* <CheckBoxButton
         marginV="20px"
         children=" 알러지가 있어요."
         size="medium"
         onPress={() => navigation.navigate('join4', { formName: 'allergy' })}
-      />
+      /> */}
     </Section>
   );
 };
@@ -30,12 +37,22 @@ export default function SelectProblem() {
       {({ formName }) => (
         <Section flexNumber="7" width="85%" margins="0 auto">
           <Section justify="flex-start">
-            <Fonts size="large" color="tableBlack" padV="4%" center lineHeight="xlarge">
+            <Fonts
+              size="large"
+              color="tableBlack"
+              padV="4%"
+              center
+              lineHeight="xlarge">
               {'아래에 해당사항이\n있으시다면 선택하여 주세요.'}
             </Fonts>
             <FormViewContainer formName={formName}>
               {problemText.map(({ text, width }, idx) => (
-                <FormSelectButton key={idx} idx={idx} children={text} width={width} />
+                <FormSelectButton
+                  key={idx}
+                  idx={idx}
+                  children={text}
+                  width={width}
+                />
               ))}
             </FormViewContainer>
           </Section>
