@@ -7,7 +7,7 @@ export const setRefriger = (ingredients: RefrigerState) => ({
   payload: ingredients,
 });
 
-export type RefrigerState = Category[];
+type RefrigerState = Category[];
 type RefrigerAction = ReturnType<typeof setRefriger>;
 
 export default function reducer(

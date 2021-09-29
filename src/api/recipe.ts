@@ -24,8 +24,6 @@ const delayData = debounce(
 
 export const getRecipeNumber = async (ingre: Ingredients): Promise<number> => {
   console.log('recipe number api call🍎');
-  // const { data } = await API.post('/NumPossiRP', ingre);
-
   const { data } = await delayData(ingre);
   return data;
 };

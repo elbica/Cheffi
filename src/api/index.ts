@@ -3,6 +3,7 @@ import { API_URL } from '../../config';
 import { GoogleLogin, KakaoLogin, GoogleLogout, KakaoLogout } from './auth';
 import { sendForm } from './form';
 import { getRecipeInfo, getRecipeList, getRecipeNumber } from './recipe';
+import { patchRefriger, patchRecipeCount } from './user';
 
 export enum API_ERROR_TYPE {
   EXPIRE,
@@ -44,27 +45,33 @@ API.interceptors.response.use(
     if (axios.isAxiosError(err)) {
       const status = err.response?.status;
       const type: API_ERROR_TYPE = err.response?.data.type;
+      let ret: API_ERROR | undefined;
       if (status === 401) {
         /**
          * @todo type에 따라서 자동 로그인 또는 초기 화면으로 이동하기
          */
 
-        const ret: API_ERROR = {
+        ret = {
           message: '❌인증이 필요합니다',
           type,
         };
-        return Promise.reject(ret);
       } else if (status === 403) {
         /**
          * @todo 사용자에게 권한 없다는 알림창 띄우기
          */
 
-        const ret: API_ERROR = {
+        ret = {
           message: '❗️권한이 필요합니다',
           type: API_ERROR_TYPE.FORBIDDEN,
         };
-        return Promise.reject(ret);
+      } else {
+        ret = {
+          message: '❓알 수 없는 오류',
+          type: API_ERROR_TYPE.FORBIDDEN,
+        };
       }
+      console.log('api err : ', ret, '\nmessage', err);
+      return Promise.reject(ret);
     }
   },
 );
@@ -73,3 +80,4 @@ export default API;
 export { sendForm };
 export { getRecipeInfo, getRecipeList, getRecipeNumber };
 export { GoogleLogin, KakaoLogin, GoogleLogout, KakaoLogout };
+export { patchRecipeCount, patchRefriger };
