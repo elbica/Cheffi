@@ -3,25 +3,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BackgroundSection, Section } from '../../assets/styles/theme';
 import Fonts from '../../components/elements/Fonts';
 import { FryPan } from '../../components/elements/Images';
-import { sendForm } from '../../hooks/useAxios';
 import { RootState } from '../../redux/modules';
 import { userLogin } from '../../redux/modules/auth';
 
 export default function Join6() {
   const dispatch = useDispatch();
   const formData = useSelector((state: RootState) => state.form);
+
   const [nickName, setNickname] = useState('');
   useEffect(() => {
-    /**
-     * @todo
-     * 추후 axios를 이용해
-     * formData를 백엔드로 보내야 한다.
-     */
-    const result = sendForm({ like: formData?.like?.flat() });
+    const sendFormData = async () => {
+      /**
+       * @todo
+       * 추후 axios를 이용해 formData를 백엔드로 보내야 한다
+       * formData를 user redux에 저장해야 한다
+       */
+      // const result = await sendForm({ like: formData?.likeRecipesId?.flat() });
 
-    console.log(formData, '\nreuslt: ', result);
-    setNickname(formData.nickname || '');
-    setTimeout(() => dispatch(userLogin('sohee')), 2000);
+      // console.log(formData, '\nreuslt: ', result);
+      setNickname(formData.nickname || '');
+      setTimeout(() => dispatch(userLogin({ isLogin: true })), 2000);
+    };
+    sendFormData();
   }, []);
 
   return (

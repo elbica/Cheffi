@@ -129,6 +129,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+   
 
     defaultConfig {
         applicationId "com.cheffi_frontend"
@@ -187,9 +188,11 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'   
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-
+//   implementation "com.kakao.sdk:v2-user:2.8.0" // 카카오 로그인
+//   implementation "com.kakao.sdk:v2-talk:2.8.0" // 친구, 메시지(카카오톡)
+//   implementation "com.kakao.sdk:v2-link:2.8.0" // 메시지(카카오링크)
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
     }
@@ -220,3 +223,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+apply plugin: 'com.google.gms.google-services' // <--- this should be the last line

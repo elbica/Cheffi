@@ -32,3 +32,29 @@ declare interface Recipe {
 declare interface RecipeInfo extends Recipe {
   ingredient: string[];
 }
+
+//error 속성 삭제, 실패 시 http status 4xx로 변경 및 에러 메세지 보내기
+declare interface AuthResult {
+  auth: {
+    newUser: boolean;
+    token: string; //암호화를 하면 프론트에서 따로 저쟝해야 함
+    platform: string;
+  };
+  info: {
+    recipeCount: number; //만들 수 있는 레시피 개수
+    nickname: string;
+    statusMessage: string;
+    photo: string;
+    dislikeIngredient: string[];
+    scrapRecipesId: string[];
+    likeRecipesId: string[];
+    historyRecipesId: string[];
+  };
+  refriger: { title: string; data: string[] }[];
+}
+
+declare interface Ingredients {
+  ingre: string[];
+}
+
+declare type Refriger = Category[];

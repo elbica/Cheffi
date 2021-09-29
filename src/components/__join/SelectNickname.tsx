@@ -12,7 +12,10 @@ export default function SelectNickname() {
             <Fonts size="xlarge" color="tableBlack" padV="7%" center>
               당신의 닉네임은?
             </Fonts>
-            <FormInputText formName={formName} placeholder="닉네임을 입력해주세요." />
+            <FormInputText
+              formName={formName}
+              placeholder="닉네임을 입력해주세요."
+            />
           </Section>
           <Section row justify="flex-end" flexNumber={0.5} paddings="0% 8%">
             <NextSubmit goal="join2" />

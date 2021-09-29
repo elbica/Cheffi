@@ -1,8 +1,9 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { patchRecipeCount, patchRefriger } from '../api';
 import { RootState } from '../redux/modules';
 import { setIngredient } from '../redux/modules/ingredient';
-import { RefrigerState, setRefriger } from '../redux/modules/refriger';
+import { setRefriger } from '../redux/modules/refriger';
 import { userRecipeCount } from '../redux/modules/user';
 
 /**
@@ -21,15 +22,21 @@ export const useIngredient = (): useIngredientResult => {
   const refriger = useSelector((state: RootState) => state.refriger);
 
   const saveIngredient = useCallback(
-    (ingredients: RefrigerState, recipeCount: number) => {
-      dispatch(setRefriger(ingredients));
-      dispatch(setIngredient(ingredients));
-      dispatch(userRecipeCount(recipeCount));
+    async (ingredients: Refriger, recipeCount: number) => {
+      try {
+        dispatch(setRefriger(ingredients));
+        dispatch(setIngredient(ingredients));
+        dispatch(userRecipeCount(recipeCount));
+        // await patchRefriger(ingredients);
+        // await patchRecipeCount(recipeCount);
+      } catch (e) {
+        console.log('냉장고, 레시피 개수 저장 에러 발생: ', e);
+      }
     },
     [dispatch],
   );
   const completeIngredient = useCallback(
-    (ingredients: RefrigerState) => dispatch(setIngredient(ingredients)),
+    (ingredients: Refriger) => dispatch(setIngredient(ingredients)),
     [dispatch],
   );
 
@@ -42,8 +49,8 @@ export const useIngredient = (): useIngredientResult => {
 };
 
 export interface useIngredientResult {
-  refriger: RefrigerState;
-  ingredient: RefrigerState;
-  saveIngredient: (ingredients: RefrigerState, recipeCount: number) => void;
-  completeIngredient: (ingredients: RefrigerState) => void;
+  refriger: Refriger;
+  ingredient: Refriger;
+  saveIngredient: (ingredients: Refriger, recipeCount: number) => void;
+  completeIngredient: (ingredients: Refriger) => void;
 }

@@ -4,7 +4,7 @@ import { Modal } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import { Section } from '../../assets/styles/theme';
-import { useRecipeNumber } from '../../hooks/useAxios';
+import { useRecipeNumber } from '../../hooks/useRecipe';
 import { RefrigerState } from '../../redux/modules/refriger';
 import { ChipButton } from '../elements/Buttons';
 import Divs, { RightDivs } from '../elements/Divs';

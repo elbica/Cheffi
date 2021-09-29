@@ -5,7 +5,7 @@ import { Form, NextSubmit, FormSelectPhoto } from '../elements/Forms';
 
 export default function SelectProfile() {
   return (
-    <Form formName="profile">
+    <Form formName="photo">
       {({ formName }) => (
         <Section flexNumber="1.4">
           <Section justify="flex-start" margins="4% 0%">

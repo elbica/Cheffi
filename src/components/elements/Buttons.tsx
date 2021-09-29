@@ -171,7 +171,7 @@ export function CheckBoxButton({
             width={height}>
             {select && <Check color={checkColor} />}
           </CheckBoxContainer>
-          <Fonts size={size} lineHeight="large" color="black" padH="5px">
+          <Fonts size={size} lineHeight="large" color="black" padH="8px">
             {children}
           </Fonts>
         </RowDivs>

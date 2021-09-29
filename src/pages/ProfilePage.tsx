@@ -1,15 +1,28 @@
 import React from 'react';
-import {View} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import {useDispatch} from 'react-redux';
-import {Section} from '../assets/styles/theme';
+import { View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { useDispatch, useSelector } from 'react-redux';
+import { GoogleLogout, KakaoLogout } from '../api';
+import { Section } from '../assets/styles/theme';
 import LinkButton from '../components/elements/Buttons';
-import {userLogout} from '../redux/modules/auth';
+import { RootState } from '../redux/modules';
+import { userLogout } from '../redux/modules/auth';
 
-const array = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const array = [1, 2];
+
 export default function ProfilePage() {
-  const logout = useDispatch();
-
+  const dispatch = useDispatch();
+  const platform = useSelector((state: RootState) => state.auth.platform);
+  const handleLogout = async () => {
+    try {
+      if (platform === 'kakao') {
+        await KakaoLogout();
+      } else if (platform === 'google') {
+        await GoogleLogout();
+      }
+      dispatch(userLogout());
+    } catch (e) {}
+  };
   return (
     <View>
       <ScrollView>
@@ -17,7 +30,7 @@ export default function ProfilePage() {
           {array.map((a, idx) => (
             <LinkButton
               title="로그아웃 하기"
-              onPress={() => logout(userLogout())}
+              onPress={handleLogout}
               width="100px"
               height="100px"
               key={idx}
@@ -28,7 +41,7 @@ export default function ProfilePage() {
           {array.map((a, idx) => (
             <LinkButton
               title="로그아웃 하기"
-              onPress={() => logout(userLogout())}
+              onPress={handleLogout}
               width="100px"
               height="100px"
               key={idx}
