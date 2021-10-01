@@ -49,6 +49,8 @@ export const getRecipeInfo = async (recipeId: {
 export const getRecipeList = async (
   ingredients: Ingredients,
 ): Promise<Recipe[]> => {
-  const { data } = await API.post('/recipe/ListPossiRP', ingredients);
+  const { data } = await API.post('/recipe/ListPossiRP_Sim', ingredients);
+  console.log('🍉recipe list call', data);
+
   return data;
 };
