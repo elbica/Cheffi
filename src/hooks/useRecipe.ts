@@ -1,6 +1,9 @@
 import { useQuery } from 'react-query';
 import { useRefrigerIngredient } from './useRedux';
 import API, { getRecipeInfo, getRecipeList, getRecipeNumber } from '../api';
+import { useDispatch } from 'react-redux';
+import { userRecipeCount } from '../redux/modules/user';
+import { SilentLogin } from '../api/auth';
 
 export const useTestAxios = () => {
   API.post('/')
@@ -47,4 +50,21 @@ export const useRecipeInfo = (data: { id: string }) => {
     enabled: !!data,
     staleTime: 1000 * 60 * 60 * 12,
   });
+};
+
+/**
+ * @description
+ * 어플 시작 시
+ * 사용자 재료로 레시피 리스트(api), 개수(redux) 초기화
+ */
+export const useRecipeInit = async () => {
+  console.log('🦊recipe init, 자동 로그인');
+  await SilentLogin();
+  const dispatch = useDispatch();
+  const ingre = useRefrigerIngredient();
+  useRecipeList({ ingre });
+  const { data } = useRecipeNumber({ ingre });
+  if (data) {
+    dispatch(userRecipeCount(data));
+  }
 };

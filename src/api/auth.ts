@@ -1,10 +1,13 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import {
+  getAccessToken,
+  KakaoAccessTokenInfo,
   KakaoOAuthToken,
   login,
   logout,
 } from '@react-native-seoul/kakao-login';
 import API from '../api';
+import { store } from '../redux/store';
 
 /**
  * @description,
@@ -17,14 +20,23 @@ import API from '../api';
  * @returns AUTH_RESULT | ERROR
  */
 
+/**
+ * @function google
+ */
+
 export const GoogleLogin = async (): Promise<AuthResult> => {
   try {
     const user = await GoogleSignin.signIn();
-    const { data } = await API.post<AuthResult>('/Auth/google', {
-      it: user.idToken,
+    API.defaults.headers.common.Authorization = `Bearer ${user.idToken}`;
+    API.defaults.headers.common.Platform = 'google';
+
+    const { data } = await API.post<AuthResult>('/Auth', {
+      token: user.idToken,
+      platform: 'google',
     });
-    // console.log('user: ', user, '\n backend: ', data);
-    API.defaults.headers.Authorization = `Bearer ${data.auth.token}`;
+    console.log('backend: ', data);
+    // console.log('axios : ', API);
+
     return data;
   } catch (e) {
     console.log(e);
@@ -34,21 +46,42 @@ export const GoogleLogin = async (): Promise<AuthResult> => {
 export const GoogleLogout = async () => {
   try {
     await GoogleSignin.signOut();
-    API.defaults.headers.Authorization = '';
+    delete API.defaults.headers.common.Authorization;
+    delete API.defaults.headers.common.Platform;
   } catch (e) {
     console.log(e);
     throw new Error('google logout failed.');
   }
 };
 
+const silentGoogleLogin = async () => {
+  const user = await GoogleSignin.signInSilently();
+  API.defaults.headers.common.Authorization = `Bearer ${user.idToken}`;
+  API.defaults.headers.common.Platform = 'google';
+
+  console.log('change axios header :', API.defaults.headers);
+  const { data } = await API.post<AuthResult>('/Auth', {
+    token: user.idToken,
+    platform: 'google',
+  });
+  console.log('🧳silent google response data: ', data);
+};
+
+/**
+ * @function kakao
+ */
+
 export const KakaoLogin = async (): Promise<AuthResult> => {
   try {
     const token: KakaoOAuthToken = await login();
-    const { data } = await API.post<AuthResult>('/Auth/kakao', {
-      at: token.accessToken,
+    API.defaults.headers.common.Authorization = `Bearer ${token.accessToken}`;
+    API.defaults.headers.common.Platform = 'kakao';
+
+    const { data } = await API.post<AuthResult>('/Auth', {
+      token: token.accessToken,
+      platform: 'kakao',
     });
     // console.log(data);
-    API.defaults.headers.Authorization = `Bearer ${data.auth.token}`;
     return data;
   } catch (e) {
     console.log(e);
@@ -58,10 +91,34 @@ export const KakaoLogin = async (): Promise<AuthResult> => {
 export const KakaoLogout = async () => {
   try {
     console.log('kakao logout: ', await logout());
-    API.defaults.headers.Authorization = '';
+    delete API.defaults.headers.common.Authorization;
+    delete API.defaults.headers.common.Platform;
   } catch (e) {
     console.log(e);
     throw new Error('kakao logout failed.');
+  }
+};
+const silentKakaoLogin = async () => {
+  const token: KakaoAccessTokenInfo = await getAccessToken();
+  API.defaults.headers.common.Authorization = `Bearer ${token.accessToken}`;
+  API.defaults.headers.common.Platform = 'kakao';
+  const { data } = await API.post<AuthResult>('/Auth', {
+    token: token.accessToken,
+    platform: 'kakao',
+  });
+  console.log('👑silent kakao response data: ', data);
+};
+
+export const SilentLogin = async (callback?: any) => {
+  const { platform } = store.getState().auth;
+  console.log(`${platform} 🐹 자동 로그인!`);
+  if (platform === 'google') {
+    await silentGoogleLogin();
+  } else if (platform === 'kakao') {
+    await silentKakaoLogin();
+  }
+  if (callback) {
+    callback();
   }
 };
 

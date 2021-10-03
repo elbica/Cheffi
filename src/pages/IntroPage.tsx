@@ -25,7 +25,6 @@ export default function IntroPage(): JSX.Element {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const handleFlow = async (result: AuthResult, platform: string) => {
-    console.log(result);
     /**
      * @todo 임시 유저 데이터 사용
      *
@@ -33,10 +32,10 @@ export default function IntroPage(): JSX.Element {
      * 3-2. 기존 유저일 경우 바로 auth redux dispatch
      */
     dispatch(userInit({}));
-    if (result.auth.newUser) {
+    if (result.newUser) {
       dispatch(
         userLogin({
-          token: result.auth.token,
+          token: result.token,
           isLogin: false,
           platform,
         }),
@@ -45,7 +44,7 @@ export default function IntroPage(): JSX.Element {
     } else {
       dispatch(
         userLogin({
-          token: result.auth.token,
+          token: result.token,
           isLogin: true,
           platform,
         }),

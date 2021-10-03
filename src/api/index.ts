@@ -1,6 +1,12 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { API_URL } from '../../config';
-import { GoogleLogin, KakaoLogin, GoogleLogout, KakaoLogout } from './auth';
+import {
+  GoogleLogin,
+  KakaoLogin,
+  GoogleLogout,
+  KakaoLogout,
+  SilentLogin,
+} from './auth';
 import { sendForm } from './form';
 import { getRecipeInfo, getRecipeList, getRecipeNumber } from './recipe';
 import { patchRefriger, patchRecipeCount } from './user';
@@ -39,45 +45,97 @@ const API = axios.create({
  * @typedef API_ERROR_TYPE
  *    enum { EXPIRE, INVALID, FORBIDDEN }
  */
-API.interceptors.response.use(
-  res => res,
-  (err: Error | AxiosError) => {
-    if (axios.isAxiosError(err)) {
-      const status = err.response?.status;
-      const type: API_ERROR_TYPE = err.response?.data.type;
-      let ret: API_ERROR | undefined;
-      if (status === 401) {
-        /**
-         * @todo type에 따라서 자동 로그인 또는 초기 화면으로 이동하기
-         */
 
-        ret = {
-          message: '❌인증이 필요합니다',
-          type,
-        };
-      } else if (status === 403) {
-        /**
-         * @todo 사용자에게 권한 없다는 알림창 띄우기
-         */
+const onFulfilled = (res: AxiosResponse) => {
+  console.log('api response: ', res);
+  console.log('api default headers: ', API.defaults.headers);
+  return res;
+};
+// const retryAPI = (config : AxiosRequestConfig)=> new Promise(())
+const onRejected = (err: Error | AxiosError) => {
+  if (axios.isAxiosError(err)) {
+    const status = err.response?.status;
+    const type: API_ERROR_TYPE = err.response?.data.type;
+    let ret: API_ERROR | undefined;
+    if (status === 401) {
+      /**
+       * @todo type에 따라서 자동 로그인 또는 초기 화면으로 이동하기
+       */
 
-        ret = {
-          message: '❗️권한이 필요합니다',
-          type: API_ERROR_TYPE.FORBIDDEN,
-        };
-      } else {
-        ret = {
-          message: '❓알 수 없는 오류',
-          type: API_ERROR_TYPE.FORBIDDEN,
-        };
+      //자동 로그인하고 retry하기
+      if (type === API_ERROR_TYPE.EXPIRE) {
+        console.log('👓자동 로그인 응답');
+        return SilentLogin().then(() => API.request(err.config));
       }
-      console.log('api err : ', ret, '\nmessage', err);
-      return Promise.reject(ret);
+
+      //상위 함수에서 초기 화면으로 이동해야 함
+      ret = {
+        message: '❌인증이 필요합니다',
+        type,
+      };
+    } else if (status === 403) {
+      /**
+       * @todo 사용자에게 권한 없다는 알림창 띄우기
+       */
+
+      ret = {
+        message: '❗️권한이 필요합니다',
+        type: API_ERROR_TYPE.FORBIDDEN,
+      };
+    } else {
+      ret = {
+        message: '❓알 수 없는 오류가 발생했습니다',
+        type: API_ERROR_TYPE.FORBIDDEN,
+      };
     }
-  },
-);
+    console.log(
+      'api err : ',
+      ret,
+      '\nmessage',
+      err,
+      '\nconfig ',
+      err.config,
+      '\nmessage:',
+      err.message,
+    );
+    return Promise.reject(ret);
+  }
+};
+API.interceptors.response.use(onFulfilled, onRejected);
 
 export default API;
 export { sendForm };
 export { getRecipeInfo, getRecipeList, getRecipeNumber };
 export { GoogleLogin, KakaoLogin, GoogleLogout, KakaoLogout };
 export { patchRecipeCount, patchRefriger };
+
+/**
+ * export const delPhotoCC = async photoIndex => {
+  const url = `${API_URL}/ccu/company/photos/${photoIndex}`;
+  const token = await AsyncStorage.getItem('token');
+  const callback = {
+    onSuccess: res => {
+      console.log('DelPhotoCC', res.status, url);
+      console.log();
+      return {data: null, err: null};
+    },
+    onFail: async res => {
+      const err = await res.json();
+      console.log('DelPhotoCC', err, url);
+      console.log();
+      if (res.status === 401)
+        return onTokenExpired(() => delPhotoCC(photoIndex));
+      return {data: null, err};
+    },
+    onErr: err => {
+      console.log('DelPhotoCC', err, url);
+      console.log();
+      return {data: null, err};
+    },
+  };
+  return makeDeleteRequest(url, token, null, callback);
+};
+
+
+
+ */

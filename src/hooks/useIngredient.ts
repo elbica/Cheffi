@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { patchRecipeCount, patchRefriger } from '../api';
 import { RootState } from '../redux/modules';
 import { setIngredient } from '../redux/modules/ingredient';
 import { setRefriger } from '../redux/modules/refriger';

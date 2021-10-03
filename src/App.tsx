@@ -17,6 +17,7 @@ import {
 import { useReduxDevToolsExtension } from '@react-navigation/devtools';
 import { useRef } from 'react';
 import { LogBox } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 
 /**
  * @description
@@ -29,6 +30,14 @@ const App: () => JSX.Element = () => {
   const navigationRef = useRef<NavigationContainerRef>(null);
 
   useReduxDevToolsExtension(navigationRef);
+  /**
+   * @todo
+   * data fetch 해서 redux에 저장하기
+   */
+  React.useEffect(() => {
+    console.log('🎩splash image');
+    setTimeout(() => SplashScreen.hide(), 1000);
+  }, []);
   return (
     // <SafeAreaView style={{flex: 1}}>
     <Provider store={store}>

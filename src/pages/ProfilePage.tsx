@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GoogleLogout, KakaoLogout } from '../api';
 import { Section } from '../assets/styles/theme';
 import LinkButton from '../components/elements/Buttons';
+import { queryClient } from '../navigators/NavSelect';
 import { RootState } from '../redux/modules';
 import { userLogout } from '../redux/modules/auth';
 
@@ -20,6 +21,7 @@ export default function ProfilePage() {
       } else if (platform === 'google') {
         await GoogleLogout();
       }
+      queryClient.clear();
       dispatch(userLogout());
     } catch (e) {}
   };
