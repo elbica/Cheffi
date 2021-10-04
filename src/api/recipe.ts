@@ -14,7 +14,7 @@ import API from '.';
  */
 const delayData = debounce(
   async ingre => {
-    const data = await API.post('/recipe/NumPossiRP', ingre);
+    const data = await API.post('/recipe/number', ingre);
     console.log('🍉delay call', data);
     return data;
   },
@@ -37,7 +37,7 @@ export const getRecipeNumber = async (ingre: Ingredients): Promise<number> => {
 export const getRecipeInfo = async (recipeId: {
   id: string;
 }): Promise<RecipeInfo> => {
-  const { data } = await API.post('/recipe/ShowRPInspect', recipeId);
+  const { data } = await API.get(`/recipe/info?id=${recipeId.id}`);
   return data;
 };
 
@@ -49,7 +49,7 @@ export const getRecipeInfo = async (recipeId: {
 export const getRecipeList = async (
   ingredients: Ingredients,
 ): Promise<Recipe[]> => {
-  const { data } = await API.post('/recipe/ListPossiRP', ingredients);
+  const { data } = await API.get('/recipe/list');
   console.log('🍉recipe list call', data);
 
   return data;

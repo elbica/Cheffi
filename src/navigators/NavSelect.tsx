@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Platform, StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components/native';
 import { theme } from '../assets/styles/theme';
