@@ -10,7 +10,6 @@ import { useRecipeCount, useRefrigerIngredient } from '../hooks/useRedux';
 export default function RecommendPage() {
   const ingre = useRefrigerIngredient();
   const { data, isLoading } = useRecipeList(ingre);
-  console.log('recommend', data);
   const recipeCount = useRecipeCount();
   const navigation = useNavigation();
   const onPress = (recipeid: string) =>

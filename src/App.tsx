@@ -30,6 +30,7 @@ export const queryClient = new QueryClient();
 LogBox.ignoreLogs(['Setting a timer for a long period of time']);
 const App: () => JSX.Element = () => {
   const navigationRef = useRef<NavigationContainerRef>(null);
+  // SplashScreen.show();
 
   useReduxDevToolsExtension(navigationRef);
   /**

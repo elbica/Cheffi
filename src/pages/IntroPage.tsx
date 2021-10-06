@@ -32,10 +32,10 @@ export default function IntroPage(): JSX.Element {
      * 3-2. 기존 유저일 경우 바로 auth redux dispatch
      */
     dispatch(userInit({}));
-    if (result.newUser) {
+    if (result.auth.newUser) {
       dispatch(
         userLogin({
-          token: result.token,
+          token: result.auth.token,
           isLogin: false,
           platform,
         }),
@@ -44,7 +44,7 @@ export default function IntroPage(): JSX.Element {
     } else {
       dispatch(
         userLogin({
-          token: result.token,
+          token: result.auth.token,
           isLogin: true,
           platform,
         }),
