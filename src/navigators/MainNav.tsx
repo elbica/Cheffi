@@ -7,7 +7,6 @@ import StackNavFactory from './StackNavFactory';
 import { TabScreenDataProps } from './Interface';
 import { Image, Platform } from 'react-native';
 import { icons } from '../assets/icons/icons';
-import { useRecipeInit } from '../hooks/useRecipe';
 
 const Tabs = createBottomTabNavigator();
 const tabBarOption: BottomTabBarOptions = {
@@ -30,7 +29,6 @@ const tabScreenData: TabScreenDataProps[] = [
 ];
 
 export default function MainNav() {
-  useRecipeInit();
   return (
     <Tabs.Navigator tabBarOptions={tabBarOption} initialRouteName="홈">
       {tabScreenData.map((tabData, idx) => (

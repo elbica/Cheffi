@@ -26,7 +26,7 @@ declare interface Recipe {
   scrap: number;
   time: string;
   calories: number;
-  id: number;
+  recipeid: number;
   title: string;
 }
 declare interface RecipeInfo extends Recipe {

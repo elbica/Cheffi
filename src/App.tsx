@@ -18,6 +18,8 @@ import { useReduxDevToolsExtension } from '@react-navigation/devtools';
 import { useRef } from 'react';
 import { LogBox } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
+import { QueryClient, QueryClientProvider } from 'react-query';
+export const queryClient = new QueryClient();
 
 /**
  * @description
@@ -36,6 +38,7 @@ const App: () => JSX.Element = () => {
    */
   React.useEffect(() => {
     console.log('🎩splash image');
+
     setTimeout(() => SplashScreen.hide(), 1000);
   }, []);
   return (
@@ -43,7 +46,9 @@ const App: () => JSX.Element = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer ref={navigationRef} theme={MyTheme}>
-          <NavSelect />
+          <QueryClientProvider client={queryClient}>
+            <NavSelect />
+          </QueryClientProvider>
         </NavigationContainer>
       </PersistGate>
     </Provider>

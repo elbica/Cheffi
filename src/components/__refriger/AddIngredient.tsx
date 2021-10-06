@@ -5,7 +5,6 @@ import { FlatList } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import { Section } from '../../assets/styles/theme';
 import { useRecipeNumber } from '../../hooks/useRecipe';
-import { RefrigerState } from '../../redux/modules/refriger';
 import { ChipButton } from '../elements/Buttons';
 import Divs, { RightDivs } from '../elements/Divs';
 import Fonts from '../elements/Fonts';
@@ -17,13 +16,13 @@ export default React.memo(function AddIngredient({
   complete,
   viewModal,
 }: AddIngredientProps) {
-  const [ingre, setIngre] = useState<RefrigerState>(init);
+  const [ingre, setIngre] = useState<Refriger>(init);
   const [category, setCategory] = useState<CategoryState>({
     main: '떡/밥/곡류',
     sub: null,
   });
   const viewIngre = ingre.map(ing => ing.data).flat();
-  const { data: number, isLoading } = useRecipeNumber({ ingre: viewIngre });
+  const { data: number, isLoading } = useRecipeNumber(ingre);
 
   const handleCancle = useCallback(() => setIngre(init), [init]);
   const handlePrev = useCallback(
@@ -124,8 +123,8 @@ export default React.memo(function AddIngredient({
 });
 
 interface AddIngredientProps {
-  init: RefrigerState;
-  complete(ingredient: RefrigerState): void;
+  init: Refriger;
+  complete(ingredient: Refriger): void;
   setViewModal: React.Dispatch<React.SetStateAction<boolean>>;
   viewModal: boolean;
 }

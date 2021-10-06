@@ -1,9 +1,9 @@
 import { useQuery } from 'react-query';
-import { useRefrigerIngredient } from './useRedux';
+// import { useRefrigerIngredient } from './useRedux';
 import API, { getRecipeInfo, getRecipeList, getRecipeNumber } from '../api';
-import { useDispatch } from 'react-redux';
-import { userRecipeCount } from '../redux/modules/user';
+import { store } from '../redux/store';
 import { SilentLogin } from '../api/auth';
+import { queryClient } from '../App';
 
 export const useTestAxios = () => {
   API.post('/')
@@ -13,16 +13,16 @@ export const useTestAxios = () => {
 
 let recipeNumberTimer = Date.now();
 
-export const useRecipeNumber = (data?: Ingredients) => {
-  const ingre = useRefrigerIngredient();
-  if (!data) data = { ingre };
+export const useRecipeNumber = (data: Refriger) => {
+  // const ingre = useRefrigerIngredient();
+  // if (!data) data = ingre;
 
   const timer = (Date.now() - recipeNumberTimer) / 1000;
   recipeNumberTimer = Date.now();
 
   return useQuery<number>(
-    ['RecipeNumber', ...data.ingre],
-    () => getRecipeNumber(data as Ingredients),
+    ['RecipeNumber', ...data],
+    () => getRecipeNumber(data as Refriger),
     {
       enabled: !!data,
       ...(timer < 1 && { cacheTime: 0 }),
@@ -31,21 +31,13 @@ export const useRecipeNumber = (data?: Ingredients) => {
   );
 };
 
-export const useRecipeList = (data?: Ingredients) => {
-  const ingre = useRefrigerIngredient();
-  if (!data) data = { ingre };
-  console.log('useRecipeList');
-  return useQuery<Recipe[]>(
-    ['RecipeList', data],
-    () => getRecipeList(data as Ingredients),
-    {
-      enabled: !!data,
-      staleTime: 1000 * 60 * 60 * 12,
-    },
-  );
+export const useRecipeList = (data: Refriger) => {
+  return useQuery<Recipe[]>(['RecipeList', ...data], () => getRecipeList(), {
+    staleTime: 1000 * 60 * 60 * 12,
+  });
 };
 
-export const useRecipeInfo = (data: { id: string }) => {
+export const useRecipeInfo = (data: number) => {
   return useQuery<RecipeInfo>(['RecipeInfo', data], () => getRecipeInfo(data), {
     enabled: !!data,
     staleTime: 1000 * 60 * 60 * 12,
@@ -54,17 +46,22 @@ export const useRecipeInfo = (data: { id: string }) => {
 
 /**
  * @description
- * 어플 시작 시
+ * 어플 시작 시 로그인 되어있다면 서버로부터 정보 불러온다
  * 사용자 재료로 레시피 리스트(api), 개수(redux) 초기화
+ * number dispatch 필요
+ * 레시피 개수의 경우 추후 api로 불러오지 않고 persist의 값을 사용하는 방식으로 deprecated 될 수 있다
+ *
  */
-export const useRecipeInit = async () => {
-  console.log('🦊recipe init, 자동 로그인');
-  await SilentLogin();
-  const dispatch = useDispatch();
-  const ingre = useRefrigerIngredient();
-  useRecipeList({ ingre });
-  const { data } = useRecipeNumber({ ingre });
-  if (data) {
-    dispatch(userRecipeCount(data));
+export const RecipeInit = async () => {
+  console.log('🦊recipe init');
+  const isLogin = await SilentLogin();
+  let number = 0;
+  if (isLogin) {
+    const ingre = store.getState().refriger;
+    number = await getRecipeNumber(ingre);
+    const list = await getRecipeList();
+    queryClient.setQueryData(['RecipeList', ...ingre], list);
+    queryClient.setQueryData(['RecipeNumber', ...ingre], number);
   }
+  return { isLogin, number };
 };

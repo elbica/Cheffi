@@ -8,7 +8,7 @@ import Fonts from '../elements/Fonts';
 import { Star } from '../elements/Images';
 
 export default function RecipeThumbmail({
-  id,
+  recipeid,
   scrap,
   time,
   calories,
@@ -17,11 +17,11 @@ export default function RecipeThumbmail({
 }: RecipeThumbnailProps) {
   return (
     <ImageButton
-      key={id}
-      uri={id ? `${IMAGE_HAEMUK_URL}/${id}.jpg` : 'dummy'}
+      key={recipeid}
+      uri={recipeid ? `${IMAGE_HAEMUK_URL}/${recipeid}.jpg` : 'dummy'}
       width="100%"
       height="200px"
-      onPress={() => onPress(id)}
+      onPress={() => onPress(recipeid)}
       marginV="1%">
       <FontContainer>
         <RecipeTitle>
@@ -49,7 +49,7 @@ export default function RecipeThumbmail({
           <Scrap height="auto">
             <Star />
             <Fonts
-              children={scrap ? scrap.toString : '0'}
+              children={scrap ? scrap.toString() : '0'}
               color="white"
               size="large"
               bold
@@ -75,5 +75,5 @@ const RecipeTitle = styled.View`
 `;
 
 interface RecipeThumbnailProps extends Recipe {
-  onPress: (id: number) => void;
+  onPress: (recipeid: number) => void;
 }

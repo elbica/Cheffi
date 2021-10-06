@@ -10,10 +10,9 @@ import { Review, Scrap, Time } from '../elements/Images';
 const DUMMY_TEXT =
   'Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque aliquid nulla obcaecati, esse mollitia fuga sapiente illo? Eius, unde corrupti. Tempora, eum exercitationem autem libero iste voluptate voluptates aliquid?';
 
-export default function RecipeContent({ id }: { id: string }) {
-  const { data } = useRecipeInfo({ id });
+export default function RecipeContent({ recipeid }) {
+  const { data } = useRecipeInfo(recipeid);
 
-  console.log(data);
   return (
     <RecipeContentContainer>
       {data && (

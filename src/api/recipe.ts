@@ -22,10 +22,12 @@ const delayData = debounce(
   { leading: true },
 );
 
-export const getRecipeNumber = async (ingre: Ingredients): Promise<number> => {
+export const getRecipeNumber = async (refriger: Refriger): Promise<number> => {
   console.log('recipe number api call🍎');
-  const { data } = await delayData(ingre);
-  return data;
+  const {
+    data: { num },
+  } = await delayData({ refriger });
+  return num;
 };
 
 /**
@@ -34,11 +36,11 @@ export const getRecipeNumber = async (ingre: Ingredients): Promise<number> => {
  * @returns 레시피 id에 해당하는 레시피 정보
  */
 
-export const getRecipeInfo = async (recipeId: {
-  id: string;
-}): Promise<RecipeInfo> => {
-  const { data } = await API.get(`/recipe/info?id=${recipeId.id}`);
-  return data;
+export const getRecipeInfo = async (recipeId: number): Promise<RecipeInfo> => {
+  const {
+    data: { recipe },
+  } = await API.get(`/recipe/info?id=${recipeId}`);
+  return recipe[0];
 };
 
 /**
@@ -46,11 +48,11 @@ export const getRecipeInfo = async (recipeId: {
  * @param ingredients 사용자가 선택한 재료 배열
  * @returns 재료 배열로 만들 수 있는 레시피 배열
  */
-export const getRecipeList = async (
-  ingredients: Ingredients,
-): Promise<Recipe[]> => {
-  const { data } = await API.get('/recipe/list');
-  console.log('🍉recipe list call', data);
+export const getRecipeList = async (): Promise<Recipe[]> => {
+  const {
+    data: { recipe },
+  } = await API.get('/recipe/list');
+  console.log('🍉recipe list call', recipe);
 
-  return data;
+  return recipe;
 };

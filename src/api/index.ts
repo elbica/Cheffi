@@ -48,7 +48,6 @@ const API = axios.create({
 
 const onFulfilled = (res: AxiosResponse) => {
   console.log('api response: ', res);
-  console.log('api default headers: ', API.defaults.headers);
   return res;
 };
 // const retryAPI = (config : AxiosRequestConfig)=> new Promise(())

@@ -3,9 +3,9 @@ import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { GoogleLogout, KakaoLogout } from '../api';
+import { queryClient } from '../App';
 import { Section } from '../assets/styles/theme';
 import LinkButton from '../components/elements/Buttons';
-import { queryClient } from '../navigators/NavSelect';
 import { RootState } from '../redux/modules';
 import { userLogout } from '../redux/modules/auth';
 

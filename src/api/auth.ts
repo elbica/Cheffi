@@ -65,6 +65,7 @@ const silentGoogleLogin = async () => {
     platform: 'google',
   });
   console.log('🧳silent google response data: ', data);
+  return data;
 };
 
 /**
@@ -107,6 +108,7 @@ const silentKakaoLogin = async () => {
     platform: 'kakao',
   });
   console.log('👑silent kakao response data: ', data);
+  return data;
 };
 
 export const SilentLogin = async (callback?: any) => {
@@ -120,6 +122,7 @@ export const SilentLogin = async (callback?: any) => {
   if (callback) {
     callback();
   }
+  return platform === 'null' ? false : true;
 };
 
 /**
