@@ -4,15 +4,6 @@ import { queryClient } from '../App';
 import { store } from '../redux/store';
 import { silentLogin } from './auth';
 
-function withError<Param, Return>(callback: any): (param: Param) => Return {
-  try {
-    return callback;
-  } catch (e) {
-    console.log('recipe api error: ', e);
-    throw new Error('🙈recipe api failed');
-  }
-}
-
 /**
  *
  * @param ingredients 사용자가 선택한 재료 배열
@@ -34,15 +25,13 @@ const delayData = debounce(
   { leading: true },
 );
 
-export const getRecipeNumber = withError<Refriger, Promise<number>>(
-  async (refriger: Refriger) => {
-    console.log('recipe number api call🍎');
-    const {
-      data: { num },
-    } = await delayData({ refriger });
-    return num;
-  },
-);
+export const getRecipeNumber = async (refriger: Refriger): Promise<number> => {
+  console.log('recipe number api call🍎');
+  const {
+    data: { num },
+  } = await delayData({ refriger });
+  return num;
+};
 
 /**
  *
@@ -50,30 +39,26 @@ export const getRecipeNumber = withError<Refriger, Promise<number>>(
  * @returns 레시피 id에 해당하는 레시피 정보
  */
 
-export const getRecipeInfo = withError<number, Promise<RecipeInfo>>(
-  async (recipeId: number) => {
-    const {
-      data: { recipe },
-    } = await API.get(`/recipe/info?id=${recipeId}`);
-    return recipe[0];
-  },
-);
+export const getRecipeInfo = async (recipeId: number): Promise<RecipeInfo> => {
+  const {
+    data: { recipe },
+  } = await API.get(`/recipe/info?id=${recipeId}`);
+  return recipe[0];
+};
 
 /**
  *
  * @param ingredients 사용자가 선택한 재료 배열
  * @returns 재료 배열로 만들 수 있는 레시피 배열
  */
-export const getRecipeList = withError<void, Promise<Recipe[]>>(
-  async (): Promise<Recipe[]> => {
-    const {
-      data: { recipe },
-    } = await API.get('/recipe/list');
-    console.log('🍉recipe list call', recipe);
+export const getRecipeList = async (): Promise<Recipe[]> => {
+  const {
+    data: { recipe },
+  } = await API.get('/recipe/list');
+  console.log('🍉recipe list call', recipe);
 
-    return recipe;
-  },
-);
+  return recipe;
+};
 
 /**
  * @description

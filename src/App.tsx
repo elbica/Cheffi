@@ -30,7 +30,6 @@ export const queryClient = new QueryClient();
 LogBox.ignoreLogs(['Setting a timer for a long period of time']);
 const App: () => JSX.Element = () => {
   const navigationRef = useRef<NavigationContainerRef>(null);
-  // SplashScreen.show();
 
   useReduxDevToolsExtension(navigationRef);
   /**
@@ -38,6 +37,8 @@ const App: () => JSX.Element = () => {
    * data fetch 해서 redux에 저장하기
    */
   React.useEffect(() => {
+    SplashScreen.show();
+
     console.log('🎩splash image');
 
     setTimeout(() => SplashScreen.hide(), 1000);
