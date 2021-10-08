@@ -54,6 +54,7 @@ export const FormSelectButton = ({
   circle,
   radius,
   children,
+  id,
   ...rest
 }: any) => {
   return (
@@ -61,14 +62,14 @@ export const FormSelectButton = ({
       {circle ? (
         <SelectCircleButton
           radius={radius}
-          onPress={children ? () => handleChange(idx, children) : undefined}
+          onPress={id ? () => handleChange(idx, id) : undefined}
           marginV="8px"
           children={children}
           {...rest}
         />
       ) : (
         <SelectButton
-          onPress={children ? () => handleChange(idx, children) : undefined}
+          onPress={id ? () => handleChange(idx, id) : undefined}
           marginV="8px"
           children={children}
           {...rest}

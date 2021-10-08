@@ -50,7 +50,7 @@ declare interface AuthResult {
     likeRecipesId: string[];
     historyRecipesId: string[];
   };
-  refriger: { title: string; data: string[] }[];
+  refriger: { title: MainCategory; data: string[] }[];
 }
 
 declare interface Ingredients {
@@ -58,3 +58,10 @@ declare interface Ingredients {
 }
 
 declare type Refriger = Category[];
+declare type FormInfo = {
+  nickname?: string;
+  photo?: any;
+  problems?: string[];
+  likeRecipesId?: string[];
+  dislikeIngredient?: string[];
+};

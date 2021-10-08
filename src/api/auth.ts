@@ -72,6 +72,7 @@ const silentGoogleLogin = async () => {
 export const KakaoLogin = async (): Promise<AuthResult> => {
   try {
     const token: KakaoOAuthToken = await login();
+    console.log('kakao token...', token);
     updateToken(token.accessToken, 'kakao');
 
     const { data } = await API.post<AuthResult>('/Auth', {
@@ -96,6 +97,8 @@ export const KakaoLogout = async () => {
 };
 const silentKakaoLogin = async () => {
   const token: KakaoAccessTokenInfo = await getAccessToken();
+  console.log('kakao token...', token);
+
   updateToken(token.accessToken, 'kakao');
   const { data } = await API.post<AuthResult>('/Auth', {
     token: token.accessToken,

@@ -22,10 +22,11 @@ export default function SelectLike() {
               {'이중에 좋아하시는 음식이\n있다면 골라주세요.'}
             </Fonts>
             <FormScrollContainer formName={formName}>
-              {likeText.map(({ text, radius, color, styles }, idx) => (
+              {likeText.map(({ text, radius, color, styles, id }, idx) => (
                 <LikeSelectButton
                   key={idx}
                   idx={idx}
+                  id={id}
                   circle
                   color={color}
                   radius={radius}
