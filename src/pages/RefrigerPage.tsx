@@ -13,7 +13,7 @@ export default function RefrigerPage() {
     saveIngredient: save,
   } = useIngredient();
   const [viewModal, setViewModal] = useState(false);
-  // console.log('refriger render');
+  console.log('refriger render');
   return (
     <AppWrap>
       <MyIngredient

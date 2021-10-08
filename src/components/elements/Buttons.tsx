@@ -16,6 +16,7 @@ import {
 import Fonts from './Fonts';
 import { Check } from './Images';
 import { Colors } from 'styled-components';
+import dummyImage from '../../assets/images/Dummy.png';
 
 export default function LinkButton({
   title,
@@ -202,7 +203,8 @@ export function ImageButton({
         {...rest}>
         {uri ? (
           <ImageBackground
-            source={{ uri: uri }}
+            // source={{ uri }}
+            source={uri === 'dummy' ? dummyImage : { uri }}
             // eslint-disable-next-line react-native/no-inline-styles
             style={{ flex: 1, justifyContent: 'center' }}
             resizeMode="cover">

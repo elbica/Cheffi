@@ -8,7 +8,7 @@ import Fonts from '../elements/Fonts';
 import { Star } from '../elements/Images';
 
 export default function RecipeThumbmail({
-  id,
+  recipeid,
   scrap,
   time,
   calories,
@@ -17,15 +17,16 @@ export default function RecipeThumbmail({
 }: RecipeThumbnailProps) {
   return (
     <ImageButton
-      uri={`${IMAGE_HAEMUK_URL}/${id}.jpg`}
+      key={recipeid}
+      uri={recipeid ? `${IMAGE_HAEMUK_URL}/${recipeid}.jpg` : 'dummy'}
       width="100%"
       height="200px"
-      onPress={() => onPress(id)}
+      onPress={() => onPress(recipeid)}
       marginV="1%">
       <FontContainer>
         <RecipeTitle>
           <Fonts
-            children={title}
+            children={title ? title : '없음'}
             color="white"
             size="xlarge"
             bold
@@ -34,20 +35,25 @@ export default function RecipeThumbmail({
         </RecipeTitle>
         <Section justify="flex-end" align="flex-end">
           <Fonts
-            children={time === '분' ? '-분' : time}
+            children={time === '분' ? '- 분' : time}
             color="white"
             size="large"
             bold
           />
           <Fonts
-            children={calories === 'Null' ? '- kcal' : calories}
+            children={calories ? calories + ' kcal' : '- kcal'}
             color="white"
             size="large"
             bold
           />
           <Scrap height="auto">
             <Star />
-            <Fonts children={scrap} color="white" size="large" bold />
+            <Fonts
+              children={scrap ? scrap.toString() : '0'}
+              color="white"
+              size="large"
+              bold
+            />
           </Scrap>
         </Section>
       </FontContainer>
@@ -69,5 +75,5 @@ const RecipeTitle = styled.View`
 `;
 
 interface RecipeThumbnailProps extends Recipe {
-  onPress: (id: string) => void;
+  onPress: (recipeid: number) => void;
 }

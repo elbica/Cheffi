@@ -25,7 +25,6 @@ export default function IntroPage(): JSX.Element {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const handleFlow = async (result: AuthResult, platform: string) => {
-    console.log(result);
     /**
      * @todo 임시 유저 데이터 사용
      *

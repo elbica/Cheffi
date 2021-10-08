@@ -23,10 +23,10 @@ declare type MainCategory =
   | '초콜릿/과자/견과류';
 
 declare interface Recipe {
-  scrap: string;
+  scrap: number;
   time: string;
-  calories: string;
-  id: string;
+  calories: number;
+  recipeid: number;
   title: string;
 }
 declare interface RecipeInfo extends Recipe {

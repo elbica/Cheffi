@@ -17,6 +17,9 @@ import {
 import { useReduxDevToolsExtension } from '@react-navigation/devtools';
 import { useRef } from 'react';
 import { LogBox } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
+import { QueryClient, QueryClientProvider } from 'react-query';
+export const queryClient = new QueryClient();
 
 /**
  * @description
@@ -29,12 +32,25 @@ const App: () => JSX.Element = () => {
   const navigationRef = useRef<NavigationContainerRef>(null);
 
   useReduxDevToolsExtension(navigationRef);
+  /**
+   * @todo
+   * data fetch 해서 redux에 저장하기
+   */
+  React.useEffect(() => {
+    SplashScreen.show();
+
+    console.log('🎩splash image');
+
+    setTimeout(() => SplashScreen.hide(), 1000);
+  }, []);
   return (
     // <SafeAreaView style={{flex: 1}}>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer ref={navigationRef} theme={MyTheme}>
-          <NavSelect />
+          <QueryClientProvider client={queryClient}>
+            <NavSelect />
+          </QueryClientProvider>
         </NavigationContainer>
       </PersistGate>
     </Provider>

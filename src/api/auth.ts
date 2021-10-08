@@ -1,10 +1,13 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import {
+  getAccessToken,
+  KakaoAccessTokenInfo,
   KakaoOAuthToken,
   login,
   logout,
 } from '@react-native-seoul/kakao-login';
-import API from '../api';
+import API from './api';
+import { store } from '../redux/store';
 
 /**
  * @description,
@@ -17,14 +20,22 @@ import API from '../api';
  * @returns AUTH_RESULT | ERROR
  */
 
+/**
+ * @function google
+ */
+
 export const GoogleLogin = async (): Promise<AuthResult> => {
   try {
     const user = await GoogleSignin.signIn();
-    const { data } = await API.post<AuthResult>('/Auth/google', {
-      it: user.idToken,
+    updateToken(user.idToken as string, 'google');
+
+    const { data } = await API.post<AuthResult>('/Auth', {
+      token: user.idToken,
+      platform: 'google',
     });
-    // console.log('user: ', user, '\n backend: ', data);
-    API.defaults.headers.Authorization = `Bearer ${data.auth.token}`;
+    console.log('backend: ', data);
+    // console.log('axios : ', API);
+
     return data;
   } catch (e) {
     console.log(e);
@@ -34,21 +45,40 @@ export const GoogleLogin = async (): Promise<AuthResult> => {
 export const GoogleLogout = async () => {
   try {
     await GoogleSignin.signOut();
-    API.defaults.headers.Authorization = '';
+    deleteToken();
   } catch (e) {
     console.log(e);
     throw new Error('google logout failed.');
   }
 };
 
+const silentGoogleLogin = async () => {
+  const user = await GoogleSignin.signInSilently();
+  updateToken(user.idToken as string, 'google');
+
+  console.log('change axios header :', API.defaults.headers);
+  const { data } = await API.post<AuthResult>('/Auth', {
+    token: user.idToken,
+    platform: 'google',
+  });
+  console.log('🧳silent google response data: ', data);
+  return data;
+};
+
+/**
+ * @function kakao
+ */
+
 export const KakaoLogin = async (): Promise<AuthResult> => {
   try {
     const token: KakaoOAuthToken = await login();
-    const { data } = await API.post<AuthResult>('/Auth/kakao', {
-      at: token.accessToken,
+    updateToken(token.accessToken, 'kakao');
+
+    const { data } = await API.post<AuthResult>('/Auth', {
+      token: token.accessToken,
+      platform: 'kakao',
     });
     // console.log(data);
-    API.defaults.headers.Authorization = `Bearer ${data.auth.token}`;
     return data;
   } catch (e) {
     console.log(e);
@@ -58,31 +88,54 @@ export const KakaoLogin = async (): Promise<AuthResult> => {
 export const KakaoLogout = async () => {
   try {
     console.log('kakao logout: ', await logout());
-    API.defaults.headers.Authorization = '';
+    deleteToken();
   } catch (e) {
     console.log(e);
     throw new Error('kakao logout failed.');
   }
 };
+const silentKakaoLogin = async () => {
+  const token: KakaoAccessTokenInfo = await getAccessToken();
+  updateToken(token.accessToken, 'kakao');
+  const { data } = await API.post<AuthResult>('/Auth', {
+    token: token.accessToken,
+    platform: 'kakao',
+  });
+  console.log('👑silent kakao response data: ', data);
+  return data;
+};
+
+export const silentLogin = async () => {
+  const { platform } = store.getState().auth;
+  console.log(`${platform} 🐹 자동 로그인!`);
+  try {
+    if (platform === 'google') {
+      await silentGoogleLogin();
+    } else if (platform === 'kakao') {
+      await silentKakaoLogin();
+    }
+    return true;
+  } catch (e) {
+    /**
+     * @description
+     * 1. native module 오류
+     * 2. network error
+     * 3.
+     */
+    return Promise.reject({ message: `${platform} 자동 로그인 실패` });
+  }
+};
+
+const updateToken = (token: string, platform: string) => {
+  API.defaults.headers.common.Authorization = `Bearer ${token}`;
+  API.defaults.headers.common.Platform = platform;
+};
+const deleteToken = () => {
+  delete API.defaults.headers.common.Authorization;
+  delete API.defaults.headers.common.Platform;
+};
 
 /**
- * @success sns 로그인 성공
- * @returns
- * {
- *    newUser : boolean, -> 회원가입 분기
- *    token: string, -> auth
- *    email: string,
- *    nickname : string, -> user
- *    statusMessage : string,
- *    photo: string (s3 url),
- *    dislikeIngredient : string[],
- *    scrapRecipesId : string[], -> query
- *    likeRecipesId : string[], -> query
- *    historyRecipesId : string[], -> query
- *    refriger : [{title: string, data: string[]}] -> refriger
- *    error?: string
- * }
- *
  *
  * @description 401, unauthorized
  * @response

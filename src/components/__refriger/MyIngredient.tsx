@@ -6,7 +6,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import { vh } from '../../assets/styles/theme';
 import { useRecipeNumber } from '../../hooks/useRecipe';
-import { RefrigerState } from '../../redux/modules/refriger';
 import { ChipButton } from '../elements/Buttons';
 import Divs, { RightDivs, RowDivs } from '../elements/Divs';
 import Fonts from '../elements/Fonts';
@@ -37,11 +36,9 @@ export default function MyIngredient({
   complete,
   setViewModal,
 }: MyIngredientProps) {
-  const [ingre, setIngre] = useState<RefrigerState>(init);
+  const [ingre, setIngre] = useState<Refriger>(init);
   const [category, setCategory] = useState<MainCategory>('전체');
-  const { data: number, isLoading } = useRecipeNumber({
-    ingre: ingre.map(ing => ing.data).flat(),
-  });
+  const { data: number, isLoading } = useRecipeNumber(ingre);
   useEffect(() => {
     setIngre(now);
   }, [now]);
@@ -127,8 +124,8 @@ export default function MyIngredient({
 interface MyIngredientProps {
   init: Category[];
   now: Category[];
-  save(ingredient: RefrigerState, recipeCount: number): void;
-  complete(ingredient: RefrigerState): void;
+  save(ingredient: Refriger, recipeCount: number): void;
+  complete(ingredient: Refriger): void;
   setViewModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
