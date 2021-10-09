@@ -72,11 +72,18 @@ export const getInitialRecipe = async () => {
   console.log('🦊recipe init');
   try {
     const login = await silentLogin();
-    let number = 0;
+    let number = 0,
+      list: Recipe[] = [];
     if (login) {
       const ingre = store.getState().refriger;
-      number = await getRecipeNumber(ingre);
-      const list = await getRecipeList();
+      // number = await getRecipeNumber(ingre);
+      // list = await getRecipeList();
+
+      [number, list] = await Promise.all([
+        getRecipeNumber(ingre),
+        getRecipeList(),
+      ]);
+
       queryClient.setQueryData(['RecipeList', ...ingre], list);
       queryClient.setQueryData(['RecipeNumber', ...ingre], number);
     }

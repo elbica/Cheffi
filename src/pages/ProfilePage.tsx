@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
-import { GoogleLogout, KakaoLogout } from '../api';
+import { KakaoLogout, GoogleLogout } from '../api';
 import { queryClient } from '../App';
 import { Section } from '../assets/styles/theme';
 import LinkButton from '../components/elements/Buttons';
