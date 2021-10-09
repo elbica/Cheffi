@@ -38,7 +38,6 @@ export default function IntroPage(): JSX.Element {
     if (result.auth.newUser) {
       dispatch(
         userLogin({
-          token: result.auth.token,
           isLogin: false,
           platform,
         }),
@@ -47,7 +46,6 @@ export default function IntroPage(): JSX.Element {
     } else {
       dispatch(
         userLogin({
-          token: result.auth.token,
           isLogin: true,
           platform,
         }),
