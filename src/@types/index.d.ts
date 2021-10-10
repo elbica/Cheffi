@@ -7,27 +7,35 @@ declare interface Category {
   data: string[];
 }
 
-declare type MainCategory =
-  | '전체'
-  | '떡/밥/곡류'
-  | '빵/면/만두류'
+declare type OneDepthCategory =
+  | '떡/곡류'
+  | '콩/묵/두부'
   | '과일류'
+  | '음료/주류';
+
+declare type TwoDepthCategory =
+  | '빵/면/만두'
   | '채소류'
   | '육류'
   | '계란/유제품'
   | '수산/건어물'
-  | '장/양념/소스류'
-  | '음료/주류'
+  | '조미료/양념/육수'
   | '가공식품'
-  | '향신료/가루류'
+  | '기름/향신료/가루'
   | '초콜릿/과자/견과류';
 
+declare type MainCategory = TwoDepthCategory | OneDepthCategory | '전체';
+
 declare interface Recipe {
-  scrap: number;
+  scrap: number | null;
   time: string;
-  calories: number;
+  calories: number | null;
   recipeid: number;
   title: string;
+  platform: 'haemuk' | 'mangae';
+  _id: string;
+  size: number;
+  difficulty: string;
 }
 declare interface RecipeInfo extends Recipe {
   ingredient: string[];

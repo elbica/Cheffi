@@ -18,7 +18,7 @@ export default React.memo(function AddIngredient({
 }: AddIngredientProps) {
   const [ingre, setIngre] = useState<Refriger>(init);
   const [category, setCategory] = useState<CategoryState>({
-    main: '떡/밥/곡류',
+    main: '떡/곡류',
     sub: null,
   });
   const viewIngre = ingre.map(ing => ing.data).flat();

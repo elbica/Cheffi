@@ -8,6 +8,7 @@ import MyRefriger from '../components/__home/MyRefriger';
 import ForMe from '../components/__home/ForMe';
 import HotRecipes from '../components/__home/HotRecipes';
 import { useRefrigerIngredient } from '../hooks/useRedux';
+import { emptyRefriger } from '../assets/data/mockUserData';
 
 const HomeWrap = styled(AppWrap)`
   flex: 1;
@@ -15,9 +16,10 @@ const HomeWrap = styled(AppWrap)`
 `;
 
 export default function HomePage() {
-  //사용자 냉장고 정보 asyncStorage에서 fetch 하기
-  //냉장고 재료(상태)
-  const empty: boolean = !useRefrigerIngredient().length;
+  const refriger = useRefrigerIngredient();
+
+  //deep comparision
+  const empty = JSON.stringify(refriger) === JSON.stringify(emptyRefriger);
 
   return (
     <ScrollView

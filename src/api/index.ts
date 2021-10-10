@@ -32,7 +32,4 @@ export * from './auth';
   };
   return makeDeleteRequest(url, token, null, callback);
 };
-
-
-
  */
