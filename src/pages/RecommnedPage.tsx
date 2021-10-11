@@ -12,7 +12,7 @@ export default function RecommendPage() {
   const { data, isLoading } = useRecipeList(ingre);
   const recipeCount = useRecipeCount();
   const navigation = useNavigation();
-  const onPress = (recipeid: string, platform: string) =>
+  const onPress = (recipeid: number, platform: string) =>
     navigation.navigate('recipeInfo', { recipeid, platform });
   return (
     <AppWrap>

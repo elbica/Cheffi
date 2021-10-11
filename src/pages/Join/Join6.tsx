@@ -20,9 +20,8 @@ export default function Join6() {
        * 추후 axios를 이용해 formData를 백엔드로 보내야 한다
        * formData를 user redux에 저장해야 한다
        */
-      // const result = await sendForm(formData);
+      await sendForm(formData);
 
-      // console.log(formData, '\nreuslt: ', result);
       setNickname(formData.nickname || '');
       dispatch(formInit());
       setTimeout(() => dispatch(userLogin({ isLogin: true })), 2000);

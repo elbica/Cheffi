@@ -3,6 +3,7 @@ import API from './api';
 import { queryClient } from '../App';
 import { store } from '../redux/store';
 import { silentLogin } from './auth';
+import { IMAGE_HAEMUK_URL, IMAGE_MANGAE_URL } from '../../config';
 
 /**
  *
@@ -18,7 +19,6 @@ import { silentLogin } from './auth';
 const delayData = debounce(
   async ingre => {
     const data = await API.post('/recipe/number', ingre);
-    console.log('🍉delay call', data);
     return data;
   },
   1000,
@@ -30,7 +30,7 @@ export const getRecipeNumber = async (refriger: Refriger): Promise<number> => {
   const {
     data: { num },
   } = await delayData({ refriger });
-  return num;
+  return num || 0;
 };
 
 /**
@@ -55,7 +55,15 @@ export const getRecipeList = async (): Promise<Recipe[]> => {
   const {
     data: { recipe },
   } = await API.get('/recipe/list');
-  console.log('🍉recipe list call', recipe);
+  // console.log('🍉recipe list call', recipe);
+
+  return recipe;
+};
+export const getRecipeRandomList = async (num?: number): Promise<Recipe[]> => {
+  const {
+    data: { recipe },
+  } = await API.get(`/recipe/random-list?num=${num || 3}`);
+  // console.log('🐹recipe random list call', recipe);
 
   return recipe;
 };
@@ -73,23 +81,35 @@ export const getInitialRecipe = async () => {
   try {
     const login = await silentLogin();
     let number = 0,
-      list: Recipe[] = [];
+      list: Recipe[] = [],
+      randomList: Recipe[] = [];
     if (login) {
       const ingre = store.getState().refriger;
       // number = await getRecipeNumber(ingre);
       // list = await getRecipeList();
 
-      [number, list] = await Promise.all([
+      [number, randomList] = await Promise.all([
         getRecipeNumber(ingre),
-        getRecipeList(),
+        getRecipeRandomList(),
       ]);
 
-      queryClient.setQueryData(['RecipeList', ...ingre], list);
+      queryClient.setQueryData(['RecipeRandomList', 3], randomList);
       queryClient.setQueryData(['RecipeNumber', ...ingre], number);
     }
-    return { login, number };
+    return { login, number, randomList };
   } catch (e) {
     console.log('recipe init error:', e);
     return { error: true, number: 0 };
+  }
+};
+
+export const getRecipeImageUri = (recipeid: number, platform: string) => {
+  switch (platform) {
+    case 'haemuk':
+      return `${IMAGE_HAEMUK_URL}/${recipeid}.jpg`;
+    case 'mangae':
+      return `${IMAGE_MANGAE_URL}/${recipeid}.png`;
+    default:
+      return 'dummy';
   }
 };

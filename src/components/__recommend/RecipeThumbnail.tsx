@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { IMAGE_HAEMUK_URL, IMAGE_MANGAE_URL } from '../../../config';
+import { getRecipeImageUri } from '../../api';
 import { ImageButton } from '../elements/Buttons';
 import Divs from '../elements/Divs';
 import Fonts from '../elements/Fonts';
@@ -15,10 +15,7 @@ export default function RecipeThumbmail({
   onPress,
   platform,
 }: RecipeThumbnailProps) {
-  const uri =
-    platform === 'haemuk'
-      ? `${IMAGE_HAEMUK_URL}/${recipeid}.jpg`
-      : `${IMAGE_MANGAE_URL}/${recipeid}.png`;
+  const uri = getRecipeImageUri(recipeid, platform);
   return (
     <WrapTouchableOpacity onPress={() => onPress(recipeid, platform)}>
       <ImageButton
@@ -41,19 +38,21 @@ export default function RecipeThumbmail({
           />
         </RecipeTitle>
         <RecipeInfoWrap>
-          <InfoElementWrap>
-            <Clock />
-            <Fonts
-              children={time === '분' ? '- 분' : time}
-              color="tableBlack"
-              size="medium"
-            />
-          </InfoElementWrap>
+          {time && (
+            <InfoElementWrap>
+              <Clock />
+              <Fonts
+                children={time === '분' ? '- 분' : time.toString()}
+                color="tableBlack"
+                size="medium"
+              />
+            </InfoElementWrap>
+          )}
           {calories && (
             <InfoElementWrap>
               <Calories />
               <Fonts
-                children={calories + ' kcal'}
+                children={calories.toString() + ' kcal'}
                 color="tableBlack"
                 size="medium"
               />
@@ -105,6 +104,6 @@ const WrapTouchableOpacity = styled.TouchableOpacity`
   /* background-color: red; */
 `;
 
-interface RecipeThumbnailProps extends RecipeInfo {
+interface RecipeThumbnailProps extends Recipe {
   onPress: (recipeid: number, platform: string) => void;
 }
