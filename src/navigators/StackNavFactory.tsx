@@ -19,18 +19,19 @@ import { PrevArrow } from '../components/elements/Images';
 
 const Stack = createStackNavigator();
 const Header: StackNavigationOptions = {
-  title: '소희님 다이어트 1일차',
+  title: 'Cheffi',
   headerTransparent: true,
   headerBackground: () => <CustomStackHeader />,
   headerStyle: {
     height: Platform.OS === 'android' ? 10.5 * vh : 12 * vh,
   },
   headerBackImage: () => <PrevArrow />,
-
   headerTitleAlign: 'center',
   headerTintColor: '#fff',
   headerTitleStyle: {
     fontWeight: 'bold',
+    fontSize: 26,
+    letterSpacing: 1.3,
   },
   headerBackTitleVisible: false,
   cardOverlayEnabled: true,

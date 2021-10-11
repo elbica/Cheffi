@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { IMAGE_HAEMUK_URL } from '../../../config';
-import { Section } from '../../assets/styles/theme';
+import { IMAGE_HAEMUK_URL, IMAGE_MANGAE_URL } from '../../../config';
 import { ImageButton } from '../elements/Buttons';
-import Divs, { RowDivs } from '../elements/Divs';
+import Divs from '../elements/Divs';
 import Fonts from '../elements/Fonts';
-import { Star } from '../elements/Images';
+import { Calories, Clock, EmptyStar } from '../elements/Images';
 
 export default function RecipeThumbmail({
   recipeid,
@@ -14,66 +13,98 @@ export default function RecipeThumbmail({
   calories,
   title,
   onPress,
+  platform,
 }: RecipeThumbnailProps) {
+  const uri =
+    platform === 'haemuk'
+      ? `${IMAGE_HAEMUK_URL}/${recipeid}.jpg`
+      : `${IMAGE_MANGAE_URL}/${recipeid}.png`;
   return (
-    <ImageButton
-      key={recipeid}
-      uri={recipeid ? `${IMAGE_HAEMUK_URL}/${recipeid}.jpg` : 'dummy'}
-      width="100%"
-      height="200px"
-      onPress={() => onPress(recipeid)}
-      marginV="1%">
+    <WrapTouchableOpacity onPress={() => onPress(recipeid, platform)}>
+      <ImageButton
+        key={recipeid}
+        uri={uri}
+        width="100%"
+        height="130px"
+        onPress={() => onPress(recipeid, platform)}
+        marginV="1%"
+        radius={10}
+      />
       <FontContainer>
         <RecipeTitle>
           <Fonts
             children={title ? title : '없음'}
-            color="white"
-            size="xlarge"
+            color="black"
+            size="large"
             bold
-            lineHeight="xlarge"
+            lineHeight="large"
           />
         </RecipeTitle>
-        <Section justify="flex-end" align="flex-end">
-          <Fonts
-            children={time === '분' ? '- 분' : time}
-            color="white"
-            size="large"
-            bold
-          />
-          <Fonts
-            children={calories ? calories + ' kcal' : '- kcal'}
-            color="white"
-            size="large"
-            bold
-          />
-          <Scrap height="auto">
-            <Star />
+        <RecipeInfoWrap>
+          <InfoElementWrap>
+            <Clock />
+            <Fonts
+              children={time === '분' ? '- 분' : time}
+              color="tableBlack"
+              size="medium"
+            />
+          </InfoElementWrap>
+          {calories && (
+            <InfoElementWrap>
+              <Calories />
+              <Fonts
+                children={calories + ' kcal'}
+                color="tableBlack"
+                size="medium"
+              />
+            </InfoElementWrap>
+          )}
+          <InfoElementWrap>
+            <EmptyStar />
             <Fonts
               children={scrap ? scrap.toString() : '0'}
-              color="white"
-              size="large"
-              bold
+              color="tableBlack"
+              size="medium"
             />
-          </Scrap>
-        </Section>
+          </InfoElementWrap>
+        </RecipeInfoWrap>
       </FontContainer>
-    </ImageButton>
+    </WrapTouchableOpacity>
   );
 }
 
 const FontContainer = styled(Divs)`
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.2);
-`;
-const Scrap = styled(RowDivs)`
-  justify-content: flex-end;
+  padding-top: 10px;
+  padding-left: 5px;
+  height: auto;
 `;
 
 const RecipeTitle = styled.View`
-  width: 75%;
+  width: 90%;
   /* background-color: red; */
 `;
 
-interface RecipeThumbnailProps extends Recipe {
-  onPress: (recipeid: number) => void;
+const RecipeInfoWrap = styled.View`
+  flex-direction: row;
+  height: 40px;
+`;
+
+const InfoElementWrap = styled.View`
+  width: auto;
+  flex-direction: row;
+  height: 100%;
+  /* background-color: blue; */
+  margin-right: 15px;
+  align-items: center;
+`;
+
+const WrapTouchableOpacity = styled.TouchableOpacity`
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  /* background-color: red; */
+`;
+
+interface RecipeThumbnailProps extends RecipeInfo {
+  onPress: (recipeid: number, platform: string) => void;
 }

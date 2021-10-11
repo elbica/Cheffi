@@ -12,12 +12,12 @@ export default function RecommendPage() {
   const { data, isLoading } = useRecipeList(ingre);
   const recipeCount = useRecipeCount();
   const navigation = useNavigation();
-  const onPress = (recipeid: string) =>
-    navigation.navigate('recipeInfo', { recipeid });
+  const onPress = (recipeid: string, platform: string) =>
+    navigation.navigate('recipeInfo', { recipeid, platform });
   return (
     <AppWrap>
       <ChipButton
-        color="deepOrange"
+        color="light"
         children={`${recipeCount} 개의 레시피를 만들 수 있어요!`}
       />
       {!isLoading && (

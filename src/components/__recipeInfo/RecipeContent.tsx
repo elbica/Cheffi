@@ -10,7 +10,7 @@ import { Review, Scrap, Time } from '../elements/Images';
 const DUMMY_TEXT =
   'Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque aliquid nulla obcaecati, esse mollitia fuga sapiente illo? Eius, unde corrupti. Tempora, eum exercitationem autem libero iste voluptate voluptates aliquid?';
 
-export default function RecipeContent({ recipeid }) {
+export default function RecipeContent({ recipeid }: { recipeid: number }) {
   const { data } = useRecipeInfo(recipeid);
 
   return (
@@ -35,7 +35,7 @@ export default function RecipeContent({ recipeid }) {
               </RecipeProperty>
               <RecipeProperty>
                 <Scrap />
-                <Fonts children={data.scrap} />
+                <Fonts children={data.scrap || 0} />
               </RecipeProperty>
             </RowDivs>
             <Fonts children={DUMMY_TEXT} padV="10px" />

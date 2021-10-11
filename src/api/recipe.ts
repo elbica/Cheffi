@@ -76,13 +76,13 @@ export const getInitialRecipe = async () => {
       list: Recipe[] = [];
     if (login) {
       const ingre = store.getState().refriger;
-      number = await getRecipeNumber(ingre);
+      // number = await getRecipeNumber(ingre);
       // list = await getRecipeList();
 
-      // [number, list] = await Promise.all([
-      //   getRecipeNumber(ingre),
-      //   getRecipeList(),
-      // ]);
+      [number, list] = await Promise.all([
+        getRecipeNumber(ingre),
+        getRecipeList(),
+      ]);
 
       queryClient.setQueryData(['RecipeList', ...ingre], list);
       queryClient.setQueryData(['RecipeNumber', ...ingre], number);
