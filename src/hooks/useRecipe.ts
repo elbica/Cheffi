@@ -36,6 +36,7 @@ export const useRecipeNumber = (data: Refriger) => {
 export const useRecipeList = () => {
   const refriger = useRefrigerIngredient();
 
+  // console.log('list 실행', refriger);
   return useInfiniteQuery(
     ['RecipeList', ...refriger],
     ({ pageParam = 1 }) => getRecipeList(pageParam),

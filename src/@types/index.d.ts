@@ -27,15 +27,14 @@ declare type TwoDepthCategory =
 declare type MainCategory = TwoDepthCategory | OneDepthCategory | '전체';
 
 declare interface Recipe {
-  scrap: number | null;
-  time: string;
-  calories: number | null;
+  scrap?: number;
+  time?: string;
+  calories?: number;
   recipeid: number;
-  title: string;
-  platform: 'haemuk' | 'mangae';
-  _id: string;
-  size: number;
-  difficulty: string;
+  title?: string;
+  platform: 'haemuk' | 'mangae' | 'dummy';
+  size?: number;
+  difficulty?: string;
 }
 declare interface RecipeInfo extends Recipe {
   ingredient: string[];

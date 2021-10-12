@@ -57,12 +57,12 @@ export const getRecipeList = async (
   page: number = 1,
 ): Promise<getRecipeListReturn> => {
   const {
-    data: { recipe, maxPage },
+    data: { recipe, maxPage = 999 },
   } = await API.get(`/recipe/list?page=${page}&step=${RECIPE_LIST_STEP}`);
   console.log('🍉recipe list call', recipe);
 
   return {
-    recipe,
+    recipe: recipe ?? [],
     maxPage,
     available: page ? page < maxPage : false,
     nextPage: page + 1,
@@ -105,7 +105,6 @@ export const getInitialRecipe = async () => {
       queryClient.setQueryData(['RecipeRandomList', 3], randomList);
       queryClient.setQueryData(['RecipeNumber', ...ingre], number);
       queryClient.setQueryData(['RecipeList', ...ingre], initList);
-      console.log('init complete');
     }
     return { login, number, randomList };
   } catch (e) {

@@ -16,7 +16,7 @@ export default React.memo(function RecipeThumbmail({
   platform,
 }: RecipeThumbnailProps) {
   const uri = getRecipeImageUri(recipeid, platform);
-  console.log('thumbnail: ', title);
+  // console.log('thumbnail: ', title);
   return (
     <WrapTouchableOpacity onPress={() => onPress(recipeid, platform)}>
       <ImageButton

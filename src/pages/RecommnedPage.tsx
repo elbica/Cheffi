@@ -9,14 +9,13 @@ import { useRecipeCount } from '../hooks/useRedux';
 
 export default function RecommendPage() {
   const { data, fetchNextPage } = useRecipeList();
-  // const
-  const recipe = data?.pages.reduce<Recipe[]>(
+  // console.log('recommendPage rendering', data);
+  const recipeCount = useRecipeCount();
+  const recipe = data?.pages?.reduce<Recipe[]>(
     (acc, cur) => [...acc, ...cur.recipe],
     [],
   );
-  const recipeCount = useRecipeCount();
   const navigation = useNavigation();
-  console.log('recommendPage rendering', data);
   const onPress = useCallback(
     (recipeid: number, platform: string) =>
       navigation.navigate('recipeInfo', { recipeid, platform }),
