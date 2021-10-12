@@ -5,6 +5,8 @@ import { store } from '../redux/store';
 import { silentLogin } from './auth';
 import { IMAGE_HAEMUK_URL, IMAGE_MANGAE_URL } from '../../config';
 
+const RECIPE_LIST_STEP = 6;
+
 /**
  *
  * @param ingredients 사용자가 선택한 재료 배열
@@ -51,13 +53,20 @@ export const getRecipeInfo = async (recipeId: number): Promise<RecipeInfo> => {
  * @param ingredients 사용자가 선택한 재료 배열
  * @returns 재료 배열로 만들 수 있는 레시피 배열
  */
-export const getRecipeList = async (page: number): Promise<Recipe[]> => {
+export const getRecipeList = async (
+  page: number = 1,
+): Promise<getRecipeListReturn> => {
   const {
-    data: { recipe },
-  } = await API.get(`/recipe/list?page=${page}&step=6`);
+    data: { recipe, maxPage },
+  } = await API.get(`/recipe/list?page=${page}&step=${RECIPE_LIST_STEP}`);
   console.log('🍉recipe list call', recipe);
 
-  return recipe;
+  return {
+    recipe,
+    maxPage,
+    available: page ? page < maxPage : false,
+    nextPage: page + 1,
+  };
 };
 export const getRecipeRandomList = async (num?: number): Promise<Recipe[]> => {
   const {
@@ -81,7 +90,7 @@ export const getInitialRecipe = async () => {
   try {
     const login = await silentLogin();
     let number = 0,
-      list: Recipe[] = [],
+      list: getRecipeListReturn,
       randomList: Recipe[] = [];
     if (login) {
       const ingre = store.getState().refriger;
@@ -89,12 +98,13 @@ export const getInitialRecipe = async () => {
       [number, randomList, list] = await Promise.all([
         getRecipeNumber(ingre),
         getRecipeRandomList(),
-        getRecipeList(1),
+        getRecipeList(),
       ]);
+      const initList = { pageParams: [1], pages: [list] };
 
       queryClient.setQueryData(['RecipeRandomList', 3], randomList);
       queryClient.setQueryData(['RecipeNumber', ...ingre], number);
-      queryClient.setQueryData(['RecipeList', ...ingre, 1], list);
+      queryClient.setQueryData(['RecipeList', ...ingre], initList);
       console.log('init complete');
     }
     return { login, number, randomList };
@@ -113,4 +123,11 @@ export const getRecipeImageUri = (recipeid: number, platform: string) => {
     default:
       return 'dummy';
   }
+};
+
+type getRecipeListReturn = {
+  recipe: Recipe[];
+  maxPage: number;
+  nextPage: number;
+  available: boolean;
 };

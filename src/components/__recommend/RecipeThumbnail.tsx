@@ -6,7 +6,7 @@ import Divs from '../elements/Divs';
 import Fonts from '../elements/Fonts';
 import { Calories, Clock, EmptyStar } from '../elements/Images';
 
-export default function RecipeThumbmail({
+export default React.memo(function RecipeThumbmail({
   recipeid,
   scrap,
   time,
@@ -16,6 +16,7 @@ export default function RecipeThumbmail({
   platform,
 }: RecipeThumbnailProps) {
   const uri = getRecipeImageUri(recipeid, platform);
+  console.log('thumbnail: ', title);
   return (
     <WrapTouchableOpacity onPress={() => onPress(recipeid, platform)}>
       <ImageButton
@@ -70,7 +71,7 @@ export default function RecipeThumbmail({
       </FontContainer>
     </WrapTouchableOpacity>
   );
-}
+});
 
 const FontContainer = styled(Divs)`
   padding-top: 10px;

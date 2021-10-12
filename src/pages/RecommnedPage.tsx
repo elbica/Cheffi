@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 import { AppWrap } from '../assets/styles/theme';
 import { ChipButton } from '../components/elements/Buttons';
@@ -8,12 +8,20 @@ import { useRecipeList } from '../hooks/useRecipe';
 import { useRecipeCount } from '../hooks/useRedux';
 
 export default function RecommendPage() {
-  const { data } = useRecipeList(1);
+  const { data, fetchNextPage } = useRecipeList();
+  // const
+  const recipe = data?.pages.reduce<Recipe[]>(
+    (acc, cur) => [...acc, ...cur.recipe],
+    [],
+  );
   const recipeCount = useRecipeCount();
   const navigation = useNavigation();
-  console.log(data);
-  const onPress = (recipeid: number, platform: string) =>
-    navigation.navigate('recipeInfo', { recipeid, platform });
+  console.log('recommendPage rendering', data);
+  const onPress = useCallback(
+    (recipeid: number, platform: string) =>
+      navigation.navigate('recipeInfo', { recipeid, platform }),
+    [navigation],
+  );
   return (
     <AppWrap>
       <ChipButton
@@ -23,12 +31,13 @@ export default function RecommendPage() {
       {data && (
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={data}
+          data={recipe}
           renderItem={({ item }) => (
             <RecipeThumbmail {...item} onPress={onPress} />
           )}
-          // renderItem={null}
           keyExtractor={item => item.recipeid}
+          onEndReached={() => fetchNextPage()}
+          onEndReachedThreshold={0.5}
         />
       )}
     </AppWrap>

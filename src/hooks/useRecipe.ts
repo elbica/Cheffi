@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery, useInfiniteQuery } from 'react-query';
 import {
   getRecipeRandomList,
   getRecipeInfo,
@@ -29,18 +29,20 @@ export const useRecipeNumber = (data: Refriger) => {
  * @param page
  * @returns 추가된 Recipe 배열
  * @description
- * infinite scroll을 위한 pagination 적용으로 caching을 할 필요가 없다.
- * 어차피 데이터가 바뀌기 때문이다.
+ * infinite scroll을 위한 pagination 적용
+ * useInfiniteQuery 사용
  *
  */
-export const useRecipeList = (page: number) => {
+export const useRecipeList = () => {
   const refriger = useRefrigerIngredient();
 
-  return useQuery<Recipe[]>(
-    ['RecipeList', ...refriger, page],
-    () => getRecipeList(page),
+  return useInfiniteQuery(
+    ['RecipeList', ...refriger],
+    ({ pageParam = 1 }) => getRecipeList(pageParam),
     {
       staleTime: 1000 * 60 * 60 * 12,
+      getNextPageParam: lastpage =>
+        lastpage.available ? lastpage.nextPage : 0,
     },
   );
 };
