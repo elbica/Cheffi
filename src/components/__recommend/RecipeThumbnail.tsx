@@ -38,11 +38,11 @@ export default function RecipeThumbmail({
           />
         </RecipeTitle>
         <RecipeInfoWrap>
-          {time && (
+          {time !== '' && (
             <InfoElementWrap>
               <Clock />
               <Fonts
-                children={time === '' ? '- 분' : time}
+                children={time === '분' ? '- 분' : time}
                 color="tableBlack"
                 size="medium"
               />

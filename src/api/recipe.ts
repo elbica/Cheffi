@@ -51,11 +51,11 @@ export const getRecipeInfo = async (recipeId: number): Promise<RecipeInfo> => {
  * @param ingredients 사용자가 선택한 재료 배열
  * @returns 재료 배열로 만들 수 있는 레시피 배열
  */
-export const getRecipeList = async (): Promise<Recipe[]> => {
+export const getRecipeList = async (page: number): Promise<Recipe[]> => {
   const {
     data: { recipe },
-  } = await API.get('/recipe/list');
-  // console.log('🍉recipe list call', recipe);
+  } = await API.get(`/recipe/list?page=${page}&step=6`);
+  console.log('🍉recipe list call', recipe);
 
   return recipe;
 };
@@ -85,16 +85,17 @@ export const getInitialRecipe = async () => {
       randomList: Recipe[] = [];
     if (login) {
       const ingre = store.getState().refriger;
-      // number = await getRecipeNumber(ingre);
-      // list = await getRecipeList();
 
-      [number, randomList] = await Promise.all([
+      [number, randomList, list] = await Promise.all([
         getRecipeNumber(ingre),
         getRecipeRandomList(),
+        getRecipeList(1),
       ]);
 
       queryClient.setQueryData(['RecipeRandomList', 3], randomList);
       queryClient.setQueryData(['RecipeNumber', ...ingre], number);
+      queryClient.setQueryData(['RecipeList', ...ingre, 1], list);
+      console.log('init complete');
     }
     return { login, number, randomList };
   } catch (e) {

@@ -5,13 +5,13 @@ import { AppWrap } from '../assets/styles/theme';
 import { ChipButton } from '../components/elements/Buttons';
 import RecipeThumbmail from '../components/__recommend/RecipeThumbnail';
 import { useRecipeList } from '../hooks/useRecipe';
-import { useRecipeCount, useRefrigerIngredient } from '../hooks/useRedux';
+import { useRecipeCount } from '../hooks/useRedux';
 
 export default function RecommendPage() {
-  const ingre = useRefrigerIngredient();
-  const { data, isLoading } = useRecipeList(ingre);
+  const { data } = useRecipeList(1);
   const recipeCount = useRecipeCount();
   const navigation = useNavigation();
+  console.log(data);
   const onPress = (recipeid: number, platform: string) =>
     navigation.navigate('recipeInfo', { recipeid, platform });
   return (
@@ -20,7 +20,7 @@ export default function RecommendPage() {
         color="light"
         children={`${recipeCount} 개의 레시피를 만들 수 있어요!`}
       />
-      {!isLoading && (
+      {data && (
         <FlatList
           showsVerticalScrollIndicator={false}
           data={data}
@@ -28,7 +28,7 @@ export default function RecommendPage() {
             <RecipeThumbmail {...item} onPress={onPress} />
           )}
           // renderItem={null}
-          keyExtractor={item => item._id}
+          keyExtractor={item => item.recipeid}
         />
       )}
     </AppWrap>

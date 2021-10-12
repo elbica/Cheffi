@@ -5,6 +5,7 @@ import {
   getRecipeList,
   getRecipeNumber,
 } from '../api';
+import { useRefrigerIngredient } from './useRedux';
 
 let recipeNumberTimer = Date.now();
 
@@ -23,10 +24,25 @@ export const useRecipeNumber = (data: Refriger) => {
   );
 };
 
-export const useRecipeList = (data: Refriger) => {
-  return useQuery<Recipe[]>(['RecipeList', ...data], () => getRecipeList(), {
-    staleTime: 1000 * 60 * 60 * 12,
-  });
+/**
+ *
+ * @param page
+ * @returns 추가된 Recipe 배열
+ * @description
+ * infinite scroll을 위한 pagination 적용으로 caching을 할 필요가 없다.
+ * 어차피 데이터가 바뀌기 때문이다.
+ *
+ */
+export const useRecipeList = (page: number) => {
+  const refriger = useRefrigerIngredient();
+
+  return useQuery<Recipe[]>(
+    ['RecipeList', ...refriger, page],
+    () => getRecipeList(page),
+    {
+      staleTime: 1000 * 60 * 60 * 12,
+    },
+  );
 };
 export const useRecipeRandomList = (num?: number) => {
   if (!num) num = 3;
