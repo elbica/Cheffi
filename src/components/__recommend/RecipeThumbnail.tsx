@@ -42,7 +42,7 @@ export default function RecipeThumbmail({
             <InfoElementWrap>
               <Clock />
               <Fonts
-                children={time === '분' ? '- 분' : time.toString()}
+                children={time === '' ? '- 분' : time}
                 color="tableBlack"
                 size="medium"
               />

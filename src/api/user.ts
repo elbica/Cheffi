@@ -14,6 +14,6 @@ export const sendRecipeCount = async () => {
 };
 
 export const sendRefriger = async (refriger: Refriger) => {
-  await API.put('/user/refriger', refriger);
+  await API.put('/user/refriger', { refriger });
   console.log('update redux refriger, save server');
 };
