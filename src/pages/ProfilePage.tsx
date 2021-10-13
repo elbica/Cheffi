@@ -8,6 +8,8 @@ import { Section } from '../assets/styles/theme';
 import LinkButton from '../components/elements/Buttons';
 import { RootState } from '../redux/modules';
 import { userLogout } from '../redux/modules/auth';
+import { SearchInput } from '../components/elements/Inputs';
+import { CenterDivs } from '../components/elements/Divs';
 
 const array = [1, 2];
 
@@ -50,6 +52,9 @@ export default function ProfilePage() {
             />
           ))}
         </Section>
+        <CenterDivs height="100px" width="100%">
+          <SearchInput width="90%" />
+        </CenterDivs>
       </ScrollView>
     </View>
   );

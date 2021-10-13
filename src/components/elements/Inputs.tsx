@@ -1,14 +1,14 @@
 import React from 'react';
-import {useRef} from 'react';
-import {useCallback} from 'react';
-import {useState} from 'react';
-import {TextInput} from 'react-native';
+import { useRef } from 'react';
+import { useCallback } from 'react';
+import { useState } from 'react';
+import { TextInput } from 'react-native';
 import styled from 'styled-components/native';
-import {theme} from '../../assets/styles/theme';
-import {CenterDivs} from './Divs';
+import { theme, vh, vw } from '../../assets/styles/theme';
+import { CenterDivs } from './Divs';
 import Fonts from './Fonts';
-import {Search} from './Images';
-import {InputStyleProps} from './interface';
+import { Delete, Search } from './Images';
+import { InputStyleProps } from './interface';
 
 export default function IngredientInput({
   color = 'tableGray',
@@ -58,22 +58,114 @@ export default function IngredientInput({
   );
 }
 
+/**
+ *
+ * @param onEndEditing 상위 컴포넌트에서 입력 값 관리를 해야한다.
+ * @returns
+ */
+export const SearchInput = ({
+  color = 'tableBlack',
+  width = '100%',
+  fontSize = 'medium',
+  onEndEditing = () => {},
+  placeholder = '재료 이름으로 검색',
+}: InputStyleProps) => {
+  const iconWidth = `${2.2 * vh}px`;
+  const InputRef = useRef<TextInput>(null);
+  const [placeholderDisplay, setDisplay] = useState(true);
+  const handleChange = useCallback(
+    (text: string) => {
+      if (text === '') setDisplay(true);
+      else if (text.length === 1) setDisplay(false);
+    },
+    [setDisplay],
+  );
+  const handleDelete = useCallback(() => {
+    InputRef?.current?.clear();
+    setDisplay(true);
+  }, []);
+  return (
+    <SearchInputWrap width={width}>
+      <SearchInputElement
+        onEndEditing={onEndEditing}
+        ref={InputRef}
+        onFocus={() => setDisplay(false)}
+        onChangeText={handleChange}
+      />
+      {placeholderDisplay ? (
+        <PlaceholderWrap pointerEvents="none">
+          <SearchIcon color="carrot" width={iconWidth} height={iconWidth} />
+          <Fonts color={color} padH="6%" size={fontSize}>
+            {placeholder}
+          </Fonts>
+        </PlaceholderWrap>
+      ) : (
+        <DeleteWrap onPress={handleDelete}>
+          <Delete color="carrot" />
+        </DeleteWrap>
+      )}
+    </SearchInputWrap>
+  );
+};
+
 const InputStyle = styled.TextInput<InputStyleProps>`
-  color: ${({color}) => theme.color[color || 'black']};
+  color: ${({ color }) => theme.color[color || 'black']};
   border-bottom-width: 1px;
-  border-color: ${({color}) => theme.color[color || 'black']};
+  border-color: ${({ color }) => theme.color[color || 'black']};
   padding: 10px;
   text-align: center;
-  font-size: ${({fontSize}) => theme.text[fontSize || 'medium']};
-  width: ${({width}) => width || '100%'};
+  font-size: ${({ fontSize }) => theme.text[fontSize || 'medium']};
+  width: ${({ width }) => width || '100%'};
 `;
 
-const PlaceholderIcon = styled.View<{width: string}>`
+const PlaceholderIcon = styled.View<{ width: string }>`
   flex-direction: row;
   position: absolute;
-  width: ${({width}) => width || '100%'};
+  width: ${({ width }) => width || '100%'};
   justify-content: center;
   align-items: center;
   background: transparent;
   z-index: 0;
+`;
+const SearchInputWrap = styled.View<{ width: string }>`
+  position: relative;
+  width: ${({ width }) => width || '100%'};
+
+  height: auto;
+  /* background-color: red; */
+`;
+const SearchInputElement = styled.TextInput<InputStyleProps>`
+  border-radius: 10px;
+  /* border-color: ${({ color }) => theme.color[color || 'black'] + '88'};
+  border-width: 1px; */
+  width: ${({ width }) => width || '100%'};
+  padding-top: ${1.7 * vh}px;
+  padding-bottom: ${1.7 * vh}px;
+  padding-left: ${5 * vw}px;
+  font-size: ${({ fontSize }) => theme.text[fontSize || 'medium']};
+  background-color: ${theme.color.carrot + '22'};
+`;
+const PlaceholderWrap = styled.View`
+  position: absolute;
+  flex-direction: row;
+  /* background-color: green; */
+  width: 88%;
+  height: 100%;
+  /* justify-content: space-between; */
+  align-items: center;
+  align-self: center;
+`;
+const DeleteWrap = styled.TouchableOpacity`
+  position: absolute;
+  height: 100%;
+  justify-content: center;
+  align-self: flex-end;
+  margin-right: 6%;
+`;
+const SearchIcon = styled(Search)`
+  /* position: absolute; */
+
+  /* display: inline-block; */
+  bottom: 20px;
+  left: 20px;
 `;

@@ -124,6 +124,15 @@ export function Search({ width, height, color }: ImageStyleProps) {
     />
   );
 }
+export function Delete({ width, color }: ImageStyleProps) {
+  return (
+    <DeleteContainer
+      source={require('../../assets/icons/delete.png')}
+      color={color}
+      Width={width}
+    />
+  );
+}
 
 const prevArrowStyle: ImageStyle = {
   marginLeft: 24,
@@ -160,4 +169,10 @@ const EmptyStarContainer = styled(StarContainer)`
 const ScrapContainer = styled.Image`
   width: 40px;
   height: 40px;
+`;
+
+const DeleteContainer = styled.Image<ImageStyleProps>`
+  width: ${({ Width }) => Width || '23px'};
+  height: ${({ Width }) => Width || '23px'};
+  tint-color: ${({ color }) => theme.color[color || 'black']};
 `;
