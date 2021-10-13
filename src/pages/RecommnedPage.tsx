@@ -3,6 +3,7 @@ import React, { useCallback } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 import { AppWrap } from '../assets/styles/theme';
 import { ChipButton } from '../components/elements/Buttons';
+import { Indicator } from '../components/elements/Indicators';
 import RecipeThumbmail from '../components/__recommend/RecipeThumbnail';
 import { useRecipeList } from '../hooks/useRecipe';
 import { useRecipeCount } from '../hooks/useRedux';
@@ -27,7 +28,7 @@ export default function RecommendPage() {
         color="light"
         children={`${recipeCount} 개의 레시피를 만들 수 있어요!`}
       />
-      {data && (
+      {data ? (
         <FlatList
           showsVerticalScrollIndicator={false}
           data={recipe}
@@ -39,6 +40,8 @@ export default function RecommendPage() {
           onEndReachedThreshold={0.5}
           removeClippedSubviews
         />
+      ) : (
+        <Indicator />
       )}
     </AppWrap>
   );

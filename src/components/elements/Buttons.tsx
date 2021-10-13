@@ -16,7 +16,6 @@ import {
 import Fonts from './Fonts';
 import { Check } from './Images';
 import { Colors } from 'styled-components';
-import dummyImage from '../../assets/images/Dummy.png';
 import FastImage from 'react-native-fast-image';
 
 export default function LinkButton({
@@ -194,7 +193,7 @@ export function ImageButton({
   ...rest
 }: ImageButtonProps) {
   const source = {
-    uri: uri === 'dummy' ? dummyImage : uri,
+    uri,
     priority: FastImage.priority.normal,
   };
   return (
@@ -208,7 +207,11 @@ export function ImageButton({
         {...rest}>
         {uri ? (
           <FastImage
-            source={source}
+            source={
+              uri === 'dummy'
+                ? require('../../assets/images/Dummy.png')
+                : source
+            }
             // eslint-disable-next-line react-native/no-inline-styles
             style={{ flex: 1, justifyContent: 'center' }}
             resizeMode={FastImage.resizeMode.cover}>
