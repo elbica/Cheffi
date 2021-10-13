@@ -14,7 +14,7 @@ declare type OneDepthCategory =
   | '음료/주류';
 
 declare type TwoDepthCategory =
-  | '빵/면/만두'
+  | '빵/면/만두류'
   | '채소류'
   | '육류'
   | '계란/유제품'

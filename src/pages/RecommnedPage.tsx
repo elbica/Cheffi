@@ -37,6 +37,7 @@ export default function RecommendPage() {
           keyExtractor={item => item.recipeid}
           onEndReached={() => fetchNextPage()}
           onEndReachedThreshold={0.5}
+          removeClippedSubviews
         />
       )}
     </AppWrap>
