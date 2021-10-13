@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { ImageBackground, Text } from 'react-native';
+import { Text } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import { theme, TouchButton } from '../../assets/styles/theme';
 import { CenterDivs, RowDivs } from './Divs';
@@ -17,6 +17,7 @@ import Fonts from './Fonts';
 import { Check } from './Images';
 import { Colors } from 'styled-components';
 import dummyImage from '../../assets/images/Dummy.png';
+import FastImage from 'react-native-fast-image';
 
 export default function LinkButton({
   title,
@@ -192,6 +193,10 @@ export function ImageButton({
   children = null,
   ...rest
 }: ImageButtonProps) {
+  const source = {
+    uri: uri === 'dummy' ? dummyImage : uri,
+    priority: FastImage.priority.normal,
+  };
   return (
     <CenterTouchOpacity onPress={onPress} goal="home">
       <ImageButtonContainer
@@ -202,14 +207,13 @@ export function ImageButton({
         radius={radius}
         {...rest}>
         {uri ? (
-          <ImageBackground
-            // source={{ uri }}
-            source={uri === 'dummy' ? dummyImage : { uri }}
+          <FastImage
+            source={source}
             // eslint-disable-next-line react-native/no-inline-styles
             style={{ flex: 1, justifyContent: 'center' }}
-            resizeMode="cover">
+            resizeMode={FastImage.resizeMode.cover}>
             {children}
-          </ImageBackground>
+          </FastImage>
         ) : (
           <CenterDivs>{children}</CenterDivs>
         )}

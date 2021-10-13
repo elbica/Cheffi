@@ -10,7 +10,7 @@ const initState = {
   nickname: '익명',
   statusMessage: '안녕하세요',
   photo: 's3.url.com',
-  dislikeIngredeint: ['민트', '당근'],
+  dislikeIngredient: ['민트', '당근'],
   scrapRecipesId: ['1', '2'],
   likeRecipesId: ['3', '4'],
   historyRecipesId: ['5', '6'],

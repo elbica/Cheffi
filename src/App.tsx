@@ -37,8 +37,7 @@ const App: () => JSX.Element = () => {
    * data fetch 해서 redux에 저장하기
    */
   React.useEffect(() => {
-    SplashScreen.show();
-
+    // SplashScreen.show();
     console.log('🎩splash image');
 
     setTimeout(() => SplashScreen.hide(), 1000);

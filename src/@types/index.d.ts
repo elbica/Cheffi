@@ -7,27 +7,34 @@ declare interface Category {
   data: string[];
 }
 
-declare type MainCategory =
-  | '전체'
-  | '떡/밥/곡류'
-  | '빵/면/만두류'
+declare type OneDepthCategory =
+  | '떡/곡류'
+  | '콩/묵/두부'
   | '과일류'
+  | '음료/주류';
+
+declare type TwoDepthCategory =
+  | '빵/면/만두류'
   | '채소류'
   | '육류'
   | '계란/유제품'
   | '수산/건어물'
-  | '장/양념/소스류'
-  | '음료/주류'
+  | '조미료/양념/육수'
   | '가공식품'
-  | '향신료/가루류'
+  | '기름/향신료/가루'
   | '초콜릿/과자/견과류';
 
+declare type MainCategory = TwoDepthCategory | OneDepthCategory | '전체';
+
 declare interface Recipe {
-  scrap: number;
-  time: string;
-  calories: number;
+  scrap?: number;
+  time?: string;
+  calories?: number;
   recipeid: number;
-  title: string;
+  title?: string;
+  platform: 'haemuk' | 'mangae' | 'dummy';
+  size?: number;
+  difficulty?: string;
 }
 declare interface RecipeInfo extends Recipe {
   ingredient: string[];
@@ -50,7 +57,7 @@ declare interface AuthResult {
     likeRecipesId: string[];
     historyRecipesId: string[];
   };
-  refriger: { title: string; data: string[] }[];
+  refriger: { title: MainCategory; data: string[] }[];
 }
 
 declare interface Ingredients {
@@ -58,3 +65,10 @@ declare interface Ingredients {
 }
 
 declare type Refriger = Category[];
+declare type FormInfo = {
+  nickname?: string;
+  photo?: any;
+  problems?: string[];
+  likeRecipesId?: string[];
+  dislikeIngredient?: string[];
+};

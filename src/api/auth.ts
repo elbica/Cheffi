@@ -1,13 +1,13 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import {
-  getAccessToken,
-  KakaoAccessTokenInfo,
   KakaoOAuthToken,
   login,
   logout,
+  refreshAccessToken,
 } from '@react-native-seoul/kakao-login';
 import API from './api';
 import { store } from '../redux/store';
+import debounce from 'debounce-promise';
 
 /**
  * @description,
@@ -24,15 +24,31 @@ import { store } from '../redux/store';
  * @function google
  */
 
+const sendToken = async (token: string, platform: string) => {
+  const { data } = await API.post<AuthResult>('/Auth', {
+    token,
+    platform,
+  });
+  return data;
+};
+
+const sendGoogleToken = debounce(
+  async (token: string) => await sendToken(token, 'google'),
+  1000 * 3,
+  { leading: true },
+);
+const sendKakaoToken = debounce(
+  async (token: string) => await sendToken(token, 'kakao'),
+  1000 * 3,
+  { leading: true },
+);
+
 export const GoogleLogin = async (): Promise<AuthResult> => {
   try {
     const user = await GoogleSignin.signIn();
     updateToken(user.idToken as string, 'google');
 
-    const { data } = await API.post<AuthResult>('/Auth', {
-      token: user.idToken,
-      platform: 'google',
-    });
+    const data = await sendGoogleToken(user.idToken as string);
     console.log('backend: ', data);
     // console.log('axios : ', API);
 
@@ -57,10 +73,8 @@ const silentGoogleLogin = async () => {
   updateToken(user.idToken as string, 'google');
 
   console.log('change axios header :', API.defaults.headers);
-  const { data } = await API.post<AuthResult>('/Auth', {
-    token: user.idToken,
-    platform: 'google',
-  });
+  const data = await sendGoogleToken(user.idToken as string);
+
   console.log('🧳silent google response data: ', data);
   return data;
 };
@@ -74,10 +88,8 @@ export const KakaoLogin = async (): Promise<AuthResult> => {
     const token: KakaoOAuthToken = await login();
     updateToken(token.accessToken, 'kakao');
 
-    const { data } = await API.post<AuthResult>('/Auth', {
-      token: token.accessToken,
-      platform: 'kakao',
-    });
+    const data = await sendKakaoToken(token.accessToken as string);
+
     // console.log(data);
     return data;
   } catch (e) {
@@ -94,13 +106,24 @@ export const KakaoLogout = async () => {
     throw new Error('kakao logout failed.');
   }
 };
+/**
+ *
+ * @description
+ * kakao 자동로그인은 google과 구조가 다르다.
+ * google은 토큰을 새로 발급받는 처음부터 로그인하는 구조라면
+ * kakao는 토큰의 유효성을 검증받아 예외처리 하는 구조이다.
+ *
+ * 기존 라이브러리 함수로는 자동 로그인 구현상 문제가 생겨
+ * 라이브러리를 수정했다..
+ * 기존 함수로는 갱신된 access token에 접근할 수 없기 때문이었다.
+ *
+ */
 const silentKakaoLogin = async () => {
-  const token: KakaoAccessTokenInfo = await getAccessToken();
+  const token: KakaoOAuthToken = await refreshAccessToken();
   updateToken(token.accessToken, 'kakao');
-  const { data } = await API.post<AuthResult>('/Auth', {
-    token: token.accessToken,
-    platform: 'kakao',
-  });
+
+  const data = await sendKakaoToken(token.accessToken as string);
+
   console.log('👑silent kakao response data: ', data);
   return data;
 };
@@ -109,12 +132,13 @@ export const silentLogin = async () => {
   const { platform } = store.getState().auth;
   console.log(`${platform} 🐹 자동 로그인!`);
   try {
+    let token = '';
     if (platform === 'google') {
-      await silentGoogleLogin();
+      token = (await silentGoogleLogin()).auth.token;
     } else if (platform === 'kakao') {
-      await silentKakaoLogin();
+      token = (await silentKakaoLogin()).auth.token;
     }
-    return true;
+    return token;
   } catch (e) {
     /**
      * @description
@@ -134,25 +158,3 @@ const deleteToken = () => {
   delete API.defaults.headers.common.Authorization;
   delete API.defaults.headers.common.Platform;
 };
-
-/**
- *
- * @description 401, unauthorized
- * @response
- * {
- *    error: string
- *    type: EXPIRE_TOKEN | INVALID_TOKEN
- * }
- * @flow
- *  expire : 자동 로그인해서 토큰 갱신 후 다시 요청
- *  invalid : 초기 화면으로 이동
- *
- *
- * @description 403, forbidden
- * @response
- * {
- *    error: "권한이 없습니다."
- * }
- *
- *
- */

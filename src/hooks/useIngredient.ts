@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { sendRefriger } from '../api';
 import { RootState } from '../redux/modules';
 import { setIngredient } from '../redux/modules/ingredient';
 import { setRefriger } from '../redux/modules/refriger';
@@ -26,8 +27,7 @@ export const useIngredient = (): useIngredientResult => {
         dispatch(setRefriger(ingredients));
         dispatch(setIngredient(ingredients));
         dispatch(userRecipeCount(recipeCount));
-        // await patchRefriger(ingredients);
-        // await patchRecipeCount(recipeCount);
+        await sendRefriger(ingredients);
       } catch (e) {
         console.log('냉장고, 레시피 개수 저장 에러 발생: ', e);
       }

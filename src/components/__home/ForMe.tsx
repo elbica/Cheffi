@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {ImageButton} from '../elements/Buttons';
+import { vh } from '../../assets/styles/theme';
+import { ImageButton } from '../elements/Buttons';
 import Fonts from '../elements/Fonts';
 
 const DUMMY_URI =
@@ -28,5 +29,5 @@ export default function ForMe() {
 }
 
 const ForMeContainer = styled.View`
-  flex: 0.1;
+  height: ${40 * vh}px;
 `;

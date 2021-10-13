@@ -50,6 +50,7 @@ export default function SelectProblem() {
                 <FormSelectButton
                   key={idx}
                   idx={idx}
+                  id={text}
                   children={text}
                   width={width}
                 />

@@ -1,49 +1,46 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components/native';
 import Fonts from '../elements/Fonts';
-import { ImageButton } from '../elements/Buttons';
+import { useNavigation } from '@react-navigation/core';
+import RecipeThumbmail from '../__recommend/RecipeThumbnail';
+import { MOCK_HOT_RECIPE } from '../../assets/data/mockRecipeData';
 
-const DUMMY_URI =
-  'https://cheffi.s3.ap-northeast-2.amazonaws.com/Image/Haemuk/5549.jpg';
-
-export default function HotRecipes() {
+export default function HotRecipes({ data }: { data: Recipe[] | undefined }) {
+  // const { data, isLoading } = useRecipeRandomList();
+  // queryClient.get
+  const navigation = useNavigation();
+  // console.log(data, isLoading);
+  const onPress = useCallback(
+    (recipeid: number, platform: string) =>
+      navigation.navigate('recipeInfo', { recipeid, platform }),
+    [navigation],
+  );
   return (
     <HotRecipeWrap>
       <Fonts size="large" padH="2%" padV="10px">
         Hot 레시피
       </Fonts>
-      {hotRecipes.map((recipe, idx) => (
-        <ImageButton
-          uri={DUMMY_URI}
-          width="100%"
-          height="200px"
-          marginV="1%"
-          key={idx}
-        />
-      ))}
+      {data
+        ? data.map(recipe => (
+            <RecipeThumbmail
+              key={recipe.recipeid}
+              {...recipe}
+              onPress={onPress}
+            />
+          ))
+        : MOCK_HOT_RECIPE.map(recipe => (
+            <RecipeThumbmail
+              key={recipe.recipeid}
+              {...recipe}
+              onPress={onPress}
+            />
+          ))}
     </HotRecipeWrap>
   );
 }
 
 const HotRecipeWrap = styled.View`
   /* flex-wrap: wrap; */
-  flex: 0.1;
-  margin-top: 5%;
+  height: auto;
+  margin-top: 16px;
 `;
-const hotRecipes = [
-  {
-    title: 'hot1',
-    etc: 'asdf1',
-    goal: 'recipe1',
-  },
-  {
-    title: 'hot2',
-    etc: 'asdf2',
-    goal: 'recipe2',
-  },
-  {
-    title: 'hot3',
-    etc: 'asdf2',
-    goal: 'recipe2',
-  },
-];

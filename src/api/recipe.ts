@@ -3,6 +3,9 @@ import API from './api';
 import { queryClient } from '../App';
 import { store } from '../redux/store';
 import { silentLogin } from './auth';
+import { IMAGE_HAEMUK_URL, IMAGE_MANGAE_URL } from '../../config';
+
+const RECIPE_LIST_STEP = 6;
 
 /**
  *
@@ -18,7 +21,6 @@ import { silentLogin } from './auth';
 const delayData = debounce(
   async ingre => {
     const data = await API.post('/recipe/number', ingre);
-    console.log('🍉delay call', data);
     return data;
   },
   1000,
@@ -30,7 +32,7 @@ export const getRecipeNumber = async (refriger: Refriger): Promise<number> => {
   const {
     data: { num },
   } = await delayData({ refriger });
-  return num;
+  return num || 0;
 };
 
 /**
@@ -51,11 +53,26 @@ export const getRecipeInfo = async (recipeId: number): Promise<RecipeInfo> => {
  * @param ingredients 사용자가 선택한 재료 배열
  * @returns 재료 배열로 만들 수 있는 레시피 배열
  */
-export const getRecipeList = async (): Promise<Recipe[]> => {
+export const getRecipeList = async (
+  page: number = 1,
+): Promise<getRecipeListReturn> => {
+  const {
+    data: { recipe, maxPage = 999 },
+  } = await API.get(`/recipe/list?page=${page}&step=${RECIPE_LIST_STEP}`);
+  console.log('🍉recipe list call', recipe);
+
+  return {
+    recipe: recipe ?? [],
+    maxPage,
+    available: page ? page < maxPage : false,
+    nextPage: page + 1,
+  };
+};
+export const getRecipeRandomList = async (num?: number): Promise<Recipe[]> => {
   const {
     data: { recipe },
-  } = await API.get('/recipe/list');
-  console.log('🍉recipe list call', recipe);
+  } = await API.get(`/recipe/random-list?num=${num || 3}`);
+  // console.log('🐹recipe random list call', recipe);
 
   return recipe;
 };
@@ -72,17 +89,44 @@ export const getInitialRecipe = async () => {
   console.log('🦊recipe init');
   try {
     const login = await silentLogin();
-    let number = 0;
+    let number = 0,
+      list: getRecipeListReturn,
+      randomList: Recipe[] = [];
     if (login) {
       const ingre = store.getState().refriger;
-      number = await getRecipeNumber(ingre);
-      const list = await getRecipeList();
-      queryClient.setQueryData(['RecipeList', ...ingre], list);
+
+      [number, randomList, list] = await Promise.all([
+        getRecipeNumber(ingre),
+        getRecipeRandomList(),
+        getRecipeList(),
+      ]);
+      const initList = { pageParams: [1], pages: [list] };
+
+      queryClient.setQueryData(['RecipeRandomList', 3], randomList);
       queryClient.setQueryData(['RecipeNumber', ...ingre], number);
+      queryClient.setQueryData(['RecipeList', ...ingre], initList);
     }
-    return { login, number };
+    return { login, number, randomList };
   } catch (e) {
     console.log('recipe init error:', e);
     return { error: true, number: 0 };
   }
+};
+
+export const getRecipeImageUri = (recipeid: number, platform: string) => {
+  switch (platform) {
+    case 'haemuk':
+      return `${IMAGE_HAEMUK_URL}/${recipeid}.jpg`;
+    case 'mangae':
+      return `${IMAGE_MANGAE_URL}/${recipeid}.png`;
+    default:
+      return 'dummy';
+  }
+};
+
+type getRecipeListReturn = {
+  recipe: Recipe[];
+  maxPage: number;
+  nextPage: number;
+  available: boolean;
 };

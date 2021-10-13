@@ -53,6 +53,33 @@ export function Time() {
     />
   );
 }
+export function Calories() {
+  return (
+    <StarContainer
+      source={require('../../assets/icons/calories.png')}
+      // style={{width: 40 * vw, height: 15 * vh}}
+      resizeMode="contain"
+    />
+  );
+}
+export function Clock() {
+  return (
+    <StarContainer
+      source={require('../../assets/icons/clock.png')}
+      // style={{width: 40 * vw, height: 15 * vh}}
+      resizeMode="contain"
+    />
+  );
+}
+export function EmptyStar() {
+  return (
+    <EmptyStarContainer
+      source={require('../../assets/icons/emptyStar.png')}
+      // style={{width: 40 * vw, height: 15 * vh}}
+      resizeMode="contain"
+    />
+  );
+}
 export function Review() {
   return (
     <ScrapContainer
@@ -122,10 +149,14 @@ const CheckContainer = styled.Image<ImageStyleProps>`
 `;
 const StarContainer = styled.Image<ImageStyleProps>`
   /* justify-items: flex-end; */
-  margin-right: 10px;
-  width: 25px;
-  height: 25px;
+  margin-right: 8px;
+  width: 18px;
+  height: 18px;
 `;
+const EmptyStarContainer = styled(StarContainer)`
+  tint-color: ${({ color }) => theme.color[color || 'tableBlack']};
+`;
+
 const ScrapContainer = styled.Image`
   width: 40px;
   height: 40px;

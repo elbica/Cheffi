@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
 import styled from 'styled-components/native';
-import { useRecipeInfo } from '../../hooks/useRecipe';
 import { CircleButton } from '../elements/Buttons';
 import Divs, { RowDivs } from '../elements/Divs';
 import Fonts from '../elements/Fonts';
@@ -10,9 +9,7 @@ import { Review, Scrap, Time } from '../elements/Images';
 const DUMMY_TEXT =
   'Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa neque aliquid nulla obcaecati, esse mollitia fuga sapiente illo? Eius, unde corrupti. Tempora, eum exercitationem autem libero iste voluptate voluptates aliquid?';
 
-export default function RecipeContent({ recipeid }) {
-  const { data } = useRecipeInfo(recipeid);
-
+export default function RecipeContent({ data }: { data: RecipeInfo }) {
   return (
     <RecipeContentContainer>
       {data && (
@@ -35,7 +32,7 @@ export default function RecipeContent({ recipeid }) {
               </RecipeProperty>
               <RecipeProperty>
                 <Scrap />
-                <Fonts children={data.scrap} />
+                <Fonts children={data.scrap || 0} />
               </RecipeProperty>
             </RowDivs>
             <Fonts children={DUMMY_TEXT} padV="10px" />

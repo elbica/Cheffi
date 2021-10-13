@@ -16,7 +16,7 @@ export const useFormContainer = (
     (idx: number, text?: string) => {
       const value = text || idx.toString();
 
-      setValue(formName + `.${idx}`, getValues(formName)[idx] ? '' : value);
+      setValue(formName + `.${idx}`, getValues(formName)[idx] ? null : value);
     },
     [formName, setValue, getValues],
   );

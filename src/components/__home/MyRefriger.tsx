@@ -28,16 +28,16 @@ const TouchIconAndText = ({
 };
 const EmptyRefriger = () => {
   return (
-    <Divs padV="8%">
+    <Divs padV={`${4 * vh}px`}>
       <CenterTouchOpacity goal="refrigerator">
         <Image
           source={require('../../assets/icons/emptyRefriger.png')}
           style={ImageStyleOption}
         />
-        <Fonts size="large" padV="0%">
+        <Fonts size="large" padV="0px">
           냉장고가 비어있어요.
         </Fonts>
-        <Fonts color="tableBlack" padV="1%">
+        <Fonts color="tableBlack" padV="5px">
           지금 냉장고에 뭐가 들어있나요?
         </Fonts>
       </CenterTouchOpacity>
@@ -89,14 +89,13 @@ export default function MyRefriger({ empty }: { empty: boolean }) {
 }
 const Container: any = styled(Section)`
   /* height: 200px; */
-  flex: 2;
+  height: ${23 * vh}px;
   margin-bottom: ${3 * vh}px;
   ${(props: any) =>
     props.empty &&
     css`
       border-bottom-color: ${props.theme.color.tableGray};
       border-bottom-width: 1px;
-      flex: 0.6;
     `}
 `;
 const Divider = styled.View`
@@ -111,7 +110,7 @@ const OrangeContainer = styled(Section)`
   border-radius: 16px;
   border-width: 1px;
   background-color: ${({ theme }) => theme.color.carrot + '22'};
-  margin: 2.2% 0;
+  margin: 10px 0;
   flex: 1;
 `;
 

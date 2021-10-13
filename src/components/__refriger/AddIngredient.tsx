@@ -18,7 +18,7 @@ export default React.memo(function AddIngredient({
 }: AddIngredientProps) {
   const [ingre, setIngre] = useState<Refriger>(init);
   const [category, setCategory] = useState<CategoryState>({
-    main: '떡/밥/곡류',
+    main: '떡/곡류',
     sub: null,
   });
   const viewIngre = ingre.map(ing => ing.data).flat();
@@ -43,7 +43,6 @@ export default React.memo(function AddIngredient({
     );
   }, []);
   const handleAdd = useCallback((ingredient: string, title: MainCategory) => {
-    // console.log(ingredient, title);
     setIngre(ing =>
       ing.map(cate =>
         cate.title === title
@@ -67,12 +66,22 @@ export default React.memo(function AddIngredient({
       animationType="slide"
       visible={viewModal}
       onRequestClose={() => {
+        setCategory({
+          main: '떡/곡류',
+          sub: null,
+        });
         setViewModal(false);
       }}>
       <Section background="white" width="88%" margins="0 auto">
         <PrevButton
           children="닫기"
-          onPress={() => setViewModal(false)}
+          onPress={() => {
+            setViewModal(false);
+            setCategory({
+              main: '떡/곡류',
+              sub: null,
+            });
+          }}
           color="black"
         />
         <ChipButton

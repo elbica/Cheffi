@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/core';
 import { userLogin } from '../redux/modules/auth';
 import { userInit } from '../redux/modules/user';
 import { GoogleLogin, KakaoLogin } from '../api';
+import { setRefriger } from '../redux/modules/refriger';
 
 GoogleSignin.configure({
   webClientId: CLIENT_ID,
@@ -25,17 +26,18 @@ export default function IntroPage(): JSX.Element {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const handleFlow = async (result: AuthResult, platform: string) => {
+    // result.auth.newUser = true;
     /**
      * @todo 임시 유저 데이터 사용
      *
-     * 3-1. newUser 여부 따라 navigate로 회원가입 분기, 회원가입 완료 후 auth redux dispatch
-     * 3-2. 기존 유저일 경우 바로 auth redux dispatch
+     * 3. user redux 서버에서 가져온 데이터로 초기화, auth redux token & platform 저장
+     * 3-1. newUser 여부 따라 navigate로 회원가입 분기, 회원가입 완료 후 islogin true
      */
-    dispatch(userInit({}));
+    dispatch(userInit(result.info));
+    dispatch(setRefriger(result.refriger));
     if (result.auth.newUser) {
       dispatch(
         userLogin({
-          token: result.auth.token,
           isLogin: false,
           platform,
         }),
@@ -44,7 +46,6 @@ export default function IntroPage(): JSX.Element {
     } else {
       dispatch(
         userLogin({
-          token: result.auth.token,
           isLogin: true,
           platform,
         }),
