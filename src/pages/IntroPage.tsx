@@ -11,10 +11,8 @@ import {
 } from '@react-native-google-signin/google-signin';
 import { CLIENT_ID, IOS_ID } from '../../config';
 import { useNavigation } from '@react-navigation/core';
-import { userLogin } from '../redux/modules/auth';
-import { userInit } from '../redux/modules/user';
 import { GoogleLogin, KakaoLogin } from '../api';
-import { setRefriger } from '../redux/modules/refriger';
+import { userInit, setRefriger, userLogin } from '../redux/modules';
 
 GoogleSignin.configure({
   webClientId: CLIENT_ID,

@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
 import { vh, vw } from '../../assets/styles/theme';
 import { useFormContainer } from '../../hooks/useFormContainer';
-import { formSet } from '../../redux/modules/form';
+import { formSet } from '../../redux/modules';
 import {
   ActionButton,
   ImageButton,

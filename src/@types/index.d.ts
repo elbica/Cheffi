@@ -1,6 +1,6 @@
 declare interface Ingredient {
   name: string;
-  category: string;
+  category: MainCategory;
 }
 declare interface Category {
   title: MainCategory;

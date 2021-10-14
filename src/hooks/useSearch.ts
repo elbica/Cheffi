@@ -12,7 +12,10 @@ export const useIngredientSearch = () => {
     [],
   );
   const mapWithCategory = useCallback(() => {
-    const ret = search.map(item => ({ [getMainCategory(item)]: item }));
+    const ret: Ingredient[] = search.map(item => ({
+      category: getMainCategory(item),
+      name: item,
+    }));
     return ret;
   }, []);
   return { result: search, onChangeText, mapWithCategory };

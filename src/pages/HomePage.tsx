@@ -10,9 +10,8 @@ import HotRecipes from '../components/__home/HotRecipes';
 import { useRefrigerIngredient } from '../hooks/useRedux';
 import { emptyRefriger } from '../assets/data/mockUserData';
 import { getInitialRecipe } from '../api';
-import { userLogout } from '../redux/modules/auth';
-import { userRecipeCount } from '../redux/modules/user';
 import { useDispatch } from 'react-redux';
+import { userRecipeCount, userLogout } from '../redux/modules';
 
 const HomeWrap = styled(AppWrap)`
   flex: 1;

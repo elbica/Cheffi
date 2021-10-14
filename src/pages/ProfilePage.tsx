@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { KakaoLogout, GoogleLogout } from '../api';
 import { queryClient } from '../App';
 import LinkButton from '../components/elements/Buttons';
-import { RootState } from '../redux/modules';
-import { userLogout } from '../redux/modules/auth';
+import { addRefriger, RootState, userLogout } from '../redux/modules';
 import { CenterDivs } from '../components/elements/Divs';
 
 const array = [1, 2];

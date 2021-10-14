@@ -4,9 +4,7 @@ import { sendForm } from '../../api';
 import { BackgroundSection, Section } from '../../assets/styles/theme';
 import Fonts from '../../components/elements/Fonts';
 import { FryPan } from '../../components/elements/Images';
-import { RootState } from '../../redux/modules';
-import { userLogin } from '../../redux/modules/auth';
-import { formInit } from '../../redux/modules/form';
+import { formInit, RootState, userLogin } from '../../redux/modules';
 
 export default function Join6() {
   const dispatch = useDispatch();
