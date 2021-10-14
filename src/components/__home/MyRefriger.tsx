@@ -26,9 +26,9 @@ const TouchIconAndText = ({
     </TouchableOpacity>
   );
 };
-const EmptyRefriger = () => {
+export const EmptyRefriger = () => {
   return (
-    <Divs padV={`${4 * vh}px`}>
+    <EmptyRefrigerWrap padV={`${4 * vh}px`}>
       <CenterTouchOpacity goal="refrigerator">
         <Image
           source={require('../../assets/icons/emptyRefriger.png')}
@@ -41,7 +41,7 @@ const EmptyRefriger = () => {
           지금 냉장고에 뭐가 들어있나요?
         </Fonts>
       </CenterTouchOpacity>
-    </Divs>
+    </EmptyRefrigerWrap>
   );
 };
 
@@ -91,12 +91,12 @@ const Container: any = styled(Section)`
   /* height: 200px; */
   height: ${23 * vh}px;
   margin-bottom: ${3 * vh}px;
-  ${(props: any) =>
+  /* ${(props: any) =>
     props.empty &&
     css`
       border-bottom-color: ${props.theme.color.tableGray};
       border-bottom-width: 1px;
-    `}
+    `} */
 `;
 const Divider = styled.View`
   width: 1px;
@@ -112,6 +112,15 @@ const OrangeContainer = styled(Section)`
   background-color: ${({ theme }) => theme.color.carrot + '22'};
   margin: 10px 0;
   flex: 1;
+`;
+
+const EmptyRefrigerWrap = styled(Divs)`
+  ${(props: any) =>
+    css`
+      border-bottom-color: ${props.theme.color.tableGray};
+      border-bottom-width: 1px;
+    `}
+  height: ${23 * vh}px;
 `;
 
 const ImageStyleOption: ImageStyle = {

@@ -106,6 +106,20 @@ export function PrevArrow() {
     />
   );
 }
+export function Plus() {
+  return (
+    <Image
+      source={require('../../assets/icons/plus.png')}
+      style={{
+        marginRight: 6 * vw,
+        width: 30,
+        height: 30,
+        resizeMode: 'contain',
+        opacity: 0.8,
+      }}
+    />
+  );
+}
 export function Check({ color }: ImageStyleProps) {
   return (
     <CheckContainer
@@ -135,7 +149,7 @@ export function Delete({ width, color }: ImageStyleProps) {
 }
 
 const prevArrowStyle: ImageStyle = {
-  marginLeft: 24,
+  marginLeft: 6 * vw,
   width: 30,
   height: 28,
   resizeMode: 'contain',

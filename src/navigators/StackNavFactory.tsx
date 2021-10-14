@@ -15,7 +15,7 @@ import { Platform } from 'react-native';
 import styled from 'styled-components/native';
 import { vh } from '../assets/styles/theme';
 import RecipeInfoPage from '../pages/RecipeInfoPage';
-import { PrevArrow } from '../components/elements/Images';
+import { Plus, PrevArrow } from '../components/elements/Images';
 
 const Stack = createStackNavigator();
 const Header: StackNavigationOptions = {
@@ -59,7 +59,17 @@ export default function StackNavFactory({
       {screenName === 'profile' ? (
         <Stack.Screen name={'profile'} component={ProfilePage} />
       ) : null}
-      <Stack.Screen name={'refrigerator'} component={RefrigerPage} />
+      <Stack.Screen
+        name={'refrigerator'}
+        component={RefrigerPage}
+        options={{
+          headerBackground: undefined,
+          headerTitleStyle: { color: 'black', fontSize: 22 },
+          headerTitle: '내 냉장고',
+          // headerLeft: () => <PrevArrow />,
+          headerRight: () => <Plus />,
+        }}
+      />
       <Stack.Screen
         name={'recipeInfo'}
         component={RecipeInfoPage}

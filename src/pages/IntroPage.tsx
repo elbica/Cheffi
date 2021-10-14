@@ -85,16 +85,22 @@ export default function IntroPage(): JSX.Element {
           children={
             <Image
               source={LoginButtons.kakao}
-              style={{ width: 80 * vw }}
+              style={{ width: 84 * vw }}
               resizeMode="contain"
             />
           }
         />
-        <GoogleSigninButton
-          // style={{ width: 192, height: 48 }}
-          size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Light}
+        <ImageButton
           onPress={handleGoogleLogin}
+          height="60px"
+          radius={0}
+          children={
+            <Image
+              source={LoginButtons.google}
+              style={{ width: 84 * vw }}
+              resizeMode="contain"
+            />
+          }
         />
       </LoginSection>
     </WrapSection>
