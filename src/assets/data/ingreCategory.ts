@@ -1,4 +1,4 @@
-const categoryData = {
+const categoryData: { [key: string]: any } = {
   전체: {},
   '떡/곡류': [
     '맵쌀',
@@ -466,3 +466,18 @@ const categoryData = {
 };
 
 export default categoryData;
+
+export const mockIngredient: { [key: string]: any } = {
+  '떡/곡류': ['맵쌀', '그래놀라'],
+  가공식품: {
+    통조림: ['번데기', '꽁치통조림'],
+    '육류/어류가공품': ['어묵류', '김밥햄', '맛살'],
+    기성식품: ['동그랑땡', '치킨너겟', '단무지'],
+  },
+  '빵/면/만두류': {
+    면: ['우동면', '중화면'],
+    빵: ['도넛', '버터식빵', '핫케이크'],
+    만두: ['만두'],
+  },
+  '콩/묵/두부': ['두부', '백앙금', '팥앙금'],
+};

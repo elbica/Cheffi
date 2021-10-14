@@ -1,3 +1,4 @@
+import { result } from 'lodash';
 import React from 'react';
 import { useRef } from 'react';
 import { useCallback } from 'react';
@@ -8,7 +9,11 @@ import { theme, vh, vw } from '../../assets/styles/theme';
 import { CenterDivs } from './Divs';
 import Fonts from './Fonts';
 import { Delete, Search } from './Images';
-import { InputStyleProps } from './interface';
+import {
+  InputStyleProps,
+  SearchInputProps,
+  SearchResultProps,
+} from './interface';
 
 export default function IngredientInput({
   color = 'tableGray',
@@ -61,15 +66,18 @@ export default function IngredientInput({
 /**
  *
  * @param onEndEditing 상위 컴포넌트에서 입력 값 관리를 해야한다.
- * @returns
+ * @description
+ * onEndEditing 함수에 연관 검색어를 계산하는 로직이 들어가고,
+ * debouncing & useCallback 을 적용해야 한다.
+ *
  */
 export const SearchInput = ({
   color = 'tableBlack',
   width = '100%',
   fontSize = 'medium',
-  onEndEditing = () => {},
+  onChangeText = () => {},
   placeholder = '재료 이름으로 검색',
-}: InputStyleProps) => {
+}: SearchInputProps) => {
   const iconWidth = `${2.2 * vh}px`;
   const InputRef = useRef<TextInput>(null);
   const [placeholderDisplay, setDisplay] = useState(true);
@@ -77,6 +85,7 @@ export const SearchInput = ({
     (text: string) => {
       if (text === '') setDisplay(true);
       else if (text.length === 1) setDisplay(false);
+      onChangeText(text);
     },
     [setDisplay],
   );
@@ -87,7 +96,6 @@ export const SearchInput = ({
   return (
     <SearchInputWrap width={width}>
       <SearchInputElement
-        onEndEditing={onEndEditing}
         ref={InputRef}
         onFocus={() => setDisplay(false)}
         onChangeText={handleChange}
@@ -105,6 +113,16 @@ export const SearchInput = ({
         </DeleteWrap>
       )}
     </SearchInputWrap>
+  );
+};
+
+export const SearchResult = ({ results }: SearchResultProps) => {
+  return (
+    <SearchResultWrap>
+      {results?.map(result => (
+        <Fonts key={result} children={result} padH="8%" />
+      ))}
+    </SearchResultWrap>
   );
 };
 
@@ -134,7 +152,14 @@ const SearchInputWrap = styled.View<{ width: string }>`
   height: auto;
   /* background-color: red; */
 `;
-const SearchInputElement = styled.TextInput<InputStyleProps>`
+const SearchResultWrap = styled.View`
+  background-color: red;
+  flex-wrap: wrap;
+  width: 100%;
+  height: auto;
+  flex-direction: row;
+`;
+const SearchInputElement = styled.TextInput<SearchInputProps>`
   border-radius: 10px;
   /* border-color: ${({ color }) => theme.color[color || 'black'] + '88'};
   border-width: 1px; */

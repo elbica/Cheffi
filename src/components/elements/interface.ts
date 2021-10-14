@@ -6,7 +6,7 @@ import {
   TextInputSubmitEditingEventData,
   ViewStyle,
 } from 'react-native';
-import {Colors, Sizes} from 'styled-components';
+import { Colors, Sizes } from 'styled-components';
 
 export interface DivsProps {
   padV?: string;
@@ -123,3 +123,10 @@ export interface InputStyleProps {
 }
 
 export type InputEvent = NativeSyntheticEvent<TextInputSubmitEditingEventData>;
+
+export type SearchInputProps = Omit<InputStyleProps, 'onEndEditing'> & {
+  onChangeText(text: string): void;
+};
+export interface SearchResultProps {
+  results: string[];
+}

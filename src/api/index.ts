@@ -5,6 +5,7 @@ export * from './form';
 export * from './user';
 export * from './recipe';
 export * from './auth';
+export * from './utils';
 
 /**
  * export const delPhotoCC = async photoIndex => {

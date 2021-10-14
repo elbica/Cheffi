@@ -1,14 +1,10 @@
 import React from 'react';
-import { View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { KakaoLogout, GoogleLogout } from '../api';
 import { queryClient } from '../App';
-import { Section } from '../assets/styles/theme';
 import LinkButton from '../components/elements/Buttons';
 import { RootState } from '../redux/modules';
 import { userLogout } from '../redux/modules/auth';
-import { SearchInput } from '../components/elements/Inputs';
 import { CenterDivs } from '../components/elements/Divs';
 
 const array = [1, 2];
@@ -27,35 +23,20 @@ export default function ProfilePage() {
       dispatch(userLogout());
     } catch (e) {}
   };
+
   return (
-    <View>
-      <ScrollView>
-        <Section flexNumber={2} background="yellow">
-          {array.map((a, idx) => (
-            <LinkButton
-              title="로그아웃 하기"
-              onPress={handleLogout}
-              width="100px"
-              height="100px"
-              key={idx}
-            />
-          ))}
-        </Section>
-        <Section flexNumber={1} background="black">
-          {array.map((a, idx) => (
-            <LinkButton
-              title="로그아웃 하기"
-              onPress={handleLogout}
-              width="100px"
-              height="100px"
-              key={idx}
-            />
-          ))}
-        </Section>
-        <CenterDivs height="100px" width="100%">
-          <SearchInput width="90%" />
-        </CenterDivs>
-      </ScrollView>
-    </View>
+    <>
+      <CenterDivs height="400px">
+        {array.map((a, idx) => (
+          <LinkButton
+            title="로그아웃 하기"
+            onPress={handleLogout}
+            width="100px"
+            height="100px"
+            key={idx}
+          />
+        ))}
+      </CenterDivs>
+    </>
   );
 }
