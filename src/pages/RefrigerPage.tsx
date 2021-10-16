@@ -4,7 +4,9 @@ import { emptyRefriger } from '../assets/data/mockUserData';
 import { AppWrap } from '../assets/styles/theme';
 import { EmptyRefriger } from '../components/__home/MyRefriger';
 import AddIngredient from '../components/__refriger/AddIngredient';
-import MyIngredient from '../components/__refriger/MyIngredient';
+import MyIngredient, {
+  RefacMyIngredient,
+} from '../components/__refriger/MyIngredient';
 import { RecommendIngre } from '../components/__refriger/RecommendIngre';
 import { useIngredient } from '../hooks/useIngredient';
 
@@ -30,7 +32,7 @@ export default function RefrigerPage() {
         </>
       ) : (
         <>
-          <MyIngredient
+          {/* <MyIngredient
             init={refriger}
             now={ingredient}
             save={save}
@@ -42,7 +44,8 @@ export default function RefrigerPage() {
             complete={complete}
             setViewModal={setViewModal}
             viewModal={viewModal}
-          />
+          /> */}
+          <RefacMyIngredient init={refriger} />
         </>
       )}
     </AppWrap>

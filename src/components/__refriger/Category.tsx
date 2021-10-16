@@ -4,7 +4,8 @@ import { ChipButton } from '../elements/Buttons';
 import Divs from '../elements/Divs';
 import Fonts from '../elements/Fonts';
 import categoryData from '../../assets/data/ingreCategory';
-import { vh } from '../../assets/styles/theme';
+import { theme, vh, vw } from '../../assets/styles/theme';
+import styled, { css } from 'styled-components/native';
 
 const OneDepthCategory: OneDepthCategory[] = [
   '떡/곡류',
@@ -36,23 +37,33 @@ const subCategory: { [key: string]: string[] } = mainCategory.reduce(
 );
 
 export const MainCategory = React.memo(
-  ({ setCategory, notAll }: MainCategoryProps) => {
+  ({ setCategory, notAll, selectCategory, recommend }: MainCategoryProps) => {
+    const changeCategory: MainCategory[] = recommend
+      ? ['추천', ...mainCategory]
+      : !notAll
+      ? ['전체', ...mainCategory]
+      : [...mainCategory];
+    // console.log(changeCategory);
     return (
-      <Divs height="auto" marginV="15px">
-        <Fonts children="카테고리" bold />
+      <MainCategoryWrap>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {mainCategory.map((category, idx) =>
-            !notAll || (notAll && category !== '전체') ? (
-              <ChipButton
-                key={idx}
-                color="tableBlack"
+          {changeCategory.map((category, idx) => (
+            <MainCategoryButtonWrap
+              activeOpacity={0.75}
+              onPress={() => setCategory(category, 'main')}
+              select={category === selectCategory}
+              key={idx}>
+              <Fonts
+                padH="15px"
+                padV="8px"
+                size="mediumLarge"
                 children={category}
-                onPress={() => setCategory(category, 'main')}
+                color={category === selectCategory ? 'carrot' : 'tableBlack'}
               />
-            ) : null,
-          )}
+            </MainCategoryButtonWrap>
+          ))}
         </ScrollView>
-      </Divs>
+      </MainCategoryWrap>
     );
   },
 );
@@ -133,10 +144,12 @@ export const ContentCategory = ({
 };
 
 interface MainCategoryProps {
+  recommend?: boolean;
   setCategory:
     | React.Dispatch<React.SetStateAction<MainCategory>>
     | ((param: string, key: 'main' | 'sub') => void);
   notAll?: boolean;
+  selectCategory: MainCategory;
 }
 interface SubCategoryProps extends MainCategoryProps {
   pickMain: string;
@@ -150,3 +163,22 @@ interface ContentCategoryProps {
   setCategory: (param: string, key: 'main' | 'sub') => void;
   handleAdd: (ingredient: string, title: MainCategory) => void;
 }
+
+const MainCategoryButtonWrap = styled.TouchableOpacity<{ select: boolean }>`
+  /* transition: 1s all; */
+  border-bottom-width: 3px;
+  ${({ select }) =>
+    select
+      ? css`
+          border-bottom-color: ${theme.color['carrot']};
+        `
+      : css`
+          border-bottom-color: ${theme.color['tableGray'] + '33'};
+        `}
+`;
+
+const MainCategoryWrap = styled.View`
+  width: ${100 * vw}px;
+  align-self: center;
+  height: auto;
+`;

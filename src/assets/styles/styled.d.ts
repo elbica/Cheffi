@@ -1,4 +1,4 @@
-import {NativeSyntheticEvent, NativeTouchEvent} from 'react-native';
+import { NativeSyntheticEvent, NativeTouchEvent } from 'react-native';
 import 'styled-components/native';
 
 //DefaultTheme 타입 정의
@@ -36,6 +36,7 @@ declare module 'styled-components' {
       [key: string]: string;
       xlarge: string;
       large: string;
+      mediumLarge: string;
       medium: string;
       small: string;
     };
@@ -43,6 +44,7 @@ declare module 'styled-components' {
       [key: string]: string;
       xlarge: string;
       large: string;
+      mediumLarge: string;
       medium: string;
       small: string;
     };
@@ -75,7 +77,7 @@ declare module 'styled-components' {
     | 'deepOrange'
     | 'deepGreen'
     | 'deepYellow';
-  export type Sizes = 'xlarge' | 'large' | 'medium' | 'small';
+  export type Sizes = 'xlarge' | 'large' | 'medium' | 'small' | 'mediumLarge';
 
   export interface FontProps {
     size: Sizes;

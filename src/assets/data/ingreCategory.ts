@@ -1,5 +1,4 @@
 const categoryData: { [key: string]: any } = {
-  전체: {},
   '떡/곡류': [
     '맵쌀',
     '오곡',

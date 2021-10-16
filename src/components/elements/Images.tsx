@@ -112,8 +112,8 @@ export function Plus() {
       source={require('../../assets/icons/plus.png')}
       style={{
         marginRight: 6 * vw,
-        width: 30,
-        height: 30,
+        width: 26,
+        height: 26,
         resizeMode: 'contain',
         opacity: 0.8,
       }}

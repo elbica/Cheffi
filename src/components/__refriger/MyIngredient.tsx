@@ -25,8 +25,6 @@ import { MainCategory } from './Category';
  *
  * 저장 버튼을 눌러야 temp ingredient에 저장된 내용이 persist에 반영
  *
- *@todo
- * 버튼 내 Font 길이가 Secion title 길이에 맞춰서 바뀐다...
  *
  */
 export default function MyIngredient({
@@ -188,3 +186,33 @@ const IngredientContainer = styled.View`
     [save, ingre],
   );
  */
+
+export const RefacMyIngredient = ({ init }: RefacMyIngredientProps) => {
+  const [ingre, setIngre] = useState<Refriger>(init);
+  const [category, setCategory] = useState<MainCategory>('전체');
+  const handleCategory = useCallback(
+    (cate: string) => setCategory(cate as MainCategory),
+    [],
+  );
+
+  return (
+    <>
+      <MainCategory
+        setCategory={handleCategory}
+        notAll={false}
+        selectCategory={category}
+      />
+    </>
+  );
+};
+
+// const SelectCategory = ()=>{
+//   return (
+//     <MainCategory setCategory={handleCategory} notAll={false} />
+
+//   )
+// }
+
+interface RefacMyIngredientProps {
+  init: Refriger;
+}

@@ -24,7 +24,11 @@ declare type TwoDepthCategory =
   | '기름/향신료/가루'
   | '초콜릿/과자/견과류';
 
-declare type MainCategory = TwoDepthCategory | OneDepthCategory | '전체';
+declare type MainCategory =
+  | TwoDepthCategory
+  | OneDepthCategory
+  | '전체'
+  | '추천';
 
 declare interface Recipe {
   scrap?: number;
