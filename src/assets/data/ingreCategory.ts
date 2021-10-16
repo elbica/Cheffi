@@ -481,3 +481,41 @@ export const mockIngredient: { [key: string]: any } = {
   },
   '콩/묵/두부': ['두부', '백앙금', '팥앙금'],
 };
+
+/**
+ * @constant Ingredient
+ * 총 재료 개수는 419개이다.
+ */
+
+const flatten = (ob: { [key: string]: any } | any[]) => {
+  let ret: any[] = [];
+
+  //기저 사례
+  if (Array.isArray(ob)) return ob;
+
+  //자식 object 순회
+  for (let key in ob) ret = [...ret, ...flatten(ob[key])];
+
+  return ret;
+};
+
+export const flatIngredient = Object.keys(categoryData).reduce((acc, cur) => {
+  const flatArray = flatten(categoryData[cur]);
+  return { ...acc, [cur]: flatArray };
+}, {});
+
+/***************************
+ * @function 전처리
+ ****************************/
+export const mappingCategory: { [key: string]: string } = ((ob: {
+  [key: string]: string[];
+}) => {
+  let ret = {};
+  for (let key in ob)
+    ob[key].map(element => {
+      ret = { ...ret, [element]: key };
+    });
+  return ret;
+})(flatIngredient);
+
+export const IngredientArray = Object.keys(mappingCategory);

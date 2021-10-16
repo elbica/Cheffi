@@ -46,7 +46,12 @@ export const useIngredient = (): useIngredientResult => {
     dispatch(setIngredient(refriger));
     ingredient = refriger;
   }
-  return { refriger, ingredient, saveIngredient, completeIngredient };
+  return {
+    refriger,
+    ingredient,
+    saveIngredient,
+    completeIngredient,
+  };
 };
 
 export interface useIngredientResult {

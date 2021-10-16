@@ -4,13 +4,21 @@ import { vh } from '../../assets/styles/theme';
 import { IngredientButton } from '../elements/Buttons';
 import Fonts from '../elements/Fonts';
 
-export const RecommendIngre = ({ ingredients }: RecommendIngreProps) => {
+export const RecommendIngre = ({
+  ingredients,
+  onPress,
+}: RecommendIngreProps) => {
   return (
     <RecommendIngreWrap>
       <Fonts children="추천 재료" size="large" padV={`${2.7 * vh}px`} />
       <IngredientWrap>
         {ingredients.map(ingredient => (
-          <IngredientButton children={ingredient.name} key={ingredient.name} />
+          <IngredientButton
+            children={ingredient.name}
+            key={ingredient.name}
+            category={ingredient.category}
+            onPress={onPress}
+          />
         ))}
       </IngredientWrap>
     </RecommendIngreWrap>
@@ -30,4 +38,5 @@ const IngredientWrap = styled.View`
 `;
 interface RecommendIngreProps {
   ingredients: Ingredient[];
+  onPress(ingredient: Ingredient): void;
 }

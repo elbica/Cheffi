@@ -237,12 +237,13 @@ export const IngredientButton = ({
   chip,
   children = '테스트재료',
   onPress = () => {},
+  category = '떡/곡류',
 }: IngredientButtonProps) => {
   const [select, setSelect] = useState(false);
   const borderColor: Colors = chip || select ? 'carrot' : 'tableGray';
   const handle = useCallback(
     ev => {
-      onPress(ev);
+      onPress({ category, name: children });
       setSelect(!select);
     },
     [select, onPress],

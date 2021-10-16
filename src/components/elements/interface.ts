@@ -54,10 +54,11 @@ export interface SelectButtonProps extends ActionButtonProps {
 }
 
 export interface IngredientButtonProps {
-  onPress?: (ev: InputEvent) => void;
-  children?: string;
+  onPress?: (ev: any) => void;
+  children: string;
   color?: Colors;
   chip?: boolean;
+  category: MainCategory;
 }
 
 export interface SelectButtonStyleProps {

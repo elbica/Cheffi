@@ -1,42 +1,17 @@
-import Ingredient from '../assets/data/ingreCategory';
+import { IngredientArray, mappingCategory } from '../assets/data/ingreCategory';
 
-/**
- * @constant Ingredient
- * 총 재료 개수는 419개이다.
- */
+export function deepCopyObject(obj: any) {
+  let clone: { [key: string]: any } = {};
+  for (let key in obj) {
+    if (typeof obj[key] == 'object' && obj[key] != null) {
+      clone[key] = deepCopyObject(obj[key]);
+    } else {
+      clone[key] = obj[key];
+    }
+  }
 
-const flatten = (ob: { [key: string]: any } | any[]) => {
-  let ret: any[] = [];
-
-  //기저 사례
-  if (Array.isArray(ob)) return ob;
-
-  //자식 object 순회
-  for (let key in ob) ret = [...ret, ...flatten(ob[key])];
-
-  return ret;
-};
-
-const flatIngredient = Object.keys(Ingredient).reduce((acc, cur) => {
-  const flatArray = flatten(Ingredient[cur]);
-  return { ...acc, [cur]: flatArray };
-}, {});
-
-/***************************
- * @function 전처리
- ****************************/
-const mappingCategory: { [key: string]: string } = ((ob: {
-  [key: string]: string[];
-}) => {
-  let ret = {};
-  for (let key in ob)
-    ob[key].map(element => {
-      ret = { ...ret, [element]: key };
-    });
-  return ret;
-})(flatIngredient);
-
-const IngredientArray = Object.keys(mappingCategory);
+  return clone;
+}
 
 export function debounce<T extends (...args: any[]) => any>(
   func: T,

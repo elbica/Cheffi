@@ -18,5 +18,5 @@ export const useIngredientSearch = () => {
     }));
     return ret;
   }, []);
-  return { result: search, onChangeText, mapWithCategory };
+  return { results: search, onChangeText, mapWithCategory };
 };
