@@ -106,7 +106,7 @@ export function PrevArrow() {
     />
   );
 }
-export function Plus() {
+export function Plus({ ...rest }) {
   return (
     <Image
       source={require('../../assets/icons/plus.png')}
@@ -117,6 +117,7 @@ export function Plus() {
         resizeMode: 'contain',
         opacity: 0.8,
       }}
+      {...rest}
     />
   );
 }

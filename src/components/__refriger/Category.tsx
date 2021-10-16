@@ -166,7 +166,7 @@ interface ContentCategoryProps {
 
 const MainCategoryButtonWrap = styled.TouchableOpacity<{ select: boolean }>`
   /* transition: 1s all; */
-  border-bottom-width: 3px;
+  border-bottom-width: 2.7px;
   ${({ select }) =>
     select
       ? css`
@@ -181,4 +181,5 @@ const MainCategoryWrap = styled.View`
   width: ${100 * vw}px;
   align-self: center;
   height: auto;
+  margin-bottom: ${1 * vh}px;
 `;

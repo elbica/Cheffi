@@ -4,11 +4,12 @@ import { useCallback } from 'react';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
-import { vh } from '../../assets/styles/theme';
+import { theme, vh } from '../../assets/styles/theme';
 import { useRecipeNumber } from '../../hooks/useRecipe';
-import { ChipButton } from '../elements/Buttons';
+import { ChipButton, IngredientButton } from '../elements/Buttons';
 import Divs, { RightDivs, RowDivs } from '../elements/Divs';
 import Fonts from '../elements/Fonts';
+import { Plus } from '../elements/Images';
 import { MainCategory } from './Category';
 
 /**
@@ -54,8 +55,6 @@ export default function MyIngredient({
       ),
     );
   }, []);
-
-  console.log('왜 안바뀔까? ', init, now, number);
 
   const handleModal = useCallback(() => setViewModal(true), [setViewModal]);
   const handleSave = useCallback(
@@ -144,6 +143,7 @@ const IngredientContainer = styled.View`
   flex-direction: row;
   margin-bottom: 20px;
   flex-wrap: wrap;
+  margin-top: ${2.5 * vh}px;
 `;
 
 /**
@@ -202,17 +202,85 @@ export const RefacMyIngredient = ({ init }: RefacMyIngredientProps) => {
         notAll={false}
         selectCategory={category}
       />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {ingre.map(({ title, data }) =>
+          title === category || category === '전체' ? (
+            <IngredientSection
+              category={title}
+              ingredients={data}
+              key={title}
+            />
+          ) : null,
+        )}
+      </ScrollView>
     </>
   );
 };
 
-// const SelectCategory = ()=>{
-//   return (
-//     <MainCategory setCategory={handleCategory} notAll={false} />
+const IngredientSection = ({
+  category,
+  ingredients,
+}: IngredientSectionProps) => {
+  return (
+    <IngredientSectionWrap>
+      <Fonts children={category} size="mediumLarge" />
+      <Divider />
+      <PlusWrap>
+        <AddIngredientPlus />
+      </PlusWrap>
 
-//   )
-// }
+      <IngredientContainer>
+        {ingredients.map((ingredient, idx) => (
+          <IngredientButton
+            category={category}
+            onPress={() => {}}
+            key={idx}
+            children={ingredient}
+            chip
+          />
+        ))}
+        {ingredients.length === 0 && (
+          <Fonts
+            children="재료를 추가해 주세요!"
+            color="tableGray"
+            padH="30%"
+            padV="25px"
+          />
+        )}
+      </IngredientContainer>
+    </IngredientSectionWrap>
+  );
+};
+
+const IngredientSectionWrap = styled.View`
+  margin-top: ${2 * vh}px;
+  position: relative;
+`;
+
+const AddIngredientPlus = styled(Plus)`
+  width: 22px;
+  height: 22px;
+  margin-right: 4px;
+`;
+const PlusWrap = styled.TouchableOpacity`
+  width: auto;
+  height: auto;
+  position: absolute;
+  align-self: flex-end;
+`;
+
+const Divider = styled.View`
+  width: 100%;
+  height: 1.7px;
+  background-color: ${theme.color['tableGray'] + '99'};
+  margin-top: ${1.5 * vh}px;
+`;
 
 interface RefacMyIngredientProps {
   init: Refriger;
+}
+
+interface IngredientSectionProps {
+  category: MainCategory;
+  ingredients: string[];
 }
