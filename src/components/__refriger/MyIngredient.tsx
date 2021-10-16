@@ -37,6 +37,7 @@ export default function MyIngredient({
   setViewModal,
 }: MyIngredientProps) {
   const [ingre, setIngre] = useState<Refriger>(init);
+
   const [category, setCategory] = useState<MainCategory>('전체');
   const { data: number, isLoading } = useRecipeNumber(ingre);
   useEffect(() => {
@@ -55,6 +56,9 @@ export default function MyIngredient({
       ),
     );
   }, []);
+
+  console.log('왜 안바뀔까? ', init, now, number);
+
   const handleModal = useCallback(() => setViewModal(true), [setViewModal]);
   const handleSave = useCallback(
     () => save(ingre, number as number),
