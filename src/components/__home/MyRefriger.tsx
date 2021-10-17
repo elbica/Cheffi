@@ -80,7 +80,6 @@ const ExistRefirger = () => {
 };
 
 export default function MyRefriger({ empty }: { empty: boolean }) {
-  // useTestAxios();
   return (
     <Container empty={empty}>
       {empty ? <EmptyRefriger /> : <ExistRefirger />}

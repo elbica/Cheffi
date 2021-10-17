@@ -67,7 +67,7 @@ export default function StackNavFactory({
           headerTitleStyle: { color: 'black', fontSize: 22 },
           headerTitle: '내 냉장고',
           // headerLeft: () => <PrevArrow />,
-          headerRight: () => <Plus />,
+          // headerRight: () => <Plus />,
         }}
       />
       <Stack.Screen

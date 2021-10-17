@@ -121,6 +121,21 @@ export function Plus({ ...rest }) {
     />
   );
 }
+export function CheffiBowl({ ...rest }) {
+  return (
+    <Image
+      source={require('../../assets/images/CheffiLogoBowl.png')}
+      style={{
+        marginBottom: 5 * vh,
+        width: 100,
+        height: 100,
+        resizeMode: 'contain',
+        // opacity: 0.8,
+      }}
+      {...rest}
+    />
+  );
+}
 export function Check({ color }: ImageStyleProps) {
   return (
     <CheckContainer

@@ -54,6 +54,9 @@ export const MyIngredient = ({ init, save, push }: RefacMyIngredientProps) => {
 
   return (
     <Position>
+      <NavigationPlusWrap onPress={() => handleAddIngredient('추천')}>
+        <NavigationPlus />
+      </NavigationPlusWrap>
       <MainCategory
         setCategory={handleCategory}
         notAll={false}
@@ -120,6 +123,7 @@ const IngredientSection = React.memo(
 const Position = styled.View`
   position: relative;
   height: 100%;
+  /* background-color: red; */
 `;
 
 const ButtonsWrap = styled.View`
@@ -150,11 +154,22 @@ const AddIngredientPlus = styled(Plus)`
   margin-right: 6px;
   opacity: 0.6;
 `;
+
+const NavigationPlus = styled(AddIngredientPlus)`
+  width: 24px;
+  height: 24px;
+  opacity: 0.8;
+`;
+
 const PlusWrap = styled.TouchableOpacity`
   width: auto;
   height: auto;
   position: absolute;
   align-self: flex-end;
+`;
+
+const NavigationPlusWrap = styled(PlusWrap)`
+  top: -9%;
 `;
 
 const Divider = styled.View`

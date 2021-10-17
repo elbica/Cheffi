@@ -10,6 +10,7 @@ import { emptyRefriger } from '../assets/data/mockUserData';
 import { getInitialRecipe } from '../api';
 import { useDispatch } from 'react-redux';
 import { userRecipeCount, userLogout, setIngredient } from '../redux/modules';
+import { ProgressBar } from '../components/elements/Indicators';
 
 const HomeWrap = styled(AppWrap)`
   flex: 1;
@@ -25,6 +26,7 @@ export default function HomePage() {
   const empty = JSON.stringify(refriger) === JSON.stringify(emptyRefriger);
 
   const [list, setList] = useState<Recipe[]>();
+  const [loading, setLoaing] = useState(true);
   useEffect(() => {
     if (!ingredient.length) {
       dispatch(setIngredient(refriger));
@@ -48,16 +50,25 @@ export default function HomePage() {
       }
     })();
   }, [dispatch]);
+  useEffect(() => {
+    setTimeout(() => setLoaing(false), 2000);
+  }, []);
 
   return (
-    <ScrollView
-      contentContainerStyle={{ flexGrow: 1 }}
-      showsVerticalScrollIndicator={false}>
-      <HomeWrap>
-        <MyRefriger empty={empty} />
-        <ForMe />
-        <HotRecipes data={list} />
-      </HomeWrap>
-    </ScrollView>
+    <>
+      {loading ? (
+        <ProgressBar />
+      ) : (
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          showsVerticalScrollIndicator={false}>
+          <HomeWrap>
+            <MyRefriger empty={empty} />
+            <ForMe />
+            <HotRecipes data={list} />
+          </HomeWrap>
+        </ScrollView>
+      )}
+    </>
   );
 }
