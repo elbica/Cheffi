@@ -328,13 +328,15 @@ const IngredientButtonWrap = styled.TouchableOpacity<{ color: Colors }>`
   width: auto;
   height: auto;
   padding: 10px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   /* background-color: red; */
   flex-direction: row;
   /* justify-content: center;
    */
   align-items: center;
   border-radius: 15px;
-  border-width: 1.5px;
+  border-width: 1.2px;
   border-color: ${({ color }) => theme.color[color] + 'dd'};
   margin-bottom: ${3 * vw}px;
   margin-right: ${1.5 * vw}px;

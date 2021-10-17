@@ -45,7 +45,7 @@ export default function RefrigerPage() {
             setViewModal={setViewModal}
             viewModal={viewModal}
           /> */}
-          <RefacMyIngredient init={refriger} />
+          <RefacMyIngredient init={refriger} save={save} complete={complete} />
         </>
       )}
     </AppWrap>

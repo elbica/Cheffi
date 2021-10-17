@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useEffect } from 'react';
 import { useCallback } from 'react';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
-import { theme, vh } from '../../assets/styles/theme';
+import { theme, vh, vw } from '../../assets/styles/theme';
 import { useRecipeNumber } from '../../hooks/useRecipe';
 import { ChipButton, IngredientButton } from '../elements/Buttons';
 import Divs, { RightDivs, RowDivs } from '../elements/Divs';
@@ -135,8 +135,8 @@ const AddButton = styled(ChipButton)`
   width: auto;
 `;
 const SaveButton = styled(ChipButton)`
-  width: 16%;
-  margin: 3% 5px;
+  width: ${14 * vw}px;
+  /* margin: 3% 5px; */
   /* vertical-align: middle; */
 `;
 const IngredientContainer = styled.View`
@@ -187,80 +187,151 @@ const IngredientContainer = styled.View`
   );
  */
 
-export const RefacMyIngredient = ({ init }: RefacMyIngredientProps) => {
+/**
+ *
+ * @todo
+ * 1. cancle, save버튼 만들기
+ * 2. add ingredient navigation callback 함수 만들기
+ *
+ *
+ */
+export const RefacMyIngredient = ({
+  init,
+  save,
+  complete,
+}: RefacMyIngredientProps) => {
   const [ingre, setIngre] = useState<Refriger>(init);
   const [category, setCategory] = useState<MainCategory>('전체');
+  const { data: number, isLoading } = useRecipeNumber(ingre);
+  const isChange = useMemo(
+    () => JSON.stringify(ingre) !== JSON.stringify(init),
+    [init, ingre],
+  );
+
   const handleCategory = useCallback(
     (cate: string) => setCategory(cate as MainCategory),
     [],
   );
 
+  const handleRemove = useCallback(({ category, name }) => {
+    setIngre(ing =>
+      ing.map(cate =>
+        cate.title === category
+          ? {
+              title: category,
+              data: cate.data.filter(data => data !== name),
+            }
+          : cate,
+      ),
+    );
+  }, []);
+  const handleSave = useCallback(
+    () => save(ingre, number as number),
+    [save, ingre, number],
+  );
+  // console.log(now);
+  const handleCancle = useCallback(() => {
+    complete(init);
+    setIngre(init);
+  }, [init, complete]);
+
   return (
-    <>
+    <Position>
       <MainCategory
         setCategory={handleCategory}
         notAll={false}
         selectCategory={category}
       />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {ingre.map(({ title, data }) =>
-          title === category || category === '전체' ? (
-            <IngredientSection
-              category={title}
-              ingredients={data}
-              key={title}
+      <ScrollViewWrap showsVerticalScrollIndicator={false}>
+        {ingre.map(
+          ({ title, data }) =>
+            (title === category || category === '전체') && (
+              <IngredientSection
+                category={title}
+                ingredients={data}
+                key={title}
+                handleRemove={handleRemove}
+              />
+            ),
+        )}
+      </ScrollViewWrap>
+      {isChange && (
+        <ButtonsWrap>
+          <SaveButton color="black" children="취소" onPress={handleCancle} />
+          <SaveButton color="vegetable" children="저장" onPress={handleSave} />
+        </ButtonsWrap>
+      )}
+    </Position>
+  );
+};
+
+const IngredientSection = React.memo(
+  ({ category, ingredients, handleRemove }: IngredientSectionProps) => {
+    const handleAddIngredient = useCallback(() => {
+      console.log('handle');
+      //navigation.navigate('add refriger', {category})
+    }, []);
+    return (
+      <IngredientSectionWrap>
+        <Fonts children={category} size="mediumLarge" />
+        <Divider />
+        <PlusWrap onPress={handleAddIngredient}>
+          <AddIngredientPlus />
+        </PlusWrap>
+
+        <IngredientContainer>
+          {ingredients.map((ingredient, idx) => (
+            <IngredientButton
+              category={category}
+              onPress={handleRemove}
+              key={idx}
+              children={ingredient}
+              chip
             />
-          ) : null,
-        )}
-      </ScrollView>
-    </>
-  );
-};
+          ))}
+          {ingredients.length === 0 && (
+            <EmptyMessage children="재료를 추가해 주세요!" color="tableGray" />
+          )}
+        </IngredientContainer>
+      </IngredientSectionWrap>
+    );
+  },
+);
 
-const IngredientSection = ({
-  category,
-  ingredients,
-}: IngredientSectionProps) => {
-  return (
-    <IngredientSectionWrap>
-      <Fonts children={category} size="mediumLarge" />
-      <Divider />
-      <PlusWrap>
-        <AddIngredientPlus />
-      </PlusWrap>
+const Position = styled.View`
+  position: relative;
+`;
 
-      <IngredientContainer>
-        {ingredients.map((ingredient, idx) => (
-          <IngredientButton
-            category={category}
-            onPress={() => {}}
-            key={idx}
-            children={ingredient}
-            chip
-          />
-        ))}
-        {ingredients.length === 0 && (
-          <Fonts
-            children="재료를 추가해 주세요!"
-            color="tableGray"
-            padH="30%"
-            padV="25px"
-          />
-        )}
-      </IngredientContainer>
-    </IngredientSectionWrap>
-  );
-};
+const ButtonsWrap = styled.View`
+  height: auto;
+  flex-direction: row;
+  background-color: white;
+  align-self: flex-end;
+  width: auto;
+  top: 82%;
+  position: absolute;
+`;
+
+const EmptyMessage = styled(Fonts)`
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  height: ${6.8 * vh}px;
+`;
 
 const IngredientSectionWrap = styled.View`
   margin-top: ${2 * vh}px;
   position: relative;
 `;
+const ScrollViewWrap = styled.ScrollView`
+  /* position: relative; */
+`;
 
 const AddIngredientPlus = styled(Plus)`
   width: 22px;
   height: 22px;
-  margin-right: 4px;
+  margin-right: 6px;
+  opacity: 0.6;
 `;
 const PlusWrap = styled.TouchableOpacity`
   width: auto;
@@ -278,9 +349,12 @@ const Divider = styled.View`
 
 interface RefacMyIngredientProps {
   init: Refriger;
+  save(ingredient: Refriger, recipeCount: number): void;
+  complete(ingredient: Refriger): void;
 }
 
 interface IngredientSectionProps {
   category: MainCategory;
   ingredients: string[];
+  handleRemove: (title: MainCategory, category: string) => void;
 }

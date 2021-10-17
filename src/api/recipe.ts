@@ -20,6 +20,7 @@ const RECIPE_LIST_STEP = 6;
  */
 const delayData = debounce(
   async ingre => {
+    console.log('delayed recipe number api call🍎');
     const data = await API.post('/recipe/number', ingre);
     return data;
   },
@@ -28,7 +29,6 @@ const delayData = debounce(
 );
 
 export const getRecipeNumber = async (refriger: Refriger): Promise<number> => {
-  console.log('recipe number api call🍎');
   const {
     data: { num },
   } = await delayData({ refriger });

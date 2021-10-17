@@ -165,15 +165,15 @@ interface ContentCategoryProps {
 }
 
 const MainCategoryButtonWrap = styled.TouchableOpacity<{ select: boolean }>`
-  /* transition: 1s all; */
-  border-bottom-width: 2.7px;
   ${({ select }) =>
     select
       ? css`
           border-bottom-color: ${theme.color['carrot']};
+          border-bottom-width: 4px;
         `
       : css`
           border-bottom-color: ${theme.color['tableGray'] + '33'};
+          border-bottom-width: 2px;
         `}
 `;
 
@@ -181,5 +181,5 @@ const MainCategoryWrap = styled.View`
   width: ${100 * vw}px;
   align-self: center;
   height: auto;
-  margin-bottom: ${1 * vh}px;
+  margin-bottom: ${1.5 * vh}px;
 `;
