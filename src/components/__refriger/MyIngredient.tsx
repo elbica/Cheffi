@@ -1,208 +1,23 @@
 import React, { useMemo, useState } from 'react';
-import { useEffect } from 'react';
 import { useCallback } from 'react';
-import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import { theme, vh, vw } from '../../assets/styles/theme';
 import { useRecipeNumber } from '../../hooks/useRecipe';
+import { useCommonIngredient } from '../../hooks/useRedux';
 import { ChipButton, IngredientButton } from '../elements/Buttons';
-import Divs, { RightDivs, RowDivs } from '../elements/Divs';
 import Fonts from '../elements/Fonts';
 import { Plus } from '../elements/Images';
 import { MainCategory } from './Category';
 
 /**
- * @flow
- * 냉장고 재료 읽어오기, 저장은 redux persist(async storage)로 관리
- * 재료의 추가, 변경, 삭제 등은 임시 state를 활용
- * 저장을 누르면 redux action 실행
- *
- * redux store에 persist ingredient, temp ingredient 생성
- * 재료를 보여줄 때 persist ingredient를 복사한 temp ingredient를 활용
- *
- * 재료 목록, 변경 페이지 모두 useRedux hook에서 persist ingredient를 가져와
- * temp state에 저장한다.
- *
- * 저장 버튼을 눌러야 temp ingredient에 저장된 내용이 persist에 반영
- *
- *
- */
-export default function MyIngredient({
-  init,
-  save,
-  now,
-  complete,
-  setViewModal,
-}: MyIngredientProps) {
-  const [ingre, setIngre] = useState<Refriger>(init);
-
-  const [category, setCategory] = useState<MainCategory>('전체');
-  const { data: number, isLoading } = useRecipeNumber(ingre);
-  useEffect(() => {
-    setIngre(now);
-  }, [now]);
-
-  const handleRemove = useCallback((title: string, ingredient: string) => {
-    setIngre(ing =>
-      ing.map(cate =>
-        cate.title === title
-          ? {
-              title: title,
-              data: cate.data.filter(data => data !== ingredient),
-            }
-          : cate,
-      ),
-    );
-  }, []);
-
-  const handleModal = useCallback(() => setViewModal(true), [setViewModal]);
-  const handleSave = useCallback(
-    () => save(ingre, number as number),
-    [save, ingre, number],
-  );
-  // console.log(now);
-  const handleCancle = useCallback(() => {
-    complete(init);
-    setIngre(init);
-  }, [init, complete]);
-  const handleCategory = useCallback(
-    (cate: string, _?: any) => setCategory(cate as MainCategory),
-    [],
-  );
-
-  return (
-    <>
-      <Divs height={`${15 * vh}px`}>
-        <ChipButton
-          color="citrus"
-          // marginV="5%"
-          children={
-            isLoading ? '계산중..' : `${number} 개의 레시피를 만들 수 있어요!`
-          }
-        />
-        <RowDivs height="auto" marginV="8px">
-          <ChipButton color="deepGreen" children="내 냉장고" />
-          <AddButton
-            color="vegetable"
-            children="재료 추가"
-            onPress={handleModal}
-          />
-        </RowDivs>
-      </Divs>
-      <Divs height={`${53 * vh}px`}>
-        <MainCategory setCategory={handleCategory} notAll={false} />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {ingre.map(({ title, data }, index) =>
-            title === category || category === '전체'
-              ? data.length > 0 && (
-                  <View key={index}>
-                    <Fonts children={title} />
-                    <IngredientContainer>
-                      {data.map((ingredient, idx) => (
-                        <ChipButton
-                          onPress={() => handleRemove(title, ingredient)}
-                          key={idx}
-                          children={ingredient}
-                        />
-                      ))}
-                    </IngredientContainer>
-                  </View>
-                )
-              : null,
-          )}
-        </ScrollView>
-      </Divs>
-
-      <RightDivs height="auto" align>
-        <SaveButton color="black" children="취소" onPress={handleCancle} />
-        <SaveButton color="vegetable" children="저장" onPress={handleSave} />
-      </RightDivs>
-    </>
-  );
-}
-
-interface MyIngredientProps {
-  init: Category[];
-  now: Category[];
-  save(ingredient: Refriger, recipeCount: number): void;
-  complete(ingredient: Refriger): void;
-  setViewModal: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const AddButton = styled(ChipButton)`
-  /* align-self: flex-end; */
-  width: auto;
-`;
-const SaveButton = styled(ChipButton)`
-  width: ${14 * vw}px;
-  /* margin: 3% 5px; */
-  /* vertical-align: middle; */
-`;
-const IngredientContainer = styled.View`
-  flex-direction: row;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  margin-top: ${2.5 * vh}px;
-`;
-
-/**
- * const handleSave = useCallback(
-    () =>
-      save([
-        { title: '가공식품', data: ["스팸",'즉석밥','햇반',] },
-        { title: '계란/유제품', data: ['계란', '달걀'] },
-        { title: '과일류', data: [] },
-        { title: '떡/밥/곡류', data: ['밥'] },
-        { title: '빵/면/만두류', data: [] },
-        {
-          title: '채소류',
-          data: [
-            '당근',
-            '양파',
-            '쪽파',
-            '대파',
-            '마늘',
-            '김치',
-            '배추김치',
-            '두부',
-            '무',
-            '다진마늘',
-            '김치',
-            '고구마',
-            
-          ],
-        },
-        { title: '수산/건어물', data: ['오징어'] },
-        { title: '육류', data: [] },
-        { title: '음료/주류', data: [] },
-        {
-          title: '장/양념/소스류',
-          data: ['소금', '후추', '설탕', '간장', '고춧가루', '식용유','진간장','올리고당',],
-        },
-        { title: '초콜릿/과자/견과류', data: [] },
-        { title: '향신료/가루류', data: [] },
-      ]),
-    [save, ingre],
-  );
- */
-
-/**
- *
  * @todo
- * 1. cancle, save버튼 만들기
  * 2. add ingredient navigation callback 함수 만들기
- *
- *
  */
-export const RefacMyIngredient = ({
-  init,
-  save,
-  complete,
-}: RefacMyIngredientProps) => {
-  const [ingre, setIngre] = useState<Refriger>(init);
+export const MyIngredient = ({ init, save, push }: RefacMyIngredientProps) => {
+  const ingre = useCommonIngredient();
   const [category, setCategory] = useState<MainCategory>('전체');
-  const { data: number, isLoading } = useRecipeNumber(ingre);
+  const { data: number } = useRecipeNumber(ingre);
   const isChange = useMemo(
     () => JSON.stringify(ingre) !== JSON.stringify(init),
     [init, ingre],
@@ -213,27 +28,29 @@ export const RefacMyIngredient = ({
     [],
   );
 
-  const handleRemove = useCallback(({ category, name }) => {
-    setIngre(ing =>
-      ing.map(cate =>
+  const handleRemove = useCallback(
+    ({ category, name }) => {
+      const newIngredient = ingre.map(cate =>
         cate.title === category
           ? {
               title: category,
               data: cate.data.filter(data => data !== name),
             }
           : cate,
-      ),
-    );
-  }, []);
+      );
+      push(newIngredient);
+    },
+    [ingre],
+  );
   const handleSave = useCallback(
     () => save(ingre, number as number),
     [save, ingre, number],
   );
-  // console.log(now);
-  const handleCancle = useCallback(() => {
-    complete(init);
-    setIngre(init);
-  }, [init, complete]);
+  const handleCancle = useCallback(() => push(init), [init, push]);
+  const handleAddIngredient = useCallback((category: MainCategory) => {
+    console.log('handle ', category);
+    //navigation.navigate('add refriger', {category})
+  }, []);
 
   return (
     <Position>
@@ -242,7 +59,7 @@ export const RefacMyIngredient = ({
         notAll={false}
         selectCategory={category}
       />
-      <ScrollViewWrap showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {ingre.map(
           ({ title, data }) =>
             (title === category || category === '전체') && (
@@ -251,10 +68,11 @@ export const RefacMyIngredient = ({
                 ingredients={data}
                 key={title}
                 handleRemove={handleRemove}
+                handleAddIngredient={handleAddIngredient}
               />
             ),
         )}
-      </ScrollViewWrap>
+      </ScrollView>
       {isChange && (
         <ButtonsWrap>
           <SaveButton color="black" children="취소" onPress={handleCancle} />
@@ -266,16 +84,17 @@ export const RefacMyIngredient = ({
 };
 
 const IngredientSection = React.memo(
-  ({ category, ingredients, handleRemove }: IngredientSectionProps) => {
-    const handleAddIngredient = useCallback(() => {
-      console.log('handle');
-      //navigation.navigate('add refriger', {category})
-    }, []);
+  ({
+    category,
+    ingredients,
+    handleRemove,
+    handleAddIngredient,
+  }: IngredientSectionProps) => {
     return (
       <IngredientSectionWrap>
         <Fonts children={category} size="mediumLarge" />
         <Divider />
-        <PlusWrap onPress={handleAddIngredient}>
+        <PlusWrap onPress={() => handleAddIngredient(category)}>
           <AddIngredientPlus />
         </PlusWrap>
 
@@ -300,6 +119,7 @@ const IngredientSection = React.memo(
 
 const Position = styled.View`
   position: relative;
+  height: 100%;
 `;
 
 const ButtonsWrap = styled.View`
@@ -308,7 +128,7 @@ const ButtonsWrap = styled.View`
   background-color: white;
   align-self: flex-end;
   width: auto;
-  top: 82%;
+  bottom: 10px;
   position: absolute;
 `;
 
@@ -322,9 +142,6 @@ const EmptyMessage = styled(Fonts)`
 const IngredientSectionWrap = styled.View`
   margin-top: ${2 * vh}px;
   position: relative;
-`;
-const ScrollViewWrap = styled.ScrollView`
-  /* position: relative; */
 `;
 
 const AddIngredientPlus = styled(Plus)`
@@ -347,14 +164,27 @@ const Divider = styled.View`
   margin-top: ${1.5 * vh}px;
 `;
 
+const SaveButton = styled(ChipButton)`
+  width: ${14 * vw}px;
+  /* margin: 3% 5px; */
+  /* vertical-align: middle; */
+`;
+const IngredientContainer = styled.View`
+  flex-direction: row;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  margin-top: ${2.5 * vh}px;
+`;
+
 interface RefacMyIngredientProps {
   init: Refriger;
   save(ingredient: Refriger, recipeCount: number): void;
-  complete(ingredient: Refriger): void;
+  push(ingredient: Refriger): void;
 }
 
 interface IngredientSectionProps {
   category: MainCategory;
   ingredients: string[];
   handleRemove: (title: MainCategory, category: string) => void;
+  handleAddIngredient: (category: MainCategory) => void;
 }

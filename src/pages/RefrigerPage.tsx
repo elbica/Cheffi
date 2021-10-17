@@ -3,18 +3,14 @@ import { useState } from 'react';
 import { emptyRefriger } from '../assets/data/mockUserData';
 import { AppWrap } from '../assets/styles/theme';
 import { EmptyRefriger } from '../components/__home/MyRefriger';
-import AddIngredient from '../components/__refriger/AddIngredient';
-import MyIngredient, {
-  RefacMyIngredient,
-} from '../components/__refriger/MyIngredient';
+import { MyIngredient } from '../components/__refriger/MyIngredient';
 import { RecommendIngre } from '../components/__refriger/RecommendIngre';
 import { useIngredient } from '../hooks/useIngredient';
 
 export default function RefrigerPage() {
   const {
     refriger,
-    ingredient,
-    completeIngredient: complete,
+    pushIngredient: push,
     saveIngredient: save,
   } = useIngredient();
   const [viewModal, setViewModal] = useState(false);
@@ -36,16 +32,16 @@ export default function RefrigerPage() {
             init={refriger}
             now={ingredient}
             save={save}
-            complete={complete}
+            push={push}
             setViewModal={setViewModal}
           />
           <AddIngredient
             init={ingredient}
-            complete={complete}
+            push={push}
             setViewModal={setViewModal}
             viewModal={viewModal}
           /> */}
-          <RefacMyIngredient init={refriger} save={save} complete={complete} />
+          <MyIngredient init={refriger} save={save} push={push} />
         </>
       )}
     </AppWrap>

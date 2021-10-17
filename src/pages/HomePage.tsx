@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
-// import {Text, View, Button} from 'react-native';
-// import {TouchOpacity} from '../components/PageMove';
 import { AppWrap } from '../assets/styles/theme';
 import styled from 'styled-components/native';
 import { ScrollView } from 'react-native';
 import MyRefriger from '../components/__home/MyRefriger';
 import ForMe from '../components/__home/ForMe';
 import HotRecipes from '../components/__home/HotRecipes';
-import { useRefrigerIngredient } from '../hooks/useRedux';
+import { useCommonIngredient, useRefrigerIngredient } from '../hooks/useRedux';
 import { emptyRefriger } from '../assets/data/mockUserData';
 import { getInitialRecipe } from '../api';
 import { useDispatch } from 'react-redux';
-import { userRecipeCount, userLogout } from '../redux/modules';
+import { userRecipeCount, userLogout, setIngredient } from '../redux/modules';
 
 const HomeWrap = styled(AppWrap)`
   flex: 1;
@@ -20,6 +18,7 @@ const HomeWrap = styled(AppWrap)`
 
 export default function HomePage() {
   const refriger = useRefrigerIngredient();
+  const ingredient = useCommonIngredient();
   const dispatch = useDispatch();
 
   //deep comparision
@@ -27,6 +26,9 @@ export default function HomePage() {
 
   const [list, setList] = useState<Recipe[]>();
   useEffect(() => {
+    if (!ingredient.length) {
+      dispatch(setIngredient(refriger));
+    }
     (async () => {
       /**
        * @description

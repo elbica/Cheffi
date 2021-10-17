@@ -4,6 +4,7 @@ import { queryClient } from '../App';
 import { store } from '../redux/store';
 import { silentLogin } from './auth';
 import { IMAGE_HAEMUK_URL, IMAGE_MANGAE_URL } from '../../config';
+import { setCachedInit } from '.';
 
 const RECIPE_LIST_STEP = 6;
 
@@ -25,7 +26,7 @@ const delayData = debounce(
     return data;
   },
   1000,
-  { leading: true },
+  { leading: false },
 );
 
 export const getRecipeNumber = async (refriger: Refriger): Promise<number> => {
@@ -101,10 +102,7 @@ export const getInitialRecipe = async () => {
         getRecipeList(),
       ]);
       const initList = { pageParams: [1], pages: [list] };
-
-      queryClient.setQueryData(['RecipeRandomList', 3], randomList);
-      queryClient.setQueryData(['RecipeNumber', ...ingre], number);
-      queryClient.setQueryData(['RecipeList', ...ingre], initList);
+      setCachedInit(randomList, number, initList, ingre);
     }
     return { login, number, randomList };
   } catch (e) {

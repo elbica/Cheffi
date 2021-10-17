@@ -6,5 +6,7 @@ export const useRecipeCount = () =>
 
 export const useRefrigerIngredient = () =>
   useSelector((state: RootState) => state.refriger);
+export const useCommonIngredient = () =>
+  useSelector((state: RootState) => state.ingredient);
 
 export const useIsLogin = () => useSelector((state: RootState) => state.auth);

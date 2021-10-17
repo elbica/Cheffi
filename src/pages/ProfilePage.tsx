@@ -1,9 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { KakaoLogout, GoogleLogout } from '../api';
-import { queryClient } from '../App';
+import { KakaoLogout, GoogleLogout, clearCache } from '../api';
 import LinkButton from '../components/elements/Buttons';
-import { addRefriger, RootState, userLogout } from '../redux/modules';
+import { RootState, userLogout } from '../redux/modules';
 import { CenterDivs } from '../components/elements/Divs';
 
 const array = [1, 2];
@@ -18,7 +17,7 @@ export default function ProfilePage() {
       } else if (platform === 'google') {
         await GoogleLogout();
       }
-      queryClient.clear();
+      clearCache();
       dispatch(userLogout());
     } catch (e) {}
   };
