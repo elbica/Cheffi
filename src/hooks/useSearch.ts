@@ -1,15 +1,14 @@
 import { useState, useCallback } from 'react';
 import { debounce, getMainCategory, getSearchResult } from '../api';
-import { InputEvent } from '../components/elements/interface';
 
 export const useIngredientSearch = () => {
   const [search, setSearch] = useState(['']);
   const onChangeText = useCallback(
-    debounce((e: InputEvent) => {
-      const result = getSearchResult(e.nativeEvent.text);
+    debounce((text: string) => {
+      const result = getSearchResult(text);
       setSearch(result);
     }, 500),
-    [],
+    [setSearch],
   );
   const mapWithCategory = useCallback(() => {
     const ret: Ingredient[] = search.map(item => ({
@@ -17,6 +16,6 @@ export const useIngredientSearch = () => {
       name: item,
     }));
     return ret;
-  }, []);
+  }, [search]);
   return { results: search, onChangeText, mapWithCategory };
 };

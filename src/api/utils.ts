@@ -52,3 +52,17 @@ export const getSearchResult = (input: string) => {
 
 export const getMainCategory = (ingredient: string) =>
   mappingCategory[ingredient] as MainCategory;
+
+const OneDepthCategory: OneDepthCategory[] = [
+  '떡/곡류',
+  '콩/묵/두부',
+  '과일류',
+  '음료/주류',
+];
+
+/**
+ * @description
+ * custom user defined type gaurd
+ */
+export const isOneDepth = (category: any): category is OneDepthCategory =>
+  OneDepthCategory.includes(category as OneDepthCategory);

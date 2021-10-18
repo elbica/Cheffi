@@ -4,7 +4,7 @@ import { getCachedRecipeCount, getRecipeNumber, sendRefriger } from '../api';
 import { setIngredient, setRefriger, userRecipeCount } from '../redux/modules';
 import { useRefrigerIngredient } from './useRedux';
 
-export const useIngredient = (): useIngredientResult => {
+export const useModifyIngredient = (): useIngredientResult => {
   const dispatch = useDispatch();
   const refriger = useRefrigerIngredient();
 

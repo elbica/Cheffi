@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/core';
 import React, { useMemo, useState } from 'react';
 import { useCallback } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -14,77 +15,84 @@ import { MainCategory } from './Category';
  * @todo
  * 2. add ingredient navigation callback 함수 만들기
  */
-export const MyIngredient = ({ init, save, push }: RefacMyIngredientProps) => {
-  const ingre = useCommonIngredient();
-  const [category, setCategory] = useState<MainCategory>('전체');
-  const { data: number } = useRecipeNumber(ingre);
-  const isChange = useMemo(
-    () => JSON.stringify(ingre) !== JSON.stringify(init),
-    [init, ingre],
-  );
+export const MyIngredient = React.memo(
+  ({ init, save, push }: RefacMyIngredientProps) => {
+    const ingre = useCommonIngredient();
+    const [category, setCategory] = useState<MainCategory>('전체');
+    const { data: number } = useRecipeNumber(ingre);
+    const navigation = useNavigation();
+    const isChange = useMemo(
+      () => JSON.stringify(ingre) !== JSON.stringify(init),
+      [init, ingre],
+    );
 
-  const handleCategory = useCallback(
-    (cate: string) => setCategory(cate as MainCategory),
-    [],
-  );
+    const handleCategory = useCallback(
+      (cate: string) => setCategory(cate as MainCategory),
+      [],
+    );
 
-  const handleRemove = useCallback(
-    ({ category, name }) => {
-      const newIngredient = ingre.map(cate =>
-        cate.title === category
-          ? {
-              title: category,
-              data: cate.data.filter(data => data !== name),
-            }
-          : cate,
-      );
-      push(newIngredient);
-    },
-    [ingre],
-  );
-  const handleSave = useCallback(
-    () => save(ingre, number as number),
-    [save, ingre, number],
-  );
-  const handleCancle = useCallback(() => push(init), [init, push]);
-  const handleAddIngredient = useCallback((category: MainCategory) => {
-    console.log('handle ', category);
-    //navigation.navigate('add refriger', {category})
-  }, []);
+    const handleRemove = useCallback(
+      ({ category, name }) => {
+        const newIngredient = ingre.map(cate =>
+          cate.title === category
+            ? {
+                title: category,
+                data: cate.data.filter(data => data !== name),
+              }
+            : cate,
+        );
+        push(newIngredient);
+      },
+      [ingre],
+    );
+    const handleSave = useCallback(
+      () => save(ingre, number as number),
+      [save, ingre, number],
+    );
+    const handleCancle = useCallback(() => push(init), [init, push]);
+    const handleAddIngredient = useCallback((category: MainCategory) => {
+      // console.log('handle ', category);
+      navigation.navigate('addIngredient', { category });
+    }, []);
 
-  return (
-    <Position>
-      <NavigationPlusWrap onPress={() => handleAddIngredient('추천')}>
-        <NavigationPlus />
-      </NavigationPlusWrap>
-      <MainCategory
-        setCategory={handleCategory}
-        notAll={false}
-        selectCategory={category}
-      />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {ingre.map(
-          ({ title, data }) =>
-            (title === category || category === '전체') && (
-              <IngredientSection
-                category={title}
-                ingredients={data}
-                key={title}
-                handleRemove={handleRemove}
-                handleAddIngredient={handleAddIngredient}
-              />
-            ),
+    return (
+      <Position>
+        <NavigationPlusWrap onPress={() => handleAddIngredient('추천')}>
+          <NavigationPlus />
+        </NavigationPlusWrap>
+        <MainCategory
+          setCategory={handleCategory}
+          notAll={false}
+          selectCategory={category}
+        />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {ingre.map(
+            ({ title, data }) =>
+              (title === category || category === '전체') && (
+                <IngredientSection
+                  category={title}
+                  ingredients={data}
+                  key={title}
+                  handleRemove={handleRemove}
+                  handleAddIngredient={handleAddIngredient}
+                />
+              ),
+          )}
+        </ScrollView>
+        {isChange && (
+          <ButtonsWrap>
+            <SaveButton color="black" children="취소" onPress={handleCancle} />
+            <SaveButton
+              color="vegetable"
+              children="저장"
+              onPress={handleSave}
+            />
+          </ButtonsWrap>
         )}
-      </ScrollView>
-      {isChange && (
-        <ButtonsWrap>
-          <SaveButton color="black" children="취소" onPress={handleCancle} />
-          <SaveButton color="vegetable" children="저장" onPress={handleSave} />
-        </ButtonsWrap>
-      )}
-    </Position>
-  );
-};
+      </Position>
+    );
+  },
+);
 
 const IngredientSection = React.memo(
   ({
@@ -144,7 +152,7 @@ const EmptyMessage = styled(Fonts)`
 `;
 
 const IngredientSectionWrap = styled.View`
-  margin-top: ${2 * vh}px;
+  margin-top: ${3 * vh}px;
   position: relative;
 `;
 

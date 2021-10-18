@@ -1,25 +1,12 @@
 import React from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
-import { ChipButton } from '../elements/Buttons';
+import { ChipButton, IngredientButton } from '../elements/Buttons';
 import Divs from '../elements/Divs';
 import Fonts from '../elements/Fonts';
 import categoryData from '../../assets/data/ingreCategory';
 import { theme, vh, vw } from '../../assets/styles/theme';
 import styled, { css } from 'styled-components/native';
-
-const OneDepthCategory: OneDepthCategory[] = [
-  '떡/곡류',
-  '콩/묵/두부',
-  '과일류',
-  '음료/주류',
-];
-
-/**
- * @description
- * custom user defined type gaurd
- */
-const isOneDepth = (category: any): category is OneDepthCategory =>
-  OneDepthCategory.includes(category as OneDepthCategory);
+import { isOneDepth } from '../../api';
 
 const mainCategory = Object.keys(categoryData) as MainCategory[];
 const ingredient = Object.values(categoryData).reduce(
@@ -39,7 +26,7 @@ const subCategory: { [key: string]: string[] } = mainCategory.reduce(
 export const MainCategory = React.memo(
   ({ setCategory, notAll, selectCategory, recommend }: MainCategoryProps) => {
     const changeCategory: MainCategory[] = recommend
-      ? ['추천', ...mainCategory]
+      ? ['검색 결과', '추천', ...mainCategory]
       : !notAll
       ? ['전체', ...mainCategory]
       : [...mainCategory];
@@ -68,26 +55,27 @@ export const MainCategory = React.memo(
   },
 );
 
-export const SubCategory = ({ setCategory, pickMain }: SubCategoryProps) => {
+export const SubCategory = ({
+  setCategory,
+  selectCategory,
+}: SubCategoryProps) => {
   return (
-    <Divs height="auto" marginV="15px">
-      <Fonts children="카테고리" bold />
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {subCategory[pickMain].map((category, idx) => (
-          <ChipButton
+    <HeightWrap>
+      <SubCategoryWrap showsVerticalScrollIndicator={false}>
+        {subCategory[selectCategory].map((category, idx) => (
+          <SubCategoryButton
             key={idx}
-            color="tableBlack"
             children={category}
             onPress={() => setCategory(category as MainCategory, 'sub')}
+            last={idx === subCategory[selectCategory].length - 1 ? true : false}
           />
         ))}
-      </ScrollView>
-    </Divs>
+      </SubCategoryWrap>
+    </HeightWrap>
   );
 };
 
 export const ContentCategory = ({
-  handlePrev,
   pickCategory,
   setCategory,
   handleAdd,
@@ -95,7 +83,8 @@ export const ContentCategory = ({
   const calculContent = () => {
     if (isOneDepth(pickCategory.main)) {
       return subCategory[pickCategory.main].map((ingre, idx) => (
-        <ChipButton
+        <IngredientButton
+          category={pickCategory.main}
           key={idx}
           color="light"
           children={ingre}
@@ -104,7 +93,8 @@ export const ContentCategory = ({
       ));
     } else if (pickCategory.sub) {
       return ingredient[pickCategory.sub].map((ingre, idx) => (
-        <ChipButton
+        <IngredientButton
+          category={pickCategory.main}
           key={idx}
           color="light"
           children={ingre}
@@ -112,34 +102,18 @@ export const ContentCategory = ({
         />
       ));
     } else {
-      return subCategory[pickCategory.main].map((category, idx) => (
-        <ChipButton
-          key={idx}
-          color="tableGray"
-          children={category}
-          onPress={() => setCategory(category, 'sub')}
-        />
-      ));
+      return null;
     }
   };
 
   return (
-    <Divs height={`${42 * vh}px`}>
-      <Fonts children="재료 선택" bold />
+    <ContentCategoryWrap>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexWrap: 'wrap', flexDirection: 'row' }}>
         {calculContent()}
       </ScrollView>
-      {pickCategory.sub && (
-        <ChipButton
-          color="deepGreen"
-          onPress={handlePrev}
-          width="auto"
-          children="이전"
-        />
-      )}
-    </Divs>
+    </ContentCategoryWrap>
   );
 };
 
@@ -152,10 +126,12 @@ interface MainCategoryProps {
   selectCategory: MainCategory;
 }
 interface SubCategoryProps extends MainCategoryProps {
-  pickMain: string;
+  selectCategory: MainCategory;
+  setCategory:
+    | React.Dispatch<React.SetStateAction<MainCategory>>
+    | ((param: string, key: 'main' | 'sub') => void);
 }
 interface ContentCategoryProps {
-  handlePrev: () => void;
   pickCategory: {
     main: MainCategory;
     sub: string | null;
@@ -177,9 +153,53 @@ const MainCategoryButtonWrap = styled.TouchableOpacity<{ select: boolean }>`
         `}
 `;
 
+const ContentCategoryWrap = styled.View`
+  height: auto;
+  width: 100%;
+  /* background-color: red; */
+  flex-wrap: wrap;
+`;
+
+const HeightWrap = styled.View`
+  height: auto;
+  position: absolute;
+  width: 100%;
+  /* width: ${33 * vw}px; */
+  align-self: flex-start;
+  /* border-width: 1px; */
+  /* left: ${-5 * vw}px; */
+`;
+
 const MainCategoryWrap = styled.View`
   width: ${100 * vw}px;
   align-self: center;
   height: auto;
-  margin-bottom: ${1.5 * vh}px;
+  /* margin-bottom: ${1.5 * vh}px; */
+`;
+
+const SubCategoryWrap = styled.ScrollView`
+  width: 100%;
+  height: auto;
+  background-color: ${theme.color['tableGray'] + '33'};
+  align-self: flex-start;
+  /* border-right-color: ${theme.color['tableGray'] + '33'}; */
+  /* border-right-width: 2px; */
+  padding-top: 5px;
+  padding-bottom: ${3 * vh}px;
+  border-bottom-left-radius: ${15 * vw}px;
+  border-bottom-right-radius: ${15 * vw}px;
+`;
+
+const SubCategoryButton = styled(ChipButton)<{ last?: boolean }>`
+  border-width: 0px;
+  ${({ last }) =>
+    !last &&
+    css`
+      border-bottom-width: 2.2px;
+      border-bottom-color: white;
+    `}
+  width: 100%;
+  align-self: center;
+  /* height: auto; */
+  background-color: transparent;
 `;

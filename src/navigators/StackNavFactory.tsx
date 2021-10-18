@@ -15,7 +15,8 @@ import { Platform } from 'react-native';
 import styled from 'styled-components/native';
 import { vh } from '../assets/styles/theme';
 import RecipeInfoPage from '../pages/RecipeInfoPage';
-import { Plus, PrevArrow } from '../components/elements/Images';
+import { PrevArrow } from '../components/elements/Images';
+import { AddIngredientPage } from '../pages/AddIngredientPage';
 
 const Stack = createStackNavigator();
 const Header: StackNavigationOptions = {
@@ -78,6 +79,15 @@ export default function StackNavFactory({
           // headerTransparent: true,
           headerTitleStyle: { color: 'transparent' },
           // headerStyle: { backgroundColor: 'transparent' },
+        }}
+      />
+      <Stack.Screen
+        name={'addIngredient'}
+        component={AddIngredientPage}
+        options={{
+          headerBackground: undefined,
+          headerTitleStyle: { color: 'black', fontSize: 22 },
+          headerTitle: '재료 추가',
         }}
       />
     </Stack.Navigator>

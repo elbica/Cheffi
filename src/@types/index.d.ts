@@ -28,7 +28,8 @@ declare type MainCategory =
   | TwoDepthCategory
   | OneDepthCategory
   | '전체'
-  | '추천';
+  | '추천'
+  | '검색 결과';
 
 declare interface Recipe {
   scrap?: number;
