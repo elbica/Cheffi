@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components/native';
 import { isOneDepth } from '../../api';
+import { MOCK_ADD_INGRE } from '../../assets/data/mockRecipeData';
 import { vw } from '../../assets/styles/theme';
 import { useModifyIngredient } from '../../hooks/useIngredient';
 import { useCommonIngredient } from '../../hooks/useRedux';
@@ -11,6 +12,7 @@ import {
   MainCategory,
   SubCategory,
 } from '../__refriger/Category';
+import { IngreButtons } from '../__refriger/RecommendIngre';
 
 export const AddIngredient = () => {
   const { results, mapWithCategory, onChangeText } = useIngredientSearch();
@@ -63,7 +65,9 @@ export const AddIngredient = () => {
       />
       {category.main === '검색 결과' ? (
         <SearchResult results={results} />
-      ) : category.main === '추천' ? null : oneDepth ? (
+      ) : category.main === '추천' ? (
+        <IngreButtons onPress={() => {}} ingredients={MOCK_ADD_INGRE} />
+      ) : oneDepth ? (
         <ContentCategory
           pickCategory={category}
           setCategory={handleCategory}

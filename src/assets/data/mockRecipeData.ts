@@ -29,3 +29,11 @@ export const MOCK_RECOMMEND_INGRE: Ingredient[] = [
   { name: '돼지고기', category: '육류' },
   { name: '우유', category: '계란/유제품' },
 ];
+export const MOCK_ADD_INGRE: Ingredient[] = [
+  { name: '새우', category: '수산/건어물' },
+  { name: '오징어', category: '수산/건어물' },
+  { name: '치킨스톡', category: '조미료/양념/육수' },
+  { name: '쇠고기다시다', category: '조미료/양념/육수' },
+  { name: '소고기', category: '육류' },
+  { name: '오리고기', category: '육류' },
+];

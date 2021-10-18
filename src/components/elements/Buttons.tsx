@@ -238,19 +238,22 @@ export const IngredientButton = ({
   children = '테스트재료',
   onPress = () => {},
   category = '떡/곡류',
+  init = false,
 }: IngredientButtonProps) => {
   const [select, setSelect] = useState(false);
+  const [initColor, setInitColor] = useState(init);
   const borderColor: Colors = chip || select ? 'carrot' : 'tableGray';
   const handle = useCallback(
     ev => {
       onPress({ category, name: children });
       setSelect(!select);
+      setInitColor(false);
     },
     [select, onPress],
   );
 
   return (
-    <IngredientButtonWrap color={borderColor} onPress={handle}>
+    <IngredientButtonWrap color={borderColor} onPress={handle} init={initColor}>
       <Fonts
         size="medium"
         // lineHeight="large"
@@ -324,7 +327,10 @@ const ChipButtonContainer = styled(CenterDivs)<SelectButtonStyleProps>`
   background-color: ${({ color }) => theme.color[color || 'black'] + '20'};
 `;
 
-const IngredientButtonWrap = styled.TouchableOpacity<{ color: Colors }>`
+const IngredientButtonWrap = styled.TouchableOpacity<{
+  color: Colors;
+  init: boolean;
+}>`
   width: auto;
   height: auto;
   padding: 10px;
@@ -341,6 +347,12 @@ const IngredientButtonWrap = styled.TouchableOpacity<{ color: Colors }>`
   margin-bottom: ${3 * vw}px;
   margin-right: ${1.5 * vw}px;
   margin-left: ${1.5 * vw}px;
+  ${({ init }) =>
+    init &&
+    css`
+      border-color: transparent;
+      background-color: ${theme.color['tableGray'] + '33'};
+    `}
 `;
 
 const IngredientDelete = styled.View`

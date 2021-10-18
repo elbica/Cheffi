@@ -58,6 +58,7 @@ export interface IngredientButtonProps {
   children: string;
   color?: Colors;
   chip?: boolean;
+  init?: boolean;
   category: MainCategory;
 }
 

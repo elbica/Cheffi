@@ -35,10 +35,11 @@ export const RecommendIngre = ({ save }: RecommendIngreProps) => {
   );
 };
 
-const IngreButtons = ({ onPress }: IngreButtonsProps) => {
+export const IngreButtons = ({ ingredients, onPress }: IngreButtonsProps) => {
+  const ingredientsArray = ingredients || MOCK_RECOMMEND_INGRE;
   return (
     <IngredientWrap>
-      {MOCK_RECOMMEND_INGRE.map(ingredient => (
+      {ingredientsArray.map(ingredient => (
         <IngredientButton
           children={ingredient.name}
           key={ingredient.name}
@@ -107,5 +108,6 @@ interface RecomBtnProps {
 }
 
 interface IngreButtonsProps {
+  ingredients?: Ingredient[];
   onPress(ev: any): void;
 }

@@ -46,7 +46,7 @@ export default function HomePage() {
         dispatch(userRecipeCount(number));
       } else if (error) {
         console.log('error 발생. 초기화면 이동이 필요합니다.');
-        dispatch(userLogout());
+        // dispatch(userLogout());
       }
     })();
   }, [dispatch]);
