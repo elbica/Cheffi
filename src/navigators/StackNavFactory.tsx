@@ -17,7 +17,13 @@ import { vh } from '../assets/styles/theme';
 import RecipeInfoPage from '../pages/RecipeInfoPage';
 import { PrevArrow } from '../components/elements/Images';
 import { AddIngredientPage } from '../pages/AddIngredientPage';
+import {
+  getFocusedRouteNameFromRoute,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 
+const tabHiddenRoutes = ['addIngredient', 'recipeInfo'];
 const Stack = createStackNavigator();
 const Header: StackNavigationOptions = {
   title: 'Cheffi',
@@ -43,6 +49,18 @@ const Header: StackNavigationOptions = {
 export default function StackNavFactory({
   screenName,
 }: StackNavFactoryScreenName) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  React.useLayoutEffect(() => {
+    if (
+      tabHiddenRoutes.includes(getFocusedRouteNameFromRoute(route) as string)
+    ) {
+      navigation.setOptions({ tabBarVisible: false });
+    } else {
+      navigation.setOptions({ tabBarVisible: true });
+    }
+  }, [navigation, route]);
+
   return (
     <Stack.Navigator screenOptions={Header} headerMode="float">
       {screenName === 'myRecipe' ? (

@@ -1,3 +1,4 @@
+import { useRoute } from '@react-navigation/core';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components/native';
 import { getMainCategory, isOneDepth } from '../../api';
@@ -19,9 +20,10 @@ export const AddIngredient = () => {
   const { results, mapWithCategory, onChangeText } = useIngredientSearch();
   // const {pushIngredient, refriger} = useModifyIngredient()
   // const ingre = useCommonIngredient();
+  const { category: init } = useRoute<AddIngredientRouteProp>().params;
 
   const [category, setCategory] = useState<CategoryState>({
-    main: '떡/곡류',
+    main: init,
     sub: null,
   });
   const [pickIngre, setPickIngre] = useState<Map<string, MainCategory>>(

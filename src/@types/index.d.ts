@@ -42,18 +42,17 @@ declare interface Recipe {
   difficulty?: string;
 }
 declare interface RecipeInfo extends Recipe {
-  ingredient: string[];
+  ingredient: { [key: string]: string }[];
 }
 
-//error 속성 삭제, 실패 시 http status 4xx로 변경 및 에러 메세지 보내기
 declare interface AuthResult {
   auth: {
     newUser: boolean;
-    token: string; //암호화를 하면 프론트에서 따로 저쟝해야 함
+    token: string;
     platform: string;
   };
   info: {
-    recipeCount: number; //만들 수 있는 레시피 개수
+    recipeCount: number;
     nickname: string;
     statusMessage: string;
     photo: string;
@@ -77,3 +76,23 @@ declare type FormInfo = {
   likeRecipesId?: string[];
   dislikeIngredient?: string[];
 };
+
+type RouteProp<T, K> = import('@react-navigation/core').RouteProp<T, K>;
+type StackNavigationProp<T, K> =
+  import('@react-navigation/stack').StackNavigationProp<T, K>;
+
+type RootStackParamList = {
+  myRecipe: undefined;
+  home: undefined;
+  recommend: undefined;
+  profile: undefined;
+  refrigerator: undefined;
+  recipeInfo: { recipeid: number; platform: 'haemuk' | 'mangae' | 'dummy' };
+  addIngredient: { category: MainCategory };
+};
+type RecipeInfoRouteProp = RouteProp<RootStackParamList, 'recipeInfo'>;
+type RecipeInfoNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'recipeInfo'
+>;
+type AddIngredientRouteProp = RouteProp<RootStackParamList, 'addIngredient'>;
