@@ -233,42 +233,46 @@ export function CircleButton({ radius = 50, ...rest }: ImageButtonProps) {
   );
 }
 
-export const IngredientButton = ({
-  chip,
-  children = '테스트재료',
-  onPress = () => {},
-  category = '떡/곡류',
-  init = false,
-}: IngredientButtonProps) => {
-  const [select, setSelect] = useState(false);
-  const [initColor, setInitColor] = useState(init);
-  const borderColor: Colors = chip || select ? 'carrot' : 'tableGray';
-  const handle = useCallback(
-    ev => {
-      onPress({ category, name: children });
-      setSelect(!select);
-      setInitColor(false);
-    },
-    [select, onPress],
-  );
+export const IngredientButton = React.memo(
+  ({
+    chip,
+    children = '테스트재료',
+    onPress = () => {},
+    category = '떡/곡류',
+    init = false,
+    isPick = false,
+  }: IngredientButtonProps) => {
+    const [initColor, setInitColor] = useState(isPick ? false : init);
+    const borderColor: Colors = chip || isPick ? 'carrot' : 'tableGray';
+    const handle = useCallback(
+      ev => {
+        onPress(children, category);
+        setInitColor(false);
+      },
+      [onPress],
+    );
 
-  return (
-    <IngredientButtonWrap color={borderColor} onPress={handle} init={initColor}>
-      <Fonts
-        size="medium"
-        // lineHeight="large"
-        center
+    return (
+      <IngredientButtonWrap
         color={borderColor}
-        children={children}
-      />
-      {chip && (
-        <IngredientDelete>
-          <Delete />
-        </IngredientDelete>
-      )}
-    </IngredientButtonWrap>
-  );
-};
+        onPress={handle}
+        init={initColor}>
+        <Fonts
+          size="medium"
+          // lineHeight="large"
+          center
+          color={borderColor}
+          children={children}
+        />
+        {chip && (
+          <IngredientDelete>
+            <Delete />
+          </IngredientDelete>
+        )}
+      </IngredientButtonWrap>
+    );
+  },
+);
 
 const ImageButtonContainer = styled.View<ImageButtonStyleProps>`
   width: ${(props: any) => props.width};
@@ -351,7 +355,7 @@ const IngredientButtonWrap = styled.TouchableOpacity<{
     init &&
     css`
       border-color: transparent;
-      background-color: ${theme.color['tableGray'] + '33'};
+      background-color: #f5f3e8;
     `}
 `;
 

@@ -32,7 +32,7 @@ export const MyIngredient = React.memo(
     );
 
     const handleRemove = useCallback(
-      ({ category, name }) => {
+      (name, category) => {
         const newIngredient = ingre.map(cate =>
           cate.title === category
             ? {

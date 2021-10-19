@@ -12,15 +12,22 @@ export const RecommendIngre = ({ save }: RecommendIngreProps) => {
   const convertRefriger = convertToRefriger(recommends);
   const { data } = useRecipeNumber(convertRefriger);
   const handleIngredient = useCallback(
-    (ingredient: Ingredient) => {
-      const { name } = ingredient;
-      const isInclude = recommends.find(item => item.name === name);
+    (ingredient: string, category: MainCategory) => {
+      // const { name } = ingredient;
+      const isInclude = recommends.find(item => item.name === ingredient);
       if (isInclude)
-        setRecommends(recommends.filter(item => item.name !== name));
-      else setRecommends([...recommends, ingredient]);
+        setRecommends(recommends.filter(item => item.name !== ingredient));
+      else setRecommends([...recommends, { category, name: ingredient }]);
     },
     [recommends],
   );
+  const calculPick = useCallback(
+    (ingredient: Ingredient) => {
+      return recommends.includes(ingredient);
+    },
+    [recommends],
+  );
+
   const handleRefriger = useCallback(() => {
     save(convertRefriger, data as number);
     setRecommends([]);
@@ -29,13 +36,17 @@ export const RecommendIngre = ({ save }: RecommendIngreProps) => {
   return (
     <RecommendIngreWrap>
       <Fonts children="추천 재료" size="large" padV={`${2.7 * vh}px`} />
-      <IngreButtons onPress={handleIngredient} />
+      <IngreButtons onPress={handleIngredient} calculPick={calculPick} />
       <RecommendButton onPress={handleRefriger} number={recommends.length} />
     </RecommendIngreWrap>
   );
 };
 
-export const IngreButtons = ({ ingredients, onPress }: IngreButtonsProps) => {
+export const IngreButtons = ({
+  ingredients,
+  onPress,
+  calculPick,
+}: IngreButtonsProps) => {
   const ingredientsArray = ingredients || MOCK_RECOMMEND_INGRE;
   return (
     <IngredientWrap>
@@ -45,6 +56,8 @@ export const IngreButtons = ({ ingredients, onPress }: IngreButtonsProps) => {
           key={ingredient.name}
           category={ingredient.category}
           onPress={onPress}
+          isPick={calculPick(ingredient)}
+          init
         />
       ))}
     </IngredientWrap>
@@ -108,6 +121,7 @@ interface RecomBtnProps {
 }
 
 interface IngreButtonsProps {
+  calculPick: Function;
   ingredients?: Ingredient[];
-  onPress(ev: any): void;
+  onPress: Function;
 }

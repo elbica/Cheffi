@@ -56,6 +56,7 @@ export interface SelectButtonProps extends ActionButtonProps {
 export interface IngredientButtonProps {
   onPress?: Function;
   children: string;
+  isPick?: boolean;
   color?: Colors;
   chip?: boolean;
   init?: boolean;

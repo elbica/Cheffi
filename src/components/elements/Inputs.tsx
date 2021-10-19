@@ -1,4 +1,3 @@
-import { result } from 'lodash';
 import React from 'react';
 import { useRef } from 'react';
 import { useCallback } from 'react';
@@ -154,7 +153,7 @@ const SearchInputWrap = styled.View<{ width: string }>`
   /* background-color: red; */
 `;
 const SearchResultWrap = styled.View`
-  background-color: red;
+  /* background-color: red; */
   flex-wrap: wrap;
   width: 100%;
   height: auto;

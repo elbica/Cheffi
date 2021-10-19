@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { debounce, getMainCategory, getSearchResult } from '../api';
 
 export const useIngredientSearch = () => {
-  const [search, setSearch] = useState(['']);
+  const [search, setSearch] = useState<string[]>([]);
   const onChangeText = useCallback(
     debounce((text: string) => {
       const result = getSearchResult(text);

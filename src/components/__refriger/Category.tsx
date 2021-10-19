@@ -1,7 +1,6 @@
 import React from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ChipButton, IngredientButton } from '../elements/Buttons';
-import Divs from '../elements/Divs';
 import Fonts from '../elements/Fonts';
 import categoryData from '../../assets/data/ingreCategory';
 import { theme, vh, vw } from '../../assets/styles/theme';
@@ -13,6 +12,7 @@ const ingredient = Object.values(categoryData).reduce(
   (acc, cur) => ({ ...acc, ...cur }),
   {},
 ) as { [key: string]: string[] };
+// console.log(ingredient);
 const subCategory: { [key: string]: string[] } = mainCategory.reduce(
   (acc, cur) => ({
     ...acc,
@@ -45,6 +45,7 @@ export const MainCategory = React.memo(
                 padV="8px"
                 size="mediumLarge"
                 children={category}
+                bold={category === selectCategory}
                 color={category === selectCategory ? 'carrot' : 'tableBlack'}
               />
             </MainCategoryButtonWrap>
@@ -77,28 +78,30 @@ export const SubCategory = ({
 
 export const ContentCategory = ({
   pickCategory,
-  setCategory,
   handleAdd,
+  ingredientSet,
 }: ContentCategoryProps) => {
   const calculContent = () => {
     if (isOneDepth(pickCategory.main)) {
       return subCategory[pickCategory.main].map((ingre, idx) => (
         <IngredientButton
           category={pickCategory.main}
-          key={idx}
+          key={ingre}
           color="light"
           children={ingre}
-          onPress={() => handleAdd(ingre, pickCategory.main)}
+          isPick={ingredientSet.has(ingre)}
+          onPress={handleAdd}
         />
       ));
     } else if (pickCategory.sub) {
       return ingredient[pickCategory.sub].map((ingre, idx) => (
         <IngredientButton
           category={pickCategory.main}
-          key={idx}
+          key={ingre}
           color="light"
+          isPick={ingredientSet.has(ingre)}
           children={ingre}
-          onPress={() => handleAdd(ingre, pickCategory.main)}
+          onPress={handleAdd}
         />
       ));
     } else {
@@ -136,8 +139,8 @@ interface ContentCategoryProps {
     main: MainCategory;
     sub: string | null;
   };
-  setCategory: (param: string, key: 'main' | 'sub') => void;
   handleAdd: (ingredient: string, title: MainCategory) => void;
+  ingredientSet: Map<string, MainCategory>;
 }
 
 const MainCategoryButtonWrap = styled.TouchableOpacity<{ select: boolean }>`

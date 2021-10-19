@@ -1,11 +1,12 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components/native';
-import { isOneDepth } from '../../api';
+import { getMainCategory, isOneDepth } from '../../api';
 import { MOCK_ADD_INGRE } from '../../assets/data/mockRecipeData';
 import { vw } from '../../assets/styles/theme';
 import { useModifyIngredient } from '../../hooks/useIngredient';
 import { useCommonIngredient } from '../../hooks/useRedux';
 import { useIngredientSearch } from '../../hooks/useSearch';
+import { IngredientButton } from '../elements/Buttons';
 import { SearchInput, SearchResult } from '../elements/Inputs';
 import {
   ContentCategory,
@@ -23,6 +24,10 @@ export const AddIngredient = () => {
     main: '떡/곡류',
     sub: null,
   });
+  const [pickIngre, setPickIngre] = useState<Map<string, MainCategory>>(
+    new Map(),
+  );
+
   const oneDepth = useMemo(() => isOneDepth(category.main), [category]);
   const handleCategory = useCallback((param: string, key: 'main' | 'sub') => {
     setCategory(prev =>
@@ -41,19 +46,21 @@ export const AddIngredient = () => {
     setCategory({ main: '검색 결과', sub: null });
   }, []);
 
-  // const handleAdd = useCallback((ingredient: string, title: MainCategory) => {
-  //     const newIngredient = ingre.map(cate =>
-  //       cate.title === title
-  //         ? {
-  //             title,
-  //             data: cate.data.includes(ingredient)
-  //               ? cate.data
-  //               : [...cate.data, ingredient],
-  //           }
-  //         : { ...cate },
-  //     )
-  //     pushIngredient(newIngredient)
-  // }, [ingre]);
+  const handleAdd = useCallback((ingredient: string, title: MainCategory) => {
+    setPickIngre(state => {
+      const newState = new Map(state);
+      // console.log(newState);
+      newState.has(ingredient)
+        ? newState.delete(ingredient)
+        : newState.set(ingredient, title);
+      return newState;
+    });
+  }, []);
+
+  const calculPick = useCallback(
+    (ingredient: Ingredient) => pickIngre.has(ingredient.name),
+    [pickIngre],
+  );
 
   return (
     <>
@@ -64,14 +71,35 @@ export const AddIngredient = () => {
         recommend
       />
       {category.main === '검색 결과' ? (
-        <SearchResult results={results} />
+        <SearchResultWrap>
+          {results?.map(result => {
+            const ingredient = {
+              category: getMainCategory(result),
+              name: result,
+            };
+            return (
+              <IngredientButton
+                children={ingredient.name}
+                category={ingredient.category}
+                onPress={handleAdd}
+                init
+                key={result}
+                isPick={calculPick(ingredient)}
+              />
+            );
+          })}
+        </SearchResultWrap>
       ) : category.main === '추천' ? (
-        <IngreButtons onPress={() => {}} ingredients={MOCK_ADD_INGRE} />
+        <IngreButtons
+          onPress={handleAdd}
+          ingredients={MOCK_ADD_INGRE}
+          calculPick={calculPick}
+        />
       ) : oneDepth ? (
         <ContentCategory
           pickCategory={category}
-          setCategory={handleCategory}
-          handleAdd={() => {}}
+          handleAdd={handleAdd}
+          ingredientSet={pickIngre}
         />
       ) : (
         <CategoryWrap>
@@ -84,8 +112,8 @@ export const AddIngredient = () => {
           <ContentWrapHelper>
             <ContentCategory
               pickCategory={category}
-              setCategory={handleCategory}
-              handleAdd={() => {}}
+              handleAdd={handleAdd}
+              ingredientSet={pickIngre}
             />
           </ContentWrapHelper>
         </CategoryWrap>
@@ -105,8 +133,6 @@ const WrapHelper = styled.View`
 `;
 const ContentWrapHelper = styled.View`
   width: ${67 * vw}px;
-  /* background-color: green; */
-  /* padding-right: ${15 * vw}px; */
   padding: 10px;
   left: ${-5 * vw}px;
 `;
@@ -115,4 +141,12 @@ const CategoryWrap = styled.View`
   position: relative;
   height: 100%;
   width: 100%;
+`;
+
+const SearchResultWrap = styled.View`
+  /* background-color: red; */
+  flex-wrap: wrap;
+  width: 100%;
+  height: auto;
+  flex-direction: row;
 `;
