@@ -60,6 +60,22 @@ const OneDepthCategory: OneDepthCategory[] = [
   '음료/주류',
 ];
 
+export const addIngreToRefriger = (
+  ingredients: Ingredient[],
+  refriger: Refriger,
+) => {
+  let newState = [...refriger];
+  ingredients.map(ingredient => {
+    const index = newState.findIndex(
+      refriger => refriger.title === ingredient.category,
+    );
+    if (!newState[index].data.includes(ingredient.name))
+      newState[index].data = [...newState[index].data, ingredient.name];
+  });
+
+  return newState;
+};
+
 /**
  * @description
  * custom user defined type gaurd

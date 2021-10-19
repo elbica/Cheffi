@@ -1,14 +1,15 @@
-import { useRoute } from '@react-navigation/core';
+import { useNavigation, useRoute } from '@react-navigation/core';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components/native';
-import { getMainCategory, isOneDepth } from '../../api';
+import { addIngreToRefriger, getMainCategory, isOneDepth } from '../../api';
 import { MOCK_ADD_INGRE } from '../../assets/data/mockRecipeData';
-import { vw } from '../../assets/styles/theme';
+import { theme, vh, vw } from '../../assets/styles/theme';
 import { useModifyIngredient } from '../../hooks/useIngredient';
 import { useCommonIngredient } from '../../hooks/useRedux';
 import { useIngredientSearch } from '../../hooks/useSearch';
 import { IngredientButton } from '../elements/Buttons';
-import { SearchInput, SearchResult } from '../elements/Inputs';
+import Fonts from '../elements/Fonts';
+import { SearchInput } from '../elements/Inputs';
 import {
   ContentCategory,
   MainCategory,
@@ -17,10 +18,11 @@ import {
 import { IngreButtons } from '../__refriger/RecommendIngre';
 
 export const AddIngredient = () => {
-  const { results, mapWithCategory, onChangeText } = useIngredientSearch();
-  // const {pushIngredient, refriger} = useModifyIngredient()
-  // const ingre = useCommonIngredient();
+  const { results, onChangeText } = useIngredientSearch();
+  const { pushIngredient } = useModifyIngredient();
+  const ingre = useCommonIngredient();
   const { category: init } = useRoute<AddIngredientRouteProp>().params;
+  const navigation = useNavigation();
 
   const [category, setCategory] = useState<CategoryState>({
     main: init,
@@ -42,7 +44,22 @@ export const AddIngredient = () => {
     );
   }, []);
 
-  // console.log(results);
+  /**
+   * @todo
+   * 필요할 시, saveIngredient 함수를 가져와서
+   * 바로 냉장고에 저장하도록 한다.
+   */
+  const handleSave = useCallback(() => {
+    const existIngre: Refriger = JSON.parse(JSON.stringify(ingre));
+    let ingreState: Ingredient[] = [];
+    pickIngre.forEach((value, key) => {
+      ingreState = [...ingreState, { name: key, category: value }];
+    });
+    const newIngre = addIngreToRefriger(ingreState, existIngre);
+    pushIngredient(newIngre);
+
+    navigation.goBack();
+  }, [pushIngredient, ingre, pickIngre]);
   const handleChangeText = useCallback((text: string) => {
     onChangeText(text);
     setCategory({ main: '검색 결과', sub: null });
@@ -65,7 +82,7 @@ export const AddIngredient = () => {
   );
 
   return (
-    <>
+    <AddIngredientWrap>
       <SearchInput onChangeText={handleChangeText} />
       <MainCategory
         setCategory={handleCategory}
@@ -120,14 +137,48 @@ export const AddIngredient = () => {
           </ContentWrapHelper>
         </CategoryWrap>
       )}
-    </>
+      <AddModal number={pickIngre.size} onPress={handleSave} />
+    </AddIngredientWrap>
   );
 };
 
-interface CategoryState {
-  main: MainCategory;
-  sub: string | null;
-}
+const AddModal = React.memo(({ number, onPress }: AddModalProps) => {
+  return (
+    <ButtonsWrap>
+      <CarrotButton>
+        <Fonts children={`${number}개 선택`} color="white" size="large" />
+      </CarrotButton>
+      <VegetableButton onPress={() => onPress()}>
+        <Fonts children="재료 추가 하기" color="white" size="large" />
+      </VegetableButton>
+    </ButtonsWrap>
+  );
+});
+
+const AddIngredientWrap = styled.View`
+  height: 100%;
+  position: relative;
+`;
+
+const ButtonsWrap = styled.View`
+  flex-direction: row;
+  height: ${8 * vh}px;
+  align-self: center;
+  width: ${100 * vw}px;
+  position: absolute;
+  bottom: 0px;
+`;
+const CarrotButton = styled.TouchableOpacity`
+  background-color: ${theme.color['carrot']};
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  width: ${50 * vw}px;
+`;
+const VegetableButton = styled(CarrotButton)`
+  background-color: ${theme.color['vegetable']};
+`;
+
 const WrapHelper = styled.View`
   position: relative;
   width: ${33 * vw}px;
@@ -152,3 +203,13 @@ const SearchResultWrap = styled.View`
   height: auto;
   flex-direction: row;
 `;
+
+interface CategoryState {
+  main: MainCategory;
+  sub: string | null;
+}
+
+interface AddModalProps {
+  number: number;
+  onPress: Function;
+}
