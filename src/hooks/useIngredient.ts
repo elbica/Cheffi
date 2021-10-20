@@ -11,13 +11,13 @@ export const useModifyIngredient = (): useIngredientResult => {
   const saveIngredient = useCallback(
     async (ingredients: Refriger) => {
       try {
+        dispatch(setRefriger(ingredients));
+        dispatch(setIngredient(ingredients));
         const recipeCount =
           getCachedRecipeCount(ingredients) ||
           (await getRecipeNumber(ingredients));
-        dispatch(setRefriger(ingredients));
-        dispatch(setIngredient(ingredients));
         dispatch(userRecipeCount(recipeCount));
-        await sendRefriger(ingredients);
+        sendRefriger(ingredients);
       } catch (e) {
         console.log('냉장고, 레시피 개수 저장 에러 발생: ', e);
       }

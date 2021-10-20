@@ -6,15 +6,11 @@ import styled from 'styled-components/native';
 import { theme, vh, vw } from '../../assets/styles/theme';
 import { useRecipeNumber } from '../../hooks/useRecipe';
 import { useCommonIngredient } from '../../hooks/useRedux';
-import { ChipButton, IngredientButton } from '../elements/Buttons';
+import { IngredientButton } from '../elements/Buttons';
 import Fonts from '../elements/Fonts';
-import { Plus } from '../elements/Images';
+import { Plus, Undo, WhiteCheck } from '../elements/Images';
 import { MainCategory } from './Category';
 
-/**
- * @todo
- * 2. add ingredient navigation callback 함수 만들기
- */
 export const MyIngredient = React.memo(
   ({ init, save, push }: RefacMyIngredientProps) => {
     const ingre = useCommonIngredient();
@@ -81,12 +77,12 @@ export const MyIngredient = React.memo(
         </ScrollView>
         {isChange && (
           <ButtonsWrap>
-            <SaveButton color="black" children="취소" onPress={handleCancle} />
-            <SaveButton
-              color="vegetable"
-              children="저장"
-              onPress={handleSave}
-            />
+            <CancleButton onPress={handleCancle}>
+              <Undo />
+            </CancleButton>
+            <SaveButton onPress={handleSave}>
+              <WhiteCheck />
+            </SaveButton>
           </ButtonsWrap>
         )}
       </Position>
@@ -136,11 +132,11 @@ const Position = styled.View`
 
 const ButtonsWrap = styled.View`
   height: auto;
-  flex-direction: row;
-  background-color: white;
+  /* flex-direction: row; */
+  background-color: transparent;
   align-self: flex-end;
   width: auto;
-  bottom: 10px;
+  bottom: ${3 * vh}px;
   position: absolute;
 `;
 
@@ -187,10 +183,19 @@ const Divider = styled.View`
   margin-top: ${1.5 * vh}px;
 `;
 
-const SaveButton = styled(ChipButton)`
+const SaveButton = styled.TouchableOpacity`
   width: ${14 * vw}px;
-  /* margin: 3% 5px; */
-  /* vertical-align: middle; */
+  height: ${14 * vw}px;
+  /* height:  */
+  background-color: ${theme.color['vegetable']};
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  /* margin: 5px; */
+  margin-top: 10px;
+`;
+const CancleButton = styled(SaveButton)`
+  background-color: ${theme.color['carrot']};
 `;
 const IngredientContainer = styled.View`
   flex-direction: row;

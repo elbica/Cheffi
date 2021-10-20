@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Text } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import { theme, TouchButton, vw } from '../../assets/styles/theme';
@@ -247,10 +247,12 @@ export const IngredientButton = React.memo(
     const handle = useCallback(
       ev => {
         onPress(children, category);
-        setInitColor(false);
       },
       [onPress],
     );
+    useEffect(() => {
+      isPick && setInitColor(false);
+    }, [isPick]);
 
     return (
       <IngredientButtonWrap

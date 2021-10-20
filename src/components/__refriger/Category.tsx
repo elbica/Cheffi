@@ -5,7 +5,8 @@ import Fonts from '../elements/Fonts';
 import categoryData from '../../assets/data/ingreCategory';
 import { theme, vh, vw } from '../../assets/styles/theme';
 import styled, { css } from 'styled-components/native';
-import { isOneDepth } from '../../api';
+import { isOneDepth, mapWithCategory } from '../../api';
+import { CheckBox } from '../__addIngredient/AddIngredient';
 
 const mainCategory = Object.keys(categoryData) as MainCategory[];
 const ingredient = Object.values(categoryData).reduce(
@@ -80,43 +81,43 @@ export const ContentCategory = ({
   pickCategory,
   handleAdd,
   ingredientSet,
+  handleAllAdd,
+  handleAllDelete,
 }: ContentCategoryProps) => {
-  const calculContent = () => {
-    if (isOneDepth(pickCategory.main)) {
-      return subCategory[pickCategory.main].map((ingre, idx) => (
-        <IngredientButton
-          category={pickCategory.main}
-          key={ingre}
-          color="light"
-          children={ingre}
-          isPick={ingredientSet.has(ingre)}
-          onPress={handleAdd}
-        />
-      ));
-    } else if (pickCategory.sub) {
-      return ingredient[pickCategory.sub].map((ingre, idx) => (
-        <IngredientButton
-          category={pickCategory.main}
-          key={ingre}
-          color="light"
-          isPick={ingredientSet.has(ingre)}
-          children={ingre}
-          onPress={handleAdd}
-        />
-      ));
-    } else {
-      return null;
-    }
-  };
+  const ingredients = isOneDepth(pickCategory.main)
+    ? subCategory[pickCategory.main]
+    : pickCategory.sub
+    ? ingredient[pickCategory.sub]
+    : null;
+  const calculContent = () =>
+    ingredients?.map(ingre => (
+      <IngredientButton
+        category={pickCategory.main}
+        key={ingre}
+        children={ingre}
+        isPick={ingredientSet.has(ingre)}
+        onPress={handleAdd}
+        init
+      />
+    ));
 
   return (
-    <ContentCategoryWrap>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexWrap: 'wrap', flexDirection: 'row' }}>
-        {calculContent()}
-      </ScrollView>
-    </ContentCategoryWrap>
+    <>
+      {ingredients && (
+        <CheckBox
+          handleAllAdd={handleAllAdd}
+          handleAllDelete={handleAllDelete}
+          ingredients={mapWithCategory(ingredients)}
+        />
+      )}
+      <ContentCategoryWrap>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexWrap: 'wrap', flexDirection: 'row' }}>
+          {calculContent()}
+        </ScrollView>
+      </ContentCategoryWrap>
+    </>
   );
 };
 
@@ -141,6 +142,8 @@ interface ContentCategoryProps {
   };
   handleAdd: (ingredient: string, title: MainCategory) => void;
   ingredientSet: Map<string, MainCategory>;
+  handleAllAdd: Function;
+  handleAllDelete: Function;
 }
 
 const MainCategoryButtonWrap = styled.TouchableOpacity<{ select: boolean }>`
@@ -159,7 +162,6 @@ const MainCategoryButtonWrap = styled.TouchableOpacity<{ select: boolean }>`
 const ContentCategoryWrap = styled.View`
   height: auto;
   width: 100%;
-  /* background-color: red; */
   flex-wrap: wrap;
 `;
 
@@ -167,10 +169,7 @@ const HeightWrap = styled.View`
   height: auto;
   position: absolute;
   width: 100%;
-  /* width: ${33 * vw}px; */
   align-self: flex-start;
-  /* border-width: 1px; */
-  /* left: ${-5 * vw}px; */
 `;
 
 const MainCategoryWrap = styled.View`

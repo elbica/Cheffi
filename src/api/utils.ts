@@ -82,3 +82,11 @@ export const addIngreToRefriger = (
  */
 export const isOneDepth = (category: any): category is OneDepthCategory =>
   OneDepthCategory.includes(category as OneDepthCategory);
+
+export const mapWithCategory = (names: string[]) => {
+  const ret: Ingredient[] = names.map(item => ({
+    category: getMainCategory(item),
+    name: item,
+  }));
+  return ret;
+};

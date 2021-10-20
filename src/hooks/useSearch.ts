@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { debounce, getMainCategory, getSearchResult } from '../api';
+import { debounce, getSearchResult } from '../api';
 
 export const useIngredientSearch = () => {
   const [search, setSearch] = useState<string[]>([]);
@@ -10,12 +10,6 @@ export const useIngredientSearch = () => {
     }, 500),
     [setSearch],
   );
-  const mapWithCategory = useCallback(() => {
-    const ret: Ingredient[] = search.map(item => ({
-      category: getMainCategory(item),
-      name: item,
-    }));
-    return ret;
-  }, [search]);
-  return { results: search, onChangeText, mapWithCategory };
+
+  return { results: search, onChangeText };
 };

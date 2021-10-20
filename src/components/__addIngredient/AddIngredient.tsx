@@ -1,7 +1,13 @@
 import { useNavigation, useRoute } from '@react-navigation/core';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { ScrollView } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
-import { addIngreToRefriger, getMainCategory, isOneDepth } from '../../api';
+import {
+  addIngreToRefriger,
+  getMainCategory,
+  isOneDepth,
+  mapWithCategory,
+} from '../../api';
 import { MOCK_ADD_INGRE } from '../../assets/data/mockRecipeData';
 import { theme, vh, vw } from '../../assets/styles/theme';
 import { useModifyIngredient } from '../../hooks/useIngredient';
@@ -9,6 +15,7 @@ import { useCommonIngredient } from '../../hooks/useRedux';
 import { useIngredientSearch } from '../../hooks/useSearch';
 import { IngredientButton } from '../elements/Buttons';
 import Fonts from '../elements/Fonts';
+import { CarrotCheck, GrayCheck } from '../elements/Images';
 import { SearchInput } from '../elements/Inputs';
 import {
   ContentCategory,
@@ -17,9 +24,13 @@ import {
 } from '../__refriger/Category';
 import { IngreButtons } from '../__refriger/RecommendIngre';
 
+/**
+ * @todo
+ * MOCK_ADD_INGRE 추후 api로 데이터 받아오기
+ */
 export const AddIngredient = () => {
   const { results, onChangeText } = useIngredientSearch();
-  const { pushIngredient } = useModifyIngredient();
+  const { saveIngredient } = useModifyIngredient();
   const ingre = useCommonIngredient();
   const { category: init } = useRoute<AddIngredientRouteProp>().params;
   const navigation = useNavigation();
@@ -56,10 +67,10 @@ export const AddIngredient = () => {
       ingreState = [...ingreState, { name: key, category: value }];
     });
     const newIngre = addIngreToRefriger(ingreState, existIngre);
-    pushIngredient(newIngre);
+    saveIngredient(newIngre);
 
     navigation.goBack();
-  }, [pushIngredient, ingre, pickIngre]);
+  }, [saveIngredient, ingre, pickIngre]);
   const handleChangeText = useCallback((text: string) => {
     onChangeText(text);
     setCategory({ main: '검색 결과', sub: null });
@@ -72,6 +83,25 @@ export const AddIngredient = () => {
       newState.has(ingredient)
         ? newState.delete(ingredient)
         : newState.set(ingredient, title);
+      return newState;
+    });
+  }, []);
+
+  const handleAllAdd = useCallback((ingredients: Ingredient[]) => {
+    setPickIngre(state => {
+      const newState = new Map(state);
+      ingredients.map(ingredient => {
+        newState.set(ingredient.name, ingredient.category);
+      });
+      return newState;
+    });
+  }, []);
+  const handleAllDelete = useCallback((ingredients: Ingredient[]) => {
+    setPickIngre(state => {
+      const newState = new Map(state);
+      ingredients.map(ingredient => {
+        newState.delete(ingredient.name);
+      });
       return newState;
     });
   }, []);
@@ -90,35 +120,60 @@ export const AddIngredient = () => {
         recommend
       />
       {category.main === '검색 결과' ? (
-        <SearchResultWrap>
-          {results?.map(result => {
-            const ingredient = {
-              category: getMainCategory(result),
-              name: result,
-            };
-            return (
-              <IngredientButton
-                children={ingredient.name}
-                category={ingredient.category}
-                onPress={handleAdd}
-                init
-                key={result}
-                isPick={calculPick(ingredient)}
-              />
-            );
-          })}
-        </SearchResultWrap>
+        <>
+          {results.length > 0 && (
+            <CheckBox
+              handleAllAdd={handleAllAdd}
+              handleAllDelete={handleAllDelete}
+              ingredients={mapWithCategory(results)}
+            />
+          )}
+          <SearchResultWrap>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{
+                flexWrap: 'wrap',
+                flexDirection: 'row',
+              }}>
+              {results?.map(result => {
+                const ingredient = {
+                  category: getMainCategory(result),
+                  name: result,
+                };
+                return (
+                  <IngredientButton
+                    children={ingredient.name}
+                    category={ingredient.category}
+                    onPress={handleAdd}
+                    init
+                    key={result}
+                    isPick={calculPick(ingredient)}
+                  />
+                );
+              })}
+            </ScrollView>
+          </SearchResultWrap>
+        </>
       ) : category.main === '추천' ? (
-        <IngreButtons
-          onPress={handleAdd}
-          ingredients={MOCK_ADD_INGRE}
-          calculPick={calculPick}
-        />
+        <>
+          <CheckBox
+            handleAllAdd={handleAllAdd}
+            handleAllDelete={handleAllDelete}
+            ingredients={MOCK_ADD_INGRE}
+          />
+          <IngreButtons
+            onPress={handleAdd}
+            ingredients={MOCK_ADD_INGRE}
+            calculPick={calculPick}
+          />
+        </>
       ) : oneDepth ? (
         <ContentCategory
           pickCategory={category}
           handleAdd={handleAdd}
           ingredientSet={pickIngre}
+          handleAllAdd={handleAllAdd}
+          handleAllDelete={handleAllDelete}
         />
       ) : (
         <CategoryWrap>
@@ -133,6 +188,8 @@ export const AddIngredient = () => {
               pickCategory={category}
               handleAdd={handleAdd}
               ingredientSet={pickIngre}
+              handleAllAdd={handleAllAdd}
+              handleAllDelete={handleAllDelete}
             />
           </ContentWrapHelper>
         </CategoryWrap>
@@ -155,6 +212,25 @@ const AddModal = React.memo(({ number, onPress }: AddModalProps) => {
   );
 });
 
+export const CheckBox = ({
+  handleAllAdd,
+  handleAllDelete,
+  ingredients,
+}: CheckBoxProps) => {
+  return (
+    <CheckBoxWrap>
+      <CheckButton onPress={() => handleAllAdd(ingredients)}>
+        <CarrotCheck />
+        <Fonts children="전체 선택" />
+      </CheckButton>
+      <CheckButton onPress={() => handleAllDelete(ingredients)}>
+        <GrayCheck />
+        <Fonts children="전체 해제" />
+      </CheckButton>
+    </CheckBoxWrap>
+  );
+};
+
 const AddIngredientWrap = styled.View`
   height: 100%;
   position: relative;
@@ -165,18 +241,24 @@ const ButtonsWrap = styled.View`
   height: ${8 * vh}px;
   align-self: center;
   width: ${100 * vw}px;
+  justify-content: center;
   position: absolute;
   bottom: 0px;
 `;
 const CarrotButton = styled.TouchableOpacity`
   background-color: ${theme.color['carrot']};
-  height: 100%;
   align-items: center;
   justify-content: center;
-  width: ${50 * vw}px;
+  flex: 1;
 `;
 const VegetableButton = styled(CarrotButton)`
   background-color: ${theme.color['vegetable']};
+`;
+const CheckButton = styled.TouchableOpacity`
+  flex-direction: row;
+  width: auto;
+  align-items: center;
+  margin-right: ${6 * vw}px;
 `;
 
 const WrapHelper = styled.View`
@@ -186,7 +268,8 @@ const WrapHelper = styled.View`
 `;
 const ContentWrapHelper = styled.View`
   width: ${67 * vw}px;
-  padding: 10px;
+  /* padding: 10px; */
+  padding-left: 10px;
   left: ${-5 * vw}px;
 `;
 const CategoryWrap = styled.View`
@@ -195,9 +278,16 @@ const CategoryWrap = styled.View`
   height: 100%;
   width: 100%;
 `;
+const CheckBoxWrap = styled.View`
+  flex-direction: row;
+  width: auto;
+  margin-top: ${2.5 * vh}px;
+  margin-bottom: ${2.5 * vh}px;
+  margin-left: ${2.5 * vw}px;
+`;
 
 const SearchResultWrap = styled.View`
-  /* background-color: red; */
+  /* margin-top: ${1.5 * vh}px; */
   flex-wrap: wrap;
   width: 100%;
   height: auto;
@@ -212,4 +302,9 @@ interface CategoryState {
 interface AddModalProps {
   number: number;
   onPress: Function;
+}
+interface CheckBoxProps {
+  handleAllAdd: Function;
+  handleAllDelete: Function;
+  ingredients: Ingredient[];
 }
