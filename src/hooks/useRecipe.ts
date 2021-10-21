@@ -4,6 +4,7 @@ import {
   getRecipeInfo,
   getRecipeList,
   getRecipeNumber,
+  getRecommendIngres,
 } from '../api';
 import { useRefrigerIngredient } from './useRedux';
 
@@ -43,6 +44,18 @@ export const useRecipeList = () => {
       staleTime: 1000 * 60 * 60 * 12,
       getNextPageParam: lastpage =>
         lastpage.available ? lastpage.nextPage : 0,
+    },
+  );
+};
+export const useRecommendIngres = () => {
+  const refriger = useRefrigerIngredient();
+  return useQuery(
+    ['RecommendIngre', ...refriger],
+    () => getRecommendIngres(refriger),
+    {
+      staleTime: 1000 * 60 * 60 * 12,
+      cacheTime: 1000 * 60 * 60,
+      keepPreviousData: true,
     },
   );
 };

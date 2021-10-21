@@ -8,9 +8,9 @@ import {
   isOneDepth,
   mapWithCategory,
 } from '../../api';
-import { MOCK_ADD_INGRE } from '../../assets/data/mockRecipeData';
 import { vh, vw } from '../../assets/styles/theme';
 import { useModifyIngredient } from '../../hooks/useIngredient';
+import { useRecommendIngres } from '../../hooks/useRecipe';
 import { useCommonIngredient } from '../../hooks/useRedux';
 import { useIngredientSearch } from '../../hooks/useSearch';
 import { IngredientButton } from '../elements/Buttons';
@@ -30,18 +30,15 @@ const mapToIngredients = (target: Map<string, MainCategory>) => {
   target.forEach((value, key) => {
     ingreState = [...ingreState, { name: key, category: value }];
   });
-  console.log(ingreState);
   return ingreState;
 };
 
-/**
- * @todo
- * MOCK_ADD_INGRE 추후 api로 데이터 받아오기
- */
 export const AddIngredient = () => {
   const { results, onChangeText } = useIngredientSearch();
   const { saveIngredient } = useModifyIngredient();
   const ingre = useCommonIngredient();
+
+  const { data: recommendIngres } = useRecommendIngres();
   const { category: init } = useRoute<AddIngredientRouteProp>().params;
   const navigation = useNavigation();
 
@@ -65,19 +62,16 @@ export const AddIngredient = () => {
     );
   }, []);
 
-  /**
-   * @todo
-   * 필요할 시, saveIngredient 함수를 가져와서
-   * 바로 냉장고에 저장하도록 한다.
-   */
   const handleSave = useCallback(() => {
     const existIngre: Refriger = JSON.parse(JSON.stringify(ingre));
     const ingreState: Ingredient[] = mapToIngredients(pickIngre);
+    console.log(existIngre, ingreState);
     const newIngre = addIngreToRefriger(ingreState, existIngre);
     saveIngredient(newIngre);
 
     navigation.goBack();
   }, [saveIngredient, ingre, pickIngre]);
+
   const handleChangeText = useCallback((text: string) => {
     onChangeText(text);
     setCategory({ main: '검색 결과', sub: null });
@@ -93,6 +87,7 @@ export const AddIngredient = () => {
       return newState;
     });
   }, []);
+  console.log(pickIngre);
 
   const handleAllAdd = useCallback((ingredients: Ingredient[]) => {
     setPickIngre(state => {
@@ -166,11 +161,11 @@ export const AddIngredient = () => {
           <CheckBox
             handleAllAdd={handleAllAdd}
             handleAllDelete={handleAllDelete}
-            ingredients={MOCK_ADD_INGRE}
+            ingredients={recommendIngres}
           />
           <IngreButtons
             onPress={handleAdd}
-            ingredients={MOCK_ADD_INGRE}
+            ingredients={recommendIngres}
             calculPick={calculPick}
           />
         </>
@@ -214,7 +209,7 @@ export const AddIngredient = () => {
 export const CheckBox = ({
   handleAllAdd,
   handleAllDelete,
-  ingredients,
+  ingredients = [],
 }: CheckBoxProps) => {
   return (
     <CheckBoxWrap>
@@ -249,7 +244,6 @@ const WrapHelper = styled.View`
 `;
 const ContentWrapHelper = styled.View`
   width: ${67 * vw}px;
-  /* padding: 10px; */
   padding-left: 10px;
   left: ${-5 * vw}px;
 `;
@@ -283,5 +277,5 @@ interface CategoryState {
 interface CheckBoxProps {
   handleAllAdd: Function;
   handleAllDelete: Function;
-  ingredients: Ingredient[];
+  ingredients?: Ingredient[];
 }

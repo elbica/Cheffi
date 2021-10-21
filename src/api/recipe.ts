@@ -1,6 +1,5 @@
 import debounce from 'debounce-promise';
 import API from './api';
-import { queryClient } from '../App';
 import { store } from '../redux/store';
 import { silentLogin } from './auth';
 import { IMAGE_HAEMUK_URL, IMAGE_MANGAE_URL } from '../../config';
@@ -77,6 +76,16 @@ export const getRecipeRandomList = async (num?: number): Promise<Recipe[]> => {
 
   return recipe;
 };
+export const getRecommendIngres = async (
+  refriger: Refriger,
+): Promise<Ingredient[]> => {
+  const {
+    data: { ingredient },
+  } = await API.post('/user/ingre-recc', { refriger });
+  console.log('🐹recommend ingredient call', ingredient);
+
+  return ingredient;
+};
 
 /**
  * @description
@@ -92,17 +101,19 @@ export const getInitialRecipe = async () => {
     const login = await silentLogin();
     let number = 0,
       list: getRecipeListReturn,
-      randomList: Recipe[] = [];
+      randomList: Recipe[] = [],
+      recommendIngre: Ingredient[] = [];
     if (login) {
       const ingre = store.getState().refriger;
 
-      [number, randomList, list] = await Promise.all([
+      [number, randomList, list, recommendIngre] = await Promise.all([
         getRecipeNumber(ingre),
         getRecipeRandomList(),
         getRecipeList(),
+        getRecommendIngres(ingre),
       ]);
       const initList = { pageParams: [1], pages: [list] };
-      setCachedInit(randomList, number, initList, ingre);
+      setCachedInit(randomList, number, initList, ingre, recommendIngre);
     }
     return { login, number, randomList };
   } catch (e) {
