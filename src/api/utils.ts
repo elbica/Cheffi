@@ -1,42 +1,17 @@
-import Ingredient from '../assets/data/ingreCategory';
+import { IngredientArray, mappingCategory } from '../assets/data/ingreCategory';
 
-/**
- * @constant Ingredient
- * 총 재료 개수는 419개이다.
- */
+export function deepCopyObject(obj: any) {
+  let clone: { [key: string]: any } = {};
+  for (let key in obj) {
+    if (typeof obj[key] == 'object' && obj[key] != null) {
+      clone[key] = deepCopyObject(obj[key]);
+    } else {
+      clone[key] = obj[key];
+    }
+  }
 
-const flatten = (ob: { [key: string]: any } | any[]) => {
-  let ret: any[] = [];
-
-  //기저 사례
-  if (Array.isArray(ob)) return ob;
-
-  //자식 object 순회
-  for (let key in ob) ret = [...ret, ...flatten(ob[key])];
-
-  return ret;
-};
-
-const flatIngredient = Object.keys(Ingredient).reduce((acc, cur) => {
-  const flatArray = flatten(Ingredient[cur]);
-  return { ...acc, [cur]: flatArray };
-}, {});
-
-/***************************
- * @function 전처리
- ****************************/
-const mappingCategory: { [key: string]: string } = ((ob: {
-  [key: string]: string[];
-}) => {
-  let ret = {};
-  for (let key in ob)
-    ob[key].map(element => {
-      ret = { ...ret, [element]: key };
-    });
-  return ret;
-})(flatIngredient);
-
-const IngredientArray = Object.keys(mappingCategory);
+  return clone;
+}
 
 export function debounce<T extends (...args: any[]) => any>(
   func: T,
@@ -47,6 +22,23 @@ export function debounce<T extends (...args: any[]) => any>(
   return ((...args: any) => {
     clearTimeout(inDebounce);
     inDebounce = setTimeout(() => func(...args), delay);
+  }) as (...args: Parameters<T>) => ReturnType<T>;
+}
+
+export function throttle<T extends (...args: any[]) => any>(
+  func: T,
+  delay: number,
+): (...args: Parameters<T>) => ReturnType<T> {
+  let timer: boolean;
+
+  return ((...args: any) => {
+    if (!timer) {
+      timer = true;
+      func(...args);
+      setTimeout(() => {
+        timer = false;
+      }, delay);
+    }
   }) as (...args: Parameters<T>) => ReturnType<T>;
 }
 
@@ -77,3 +69,41 @@ export const getSearchResult = (input: string) => {
 
 export const getMainCategory = (ingredient: string) =>
   mappingCategory[ingredient] as MainCategory;
+
+const OneDepthCategory: OneDepthCategory[] = [
+  '떡/곡류',
+  '콩/묵/두부',
+  '과일류',
+  '음료/주류',
+];
+
+export const addIngreToRefriger = (
+  ingredients: Ingredient[],
+  refriger: Refriger,
+) => {
+  let newState = [...refriger];
+  ingredients.map(ingredient => {
+    const index = newState.findIndex(
+      refriger => refriger.title === ingredient.category,
+    );
+    if (!newState[index].data.includes(ingredient.name))
+      newState[index].data = [...newState[index].data, ingredient.name];
+  });
+
+  return newState;
+};
+
+/**
+ * @description
+ * custom user defined type gaurd
+ */
+export const isOneDepth = (category: any): category is OneDepthCategory =>
+  OneDepthCategory.includes(category as OneDepthCategory);
+
+export const mapWithCategory = (names: string[]) => {
+  const ret: Ingredient[] = names.map(item => ({
+    category: getMainCategory(item),
+    name: item,
+  }));
+  return ret;
+};

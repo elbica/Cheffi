@@ -12,7 +12,6 @@ let recipeNumberTimer = Date.now();
 export const useRecipeNumber = (data: Refriger) => {
   const timer = (Date.now() - recipeNumberTimer) / 1000;
   recipeNumberTimer = Date.now();
-
   return useQuery<number>(
     ['RecipeNumber', ...data],
     () => getRecipeNumber(data),

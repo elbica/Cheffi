@@ -54,7 +54,7 @@ export const FormScrollContainer = ({
       horizontal
       contentContainerStyle={{
         width: 660,
-        minHeight: 400,
+        minHeight: 600,
       }}
       showsHorizontalScrollIndicator={false}>
       {addFormChildren}
@@ -83,4 +83,5 @@ const LikeSelectButton = styled(FormSelectButton)`
 const FormSelectScrollContainer = styled.ScrollView`
   margin-top: -16px;
   flex-wrap: wrap;
+  height: auto;
 `;

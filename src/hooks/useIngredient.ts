@@ -1,57 +1,43 @@
 import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { sendRefriger } from '../api';
-import {
-  RootState,
-  setIngredient,
-  setRefriger,
-  userRecipeCount,
-} from '../redux/modules';
+import { useDispatch } from 'react-redux';
+import { getCachedRecipeCount, getRecipeNumber, sendRefriger } from '../api';
+import { setIngredient, setRefriger, userRecipeCount } from '../redux/modules';
+import { useRefrigerIngredient } from './useRedux';
 
-/**
- * @todo
- * ingredient를 변경할 때 hook 전체가 다시 선언된다
- * dispatch도 다시 선언되므로
- * useCallback을 사용하는 의미가 없는듯?
- *
- * dispatch 연속 3번..?
- *
- * @returns 재료 배열, 변경 함수
- */
-export const useIngredient = (): useIngredientResult => {
+export const useModifyIngredient = (): useIngredientResult => {
   const dispatch = useDispatch();
-  let ingredient = useSelector((state: RootState) => state.ingredient);
-  const refriger = useSelector((state: RootState) => state.refriger);
+  const refriger = useRefrigerIngredient();
 
   const saveIngredient = useCallback(
-    async (ingredients: Refriger, recipeCount: number) => {
+    async (ingredients: Refriger) => {
       try {
         dispatch(setRefriger(ingredients));
         dispatch(setIngredient(ingredients));
+        const recipeCount =
+          getCachedRecipeCount(ingredients) ||
+          (await getRecipeNumber(ingredients));
         dispatch(userRecipeCount(recipeCount));
-        await sendRefriger(ingredients);
+        sendRefriger(ingredients);
       } catch (e) {
         console.log('냉장고, 레시피 개수 저장 에러 발생: ', e);
       }
     },
     [dispatch],
   );
-  const completeIngredient = useCallback(
+  const pushIngredient = useCallback(
     (ingredients: Refriger) => dispatch(setIngredient(ingredients)),
     [dispatch],
   );
 
-  // console.log('🥗 Ingredient log..');
-  if (!ingredient.length) {
-    dispatch(setIngredient(refriger));
-    ingredient = refriger;
-  }
-  return { refriger, ingredient, saveIngredient, completeIngredient };
+  return {
+    refriger,
+    saveIngredient,
+    pushIngredient,
+  };
 };
 
 export interface useIngredientResult {
   refriger: Refriger;
-  ingredient: Refriger;
-  saveIngredient: (ingredients: Refriger, recipeCount: number) => void;
-  completeIngredient: (ingredients: Refriger) => void;
+  saveIngredient: (ingredients: Refriger) => void;
+  pushIngredient: (ingredients: Refriger) => void;
 }

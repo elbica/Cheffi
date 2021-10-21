@@ -52,6 +52,17 @@ export interface SelectButtonProps extends ActionButtonProps {
   border?: Colors;
   size?: Sizes;
 }
+
+export interface IngredientButtonProps {
+  onPress?: Function;
+  children: string;
+  isPick?: boolean;
+  color?: Colors;
+  chip?: boolean;
+  init?: boolean;
+  category: MainCategory;
+}
+
 export interface SelectButtonStyleProps {
   width?: string;
   height?: string;

@@ -16,14 +16,21 @@ import styled from 'styled-components/native';
 import { vh } from '../assets/styles/theme';
 import RecipeInfoPage from '../pages/RecipeInfoPage';
 import { PrevArrow } from '../components/elements/Images';
+import { AddIngredientPage } from '../pages/AddIngredientPage';
+import {
+  getFocusedRouteNameFromRoute,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 
+const tabHiddenRoutes = ['addIngredient', 'recipeInfo'];
 const Stack = createStackNavigator();
 const Header: StackNavigationOptions = {
   title: 'Cheffi',
   headerTransparent: true,
   headerBackground: () => <CustomStackHeader />,
   headerStyle: {
-    height: Platform.OS === 'android' ? 10.5 * vh : 12 * vh,
+    height: Platform.OS === 'android' ? 10.5 * vh : 13 * vh,
   },
   headerBackImage: () => <PrevArrow />,
   headerTitleAlign: 'center',
@@ -32,6 +39,7 @@ const Header: StackNavigationOptions = {
     fontWeight: 'bold',
     fontSize: 26,
     letterSpacing: 1.3,
+    paddingBottom: 5,
   },
   headerBackTitleVisible: false,
   cardOverlayEnabled: true,
@@ -42,6 +50,18 @@ const Header: StackNavigationOptions = {
 export default function StackNavFactory({
   screenName,
 }: StackNavFactoryScreenName) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  React.useLayoutEffect(() => {
+    if (
+      tabHiddenRoutes.includes(getFocusedRouteNameFromRoute(route) as string)
+    ) {
+      navigation.setOptions({ tabBarVisible: false });
+    } else {
+      navigation.setOptions({ tabBarVisible: true });
+    }
+  }, [navigation, route]);
+
   return (
     <Stack.Navigator screenOptions={Header} headerMode="float">
       {screenName === 'myRecipe' ? (
@@ -59,15 +79,32 @@ export default function StackNavFactory({
       {screenName === 'profile' ? (
         <Stack.Screen name={'profile'} component={ProfilePage} />
       ) : null}
-      <Stack.Screen name={'refrigerator'} component={RefrigerPage} />
+      <Stack.Screen
+        name={'refrigerator'}
+        component={RefrigerPage}
+        options={{
+          headerBackground: undefined,
+          headerTitleStyle: { color: 'black', fontSize: 22 },
+          headerTitle: '내 냉장고',
+        }}
+      />
       <Stack.Screen
         name={'recipeInfo'}
         component={RecipeInfoPage}
         options={{
           headerBackground: undefined,
-          // headerTransparent: true,
           headerTitleStyle: { color: 'transparent' },
-          // headerStyle: { backgroundColor: 'transparent' },
+        }}
+      />
+      <Stack.Screen
+        name={'addIngredient'}
+        component={AddIngredientPage}
+        options={{
+          headerBackground: () => (
+            <CustomBorderRadiusHeader pointerEvents="none" />
+          ),
+          headerTitleStyle: { color: 'black', fontSize: 22 },
+          headerTitle: '재료 추가',
         }}
       />
     </Stack.Navigator>
@@ -76,7 +113,13 @@ export default function StackNavFactory({
 
 const CustomStackHeader = styled.View`
   background-color: #ff9140;
-  border-bottom-left-radius: 18px;
-  border-bottom-right-radius: 18px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  flex: 1;
+`;
+const CustomBorderRadiusHeader = styled.View`
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: white;
   flex: 1;
 `;

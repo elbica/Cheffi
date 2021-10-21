@@ -11,9 +11,10 @@ export default function Fonts({
   padV = '0%',
   color = 'black',
   bold = false,
+  ...rest
 }: FontsProps) {
   return (
-    <FontContainer padV={padV} padH={padH} center={center}>
+    <FontContainer padV={padV} padH={padH} center={center} {...rest}>
       <TextStyle
         size={size}
         lineHeight={lineHeight}

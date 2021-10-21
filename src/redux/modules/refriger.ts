@@ -8,7 +8,7 @@ export const setRefriger = (ingredients: RefrigerState) => ({
   payload: ingredients,
 });
 
-export const addRefriger = (ingredients: Ingredient[]) => ({
+export const addRefriger = (ingredients: RefrigerState) => ({
   type: REFRIGER_ADD_ACTION,
   payload: ingredients,
 });
@@ -26,12 +26,12 @@ export default function reducer(
     case REFRIGER_ADD_ACTION:
       let newState = [...state];
       action.payload.map(ingredient => {
-        newState.map(
-          category =>
-            category.title === ingredient.category &&
-            category.data.push(ingredient.name),
+        const index = newState.findIndex(
+          refriger => refriger.title === ingredient.title,
         );
+        newState[index].data = [...newState[index].data, ...ingredient.data];
       });
+
       return newState;
     default:
       return state;

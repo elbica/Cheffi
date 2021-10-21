@@ -1,4 +1,3 @@
-import { result } from 'lodash';
 import React from 'react';
 import { useRef } from 'react';
 import { useCallback } from 'react';
@@ -74,7 +73,7 @@ export default function IngredientInput({
 export const SearchInput = ({
   color = 'tableBlack',
   width = '100%',
-  fontSize = 'medium',
+  fontSize = 'mediumLarge',
   onChangeText = () => {},
   placeholder = '재료 이름으로 검색',
 }: SearchInputProps) => {
@@ -148,12 +147,13 @@ const PlaceholderIcon = styled.View<{ width: string }>`
 const SearchInputWrap = styled.View<{ width: string }>`
   position: relative;
   width: ${({ width }) => width || '100%'};
-
+  margin-top: ${2 * vh}px;
+  margin-bottom: ${2.5 * vh}px;
   height: auto;
   /* background-color: red; */
 `;
 const SearchResultWrap = styled.View`
-  background-color: red;
+  /* background-color: red; */
   flex-wrap: wrap;
   width: 100%;
   height: auto;

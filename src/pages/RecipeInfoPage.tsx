@@ -1,3 +1,4 @@
+import { useRoute } from '@react-navigation/native';
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { IMAGE_HAEMUK_URL, IMAGE_MANGAE_URL } from '../../config';
@@ -6,11 +7,9 @@ import RecipeContent from '../components/__recipeInfo/RecipeContent';
 import RecipeImage from '../components/__recipeInfo/RecipeImage';
 import { useRecipeInfo } from '../hooks/useRecipe';
 
-export default function RecipeInfoPage({
-  route: {
-    params: { recipeid, platform },
-  },
-}) {
+export default function RecipeInfoPage() {
+  const route = useRoute<RecipeInfoRouteProp>();
+  const { recipeid, platform } = route.params;
   const { data } = useRecipeInfo(recipeid);
 
   const uri =

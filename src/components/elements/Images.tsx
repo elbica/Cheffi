@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, ImageStyle } from 'react-native';
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import { Section, theme, vh, vw } from '../../assets/styles/theme';
 import { ImageStyleProps } from './interface';
 
@@ -106,6 +106,36 @@ export function PrevArrow() {
     />
   );
 }
+export function Plus({ ...rest }) {
+  return (
+    <Image
+      source={require('../../assets/icons/plus.png')}
+      style={{
+        marginRight: 6 * vw,
+        width: 26,
+        height: 26,
+        resizeMode: 'contain',
+        opacity: 0.8,
+      }}
+      {...rest}
+    />
+  );
+}
+export function CheffiBowl({ ...rest }) {
+  return (
+    <Image
+      source={require('../../assets/images/CheffiLogoBowl.png')}
+      style={{
+        marginBottom: 5 * vh,
+        width: 100,
+        height: 100,
+        resizeMode: 'contain',
+        // opacity: 0.8,
+      }}
+      {...rest}
+    />
+  );
+}
 export function Check({ color }: ImageStyleProps) {
   return (
     <CheckContainer
@@ -114,6 +144,7 @@ export function Check({ color }: ImageStyleProps) {
     />
   );
 }
+
 export function Search({ width, height, color }: ImageStyleProps) {
   return (
     <ImageContainer
@@ -134,8 +165,44 @@ export function Delete({ width, color }: ImageStyleProps) {
   );
 }
 
+export function GrayCheck() {
+  return (
+    <ColorCheckContainer
+      source={require('../../assets/icons/grayCheck.png')}
+      resizeMode="contain"
+    />
+  );
+}
+
+export function CarrotCheck() {
+  return (
+    <ColorCheckContainer
+      source={require('../../assets/icons/carrotCheck.png')}
+      resizeMode="contain"
+    />
+  );
+}
+export function WhiteCheck() {
+  return (
+    <ColorCheckContainer
+      source={require('../../assets/icons/carrotCheck.png')}
+      resizeMode="contain"
+      color="white"
+    />
+  );
+}
+export function Undo() {
+  return (
+    <ColorCheckContainer
+      source={require('../../assets/icons/undo.png')}
+      resizeMode="contain"
+      color="white"
+    />
+  );
+}
+
 const prevArrowStyle: ImageStyle = {
-  marginLeft: 24,
+  marginLeft: 6 * vw,
   width: 30,
   height: 28,
   resizeMode: 'contain',
@@ -175,4 +242,17 @@ const DeleteContainer = styled.Image<ImageStyleProps>`
   width: ${({ Width }) => Width || '23px'};
   height: ${({ Width }) => Width || '23px'};
   tint-color: ${({ color }) => theme.color[color || 'black']};
+`;
+
+const ColorCheckContainer = styled.Image<ImageStyleProps>`
+  width: 18px;
+  height: 18px;
+  /* margin-right: 8px; */
+  ${({ color }) =>
+    color &&
+    css`
+      tint-color: ${theme.color[color]};
+      width: 36px;
+      height: 36px;
+    `}
 `;

@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Text } from 'react-native';
 import styled, { css } from 'styled-components/native';
-import { theme, TouchButton } from '../../assets/styles/theme';
+import { theme, TouchButton, vw } from '../../assets/styles/theme';
 import { CenterDivs, RowDivs } from './Divs';
 import { CenterTouchOpacity } from '../layout/PageMoveLayout';
 import {
@@ -9,12 +9,13 @@ import {
   ChipButtonProps,
   ImageButtonProps,
   ImageButtonStyleProps,
+  IngredientButtonProps,
   LinkButtonsProps,
   SelectButtonProps,
   SelectButtonStyleProps,
 } from './interface';
 import Fonts from './Fonts';
-import { Check } from './Images';
+import { Check, Delete } from './Images';
 import { Colors } from 'styled-components';
 import FastImage from 'react-native-fast-image';
 
@@ -232,6 +233,49 @@ export function CircleButton({ radius = 50, ...rest }: ImageButtonProps) {
   );
 }
 
+export const IngredientButton = React.memo(
+  ({
+    chip,
+    children = '테스트재료',
+    onPress = () => {},
+    category = '떡/곡류',
+    init = false,
+    isPick = false,
+  }: IngredientButtonProps) => {
+    const [initColor, setInitColor] = useState(isPick ? false : init);
+    const borderColor: Colors = chip || isPick ? 'carrot' : 'tableGray';
+    const handle = useCallback(
+      ev => {
+        onPress(children, category);
+      },
+      [onPress],
+    );
+    useEffect(() => {
+      isPick && setInitColor(false);
+    }, [isPick]);
+
+    return (
+      <IngredientButtonWrap
+        color={borderColor}
+        onPress={handle}
+        init={initColor}>
+        <Fonts
+          size="medium"
+          // lineHeight="large"
+          center
+          color={borderColor}
+          children={children}
+        />
+        {chip && (
+          <IngredientDelete>
+            <Delete />
+          </IngredientDelete>
+        )}
+      </IngredientButtonWrap>
+    );
+  },
+);
+
 const ImageButtonContainer = styled.View<ImageButtonStyleProps>`
   width: ${(props: any) => props.width};
   height: ${(props: any) => props.height};
@@ -245,7 +289,7 @@ const ImageButtonContainer = styled.View<ImageButtonStyleProps>`
 `;
 const SelectButtonContainer = styled(CenterDivs)<SelectButtonStyleProps>`
   border-width: 1px;
-  background-color: red;
+  /* background-color: red; */
   /* width: 50px; */
   /* height: 50px; */
   border-radius: ${({ radius }) => (radius || 10) + 'px'};
@@ -287,4 +331,37 @@ const ChipButtonContainer = styled(CenterDivs)<SelectButtonStyleProps>`
   border-radius: 10px;
   border-color: ${({ color }) => theme.color[color || 'black'] + '77'};
   background-color: ${({ color }) => theme.color[color || 'black'] + '20'};
+`;
+
+const IngredientButtonWrap = styled.TouchableOpacity<{
+  color: Colors;
+  init: boolean;
+}>`
+  width: auto;
+  height: auto;
+  padding: 10px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  /* background-color: red; */
+  flex-direction: row;
+  /* justify-content: center;
+   */
+  align-items: center;
+  border-radius: 15px;
+  border-width: 1.2px;
+  border-color: ${({ color }) => theme.color[color] + 'dd'};
+  margin-bottom: ${3 * vw}px;
+  margin-right: ${1.5 * vw}px;
+  margin-left: ${1.5 * vw}px;
+  ${({ init }) =>
+    init &&
+    css`
+      border-color: transparent;
+      background-color: #f5f3e8;
+    `}
+`;
+
+const IngredientDelete = styled.View`
+  opacity: 0.65;
+  margin-left: ${2.5 * vw}px;
 `;

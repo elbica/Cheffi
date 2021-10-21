@@ -32,12 +32,14 @@ export const theme: DefaultTheme = {
   text: {
     xlarge: '24px',
     large: '20px',
+    mediumLarge: '18px',
     medium: '16px',
     small: '12px',
   },
   lineHeight: {
     xlarge: '32px',
     large: '27px',
+    mediumLarge: '24px',
     medium: '22px',
     small: '16px',
     none: '0',

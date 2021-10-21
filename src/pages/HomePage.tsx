@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-// import {Text, View, Button} from 'react-native';
-// import {TouchOpacity} from '../components/PageMove';
 import { AppWrap } from '../assets/styles/theme';
 import styled from 'styled-components/native';
 import { ScrollView } from 'react-native';
 import MyRefriger from '../components/__home/MyRefriger';
 import ForMe from '../components/__home/ForMe';
 import HotRecipes from '../components/__home/HotRecipes';
-import { useRefrigerIngredient } from '../hooks/useRedux';
+import { useCommonIngredient, useRefrigerIngredient } from '../hooks/useRedux';
 import { emptyRefriger } from '../assets/data/mockUserData';
 import { getInitialRecipe } from '../api';
 import { useDispatch } from 'react-redux';
-import { userRecipeCount, userLogout } from '../redux/modules';
+import { userRecipeCount, userLogout, setIngredient } from '../redux/modules';
+import { ProgressBar } from '../components/elements/Indicators';
 
 const HomeWrap = styled(AppWrap)`
   flex: 1;
@@ -20,13 +19,18 @@ const HomeWrap = styled(AppWrap)`
 
 export default function HomePage() {
   const refriger = useRefrigerIngredient();
+  const ingredient = useCommonIngredient();
   const dispatch = useDispatch();
 
   //deep comparision
   const empty = JSON.stringify(refriger) === JSON.stringify(emptyRefriger);
 
   const [list, setList] = useState<Recipe[]>();
+  const [loading, setLoaing] = useState(true);
   useEffect(() => {
+    if (!ingredient.length) {
+      dispatch(setIngredient(refriger));
+    }
     (async () => {
       /**
        * @description
@@ -42,20 +46,29 @@ export default function HomePage() {
         dispatch(userRecipeCount(number));
       } else if (error) {
         console.log('error 발생. 초기화면 이동이 필요합니다.');
-        dispatch(userLogout());
+        // dispatch(userLogout());
       }
     })();
   }, [dispatch]);
+  useEffect(() => {
+    setTimeout(() => setLoaing(false), 2000);
+  }, []);
 
   return (
-    <ScrollView
-      contentContainerStyle={{ flexGrow: 1 }}
-      showsVerticalScrollIndicator={false}>
-      <HomeWrap>
-        <MyRefriger empty={empty} />
-        <ForMe />
-        <HotRecipes data={list} />
-      </HomeWrap>
-    </ScrollView>
+    <>
+      {loading ? (
+        <ProgressBar />
+      ) : (
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          showsVerticalScrollIndicator={false}>
+          <HomeWrap>
+            <MyRefriger empty={empty} />
+            <ForMe />
+            <HotRecipes data={list} />
+          </HomeWrap>
+        </ScrollView>
+      )}
+    </>
   );
 }

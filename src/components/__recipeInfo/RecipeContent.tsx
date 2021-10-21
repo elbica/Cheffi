@@ -40,14 +40,15 @@ export default function RecipeContent({ data }: { data: RecipeInfo }) {
           <Divs marginV="10px">
             <Fonts children="사용 재료" size="xlarge" bold padV="10px" />
             <IngredientContainer>
-              {data.ingredient.map((ingre, idx) => (
+              {Object.keys(data.ingredient[0]).map(key => (
                 <CircleButton
-                  key={idx}
+                  key={key}
                   radius={30}
                   marginH="3px"
                   color="light"
                   onPress={() => {}}>
-                  <Text>{ingre}</Text>
+                  <Text>{key}</Text>
+                  <Text>{data.ingredient[0][key]}</Text>
                 </CircleButton>
               ))}
             </IngredientContainer>
@@ -58,18 +59,6 @@ export default function RecipeContent({ data }: { data: RecipeInfo }) {
   );
 }
 
-/**
- * declare interface Recipe {
-  scrap: string;
-  time: string;
-  calories: string;
-  id: string;
-  title: string;
-}
-declare interface RecipeInfo extends Recipe {
-  ingredient: string[];
-}
- */
 const RecipeContentContainer = styled.View`
   width: 86%;
   margin: 0 auto;
