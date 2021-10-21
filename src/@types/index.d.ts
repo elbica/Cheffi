@@ -32,17 +32,25 @@ declare type MainCategory =
   | '검색 결과';
 
 declare interface Recipe {
-  scrap?: number;
+  _id: string;
+  scrap: number | null;
   time?: string;
-  calories?: number;
+  calories: number | null;
   recipeid: number;
   title?: string;
   platform: 'haemuk' | 'mangae' | 'dummy';
-  size?: number;
+  size: number;
   difficulty?: string;
 }
 declare interface RecipeInfo extends Recipe {
-  ingredient: { [key: string]: string }[];
+  ingredient: {
+    name: string;
+    amount: string;
+    replace: string;
+    replaceAmount: string;
+  }[];
+  description: string;
+  isReplace: boolean;
 }
 
 declare interface AuthResult {
@@ -96,3 +104,14 @@ type RecipeInfoNavigationProp = StackNavigationProp<
   'recipeInfo'
 >;
 type AddIngredientRouteProp = RouteProp<RootStackParamList, 'addIngredient'>;
+
+type IntroNavParamList = {
+  intro: undefined;
+  join1: undefined;
+  join2: undefined;
+  join3: undefined;
+  join4: undefined;
+  join5: undefined;
+  join6: { param: string };
+};
+type Join6RouteProp = RouteProp<IntroNavParamList, 'join6'>;

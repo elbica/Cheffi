@@ -8,5 +8,5 @@ export default function RecipeImage({ uri }: { uri: string }) {
 
 const RecipeImageContainer = styled.Image`
   width: 100%;
-  height: ${30 * vh}px;
+  height: ${40 * vh}px;
 `;

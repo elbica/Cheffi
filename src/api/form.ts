@@ -1,6 +1,7 @@
 import API from './api';
 
 export const sendForm = async (form: FormInfo): Promise<string[]> => {
+  form.nickname = form.nickname || '익명';
   form.dislikeIngredient = form.dislikeIngredient?.flat();
   form.likeRecipesId = form.likeRecipesId?.flat();
   form.problems = form.problems?.flat();

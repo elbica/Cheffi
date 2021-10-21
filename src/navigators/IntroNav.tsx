@@ -1,5 +1,4 @@
 import React from 'react';
-import { IntroNavParamList } from './Interface';
 import {
   createStackNavigator,
   HeaderStyleInterpolators,

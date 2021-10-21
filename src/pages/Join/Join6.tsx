@@ -1,3 +1,4 @@
+import { useRoute } from '@react-navigation/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendForm } from '../../api';
@@ -9,8 +10,9 @@ import { formInit, RootState, userLogin } from '../../redux/modules';
 export default function Join6() {
   const dispatch = useDispatch();
   const formData = useSelector((state: RootState) => state.form);
+  const route = useRoute<Join6RouteProp>();
 
-  const [nickName, setNickname] = useState('');
+  const nickname = route.params.param || '익명';
   useEffect(() => {
     const sendFormData = async () => {
       /**
@@ -20,7 +22,6 @@ export default function Join6() {
        */
       await sendForm(formData);
 
-      setNickname(formData.nickname || '');
       dispatch(formInit());
       setTimeout(() => dispatch(userLogin({ isLogin: true })), 2000);
     };
@@ -37,7 +38,7 @@ export default function Join6() {
           lineHeight="xlarge"
           padV="15%"
           color="tableBlack">
-          {`${nickName}님을 위한\n 냉장고를 준비할게요!`}
+          {`${nickname}님을 위한\n 냉장고를 준비할게요!`}
         </Fonts>
       </Section>
     </BackgroundSection>

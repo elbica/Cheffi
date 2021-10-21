@@ -5,6 +5,7 @@ import { ImageButton } from '../elements/Buttons';
 import Divs from '../elements/Divs';
 import Fonts from '../elements/Fonts';
 import { Calories, Clock, EmptyStar } from '../elements/Images';
+import { RecipeInfo } from './RecipeInfo';
 
 export default React.memo(function RecipeThumbmail({
   recipeid,
@@ -38,36 +39,7 @@ export default React.memo(function RecipeThumbmail({
             lineHeight="large"
           />
         </RecipeTitle>
-        <RecipeInfoWrap>
-          {time !== '' && (
-            <InfoElementWrap>
-              <Clock />
-              <Fonts
-                children={time === '분' ? '- 분' : time}
-                color="tableBlack"
-                size="medium"
-              />
-            </InfoElementWrap>
-          )}
-          {calories && (
-            <InfoElementWrap>
-              <Calories />
-              <Fonts
-                children={calories.toString() + ' kcal'}
-                color="tableBlack"
-                size="medium"
-              />
-            </InfoElementWrap>
-          )}
-          <InfoElementWrap>
-            <EmptyStar />
-            <Fonts
-              children={scrap ? scrap.toString() : '0'}
-              color="tableBlack"
-              size="medium"
-            />
-          </InfoElementWrap>
-        </RecipeInfoWrap>
+        <RecipeInfo calories={calories} time={time} scrap={scrap} />
       </FontContainer>
     </WrapTouchableOpacity>
   );
@@ -82,20 +54,6 @@ const FontContainer = styled(Divs)`
 const RecipeTitle = styled.View`
   width: 90%;
   /* background-color: red; */
-`;
-
-const RecipeInfoWrap = styled.View`
-  flex-direction: row;
-  height: 40px;
-`;
-
-const InfoElementWrap = styled.View`
-  width: auto;
-  flex-direction: row;
-  height: 100%;
-  /* background-color: blue; */
-  margin-right: 15px;
-  align-items: center;
 `;
 
 const WrapTouchableOpacity = styled.TouchableOpacity`
