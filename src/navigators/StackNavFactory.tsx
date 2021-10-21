@@ -30,7 +30,7 @@ const Header: StackNavigationOptions = {
   headerTransparent: true,
   headerBackground: () => <CustomStackHeader />,
   headerStyle: {
-    height: Platform.OS === 'android' ? 10.5 * vh : 12 * vh,
+    height: Platform.OS === 'android' ? 10.5 * vh : 13 * vh,
   },
   headerBackImage: () => <PrevArrow />,
   headerTitleAlign: 'center',
@@ -39,6 +39,7 @@ const Header: StackNavigationOptions = {
     fontWeight: 'bold',
     fontSize: 26,
     letterSpacing: 1.3,
+    paddingBottom: 5,
   },
   headerBackTitleVisible: false,
   cardOverlayEnabled: true,
@@ -85,8 +86,6 @@ export default function StackNavFactory({
           headerBackground: undefined,
           headerTitleStyle: { color: 'black', fontSize: 22 },
           headerTitle: '내 냉장고',
-          // headerLeft: () => <PrevArrow />,
-          // headerRight: () => <Plus />,
         }}
       />
       <Stack.Screen
@@ -94,16 +93,16 @@ export default function StackNavFactory({
         component={RecipeInfoPage}
         options={{
           headerBackground: undefined,
-          // headerTransparent: true,
           headerTitleStyle: { color: 'transparent' },
-          // headerStyle: { backgroundColor: 'transparent' },
         }}
       />
       <Stack.Screen
         name={'addIngredient'}
         component={AddIngredientPage}
         options={{
-          headerBackground: undefined,
+          headerBackground: () => (
+            <CustomBorderRadiusHeader pointerEvents="none" />
+          ),
           headerTitleStyle: { color: 'black', fontSize: 22 },
           headerTitle: '재료 추가',
         }}
@@ -114,7 +113,13 @@ export default function StackNavFactory({
 
 const CustomStackHeader = styled.View`
   background-color: #ff9140;
-  border-bottom-left-radius: 18px;
-  border-bottom-right-radius: 18px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  flex: 1;
+`;
+const CustomBorderRadiusHeader = styled.View`
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: white;
   flex: 1;
 `;

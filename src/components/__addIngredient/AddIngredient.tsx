@@ -9,7 +9,7 @@ import {
   mapWithCategory,
 } from '../../api';
 import { MOCK_ADD_INGRE } from '../../assets/data/mockRecipeData';
-import { theme, vh, vw } from '../../assets/styles/theme';
+import { vh, vw } from '../../assets/styles/theme';
 import { useModifyIngredient } from '../../hooks/useIngredient';
 import { useCommonIngredient } from '../../hooks/useRedux';
 import { useIngredientSearch } from '../../hooks/useSearch';
@@ -23,6 +23,16 @@ import {
   SubCategory,
 } from '../__refriger/Category';
 import { IngreButtons } from '../__refriger/RecommendIngre';
+import { AddModal } from './AddModal';
+
+const mapToIngredients = (target: Map<string, MainCategory>) => {
+  let ingreState: Ingredient[] = [];
+  target.forEach((value, key) => {
+    ingreState = [...ingreState, { name: key, category: value }];
+  });
+  console.log(ingreState);
+  return ingreState;
+};
 
 /**
  * @todo
@@ -62,10 +72,7 @@ export const AddIngredient = () => {
    */
   const handleSave = useCallback(() => {
     const existIngre: Refriger = JSON.parse(JSON.stringify(ingre));
-    let ingreState: Ingredient[] = [];
-    pickIngre.forEach((value, key) => {
-      ingreState = [...ingreState, { name: key, category: value }];
-    });
+    const ingreState: Ingredient[] = mapToIngredients(pickIngre);
     const newIngre = addIngreToRefriger(ingreState, existIngre);
     saveIngredient(newIngre);
 
@@ -194,23 +201,15 @@ export const AddIngredient = () => {
           </ContentWrapHelper>
         </CategoryWrap>
       )}
-      <AddModal number={pickIngre.size} onPress={handleSave} />
+      <AddModal
+        ingredients={mapToIngredients(pickIngre)}
+        handleDelete={handleAdd}
+        onPress={handleSave}
+        number={pickIngre.size}
+      />
     </AddIngredientWrap>
   );
 };
-
-const AddModal = React.memo(({ number, onPress }: AddModalProps) => {
-  return (
-    <ButtonsWrap>
-      <CarrotButton>
-        <Fonts children={`${number}개 선택`} color="white" size="large" />
-      </CarrotButton>
-      <VegetableButton onPress={() => onPress()}>
-        <Fonts children="재료 추가 하기" color="white" size="large" />
-      </VegetableButton>
-    </ButtonsWrap>
-  );
-});
 
 export const CheckBox = ({
   handleAllAdd,
@@ -221,11 +220,11 @@ export const CheckBox = ({
     <CheckBoxWrap>
       <CheckButton onPress={() => handleAllAdd(ingredients)}>
         <CarrotCheck />
-        <Fonts children="전체 선택" />
+        <Fonts children="전체 선택" padH="8px" />
       </CheckButton>
       <CheckButton onPress={() => handleAllDelete(ingredients)}>
         <GrayCheck />
-        <Fonts children="전체 해제" />
+        <Fonts children="전체 해제" padH="8px" />
       </CheckButton>
     </CheckBoxWrap>
   );
@@ -236,24 +235,6 @@ const AddIngredientWrap = styled.View`
   position: relative;
 `;
 
-const ButtonsWrap = styled.View`
-  flex-direction: row;
-  height: ${8 * vh}px;
-  align-self: center;
-  width: ${100 * vw}px;
-  justify-content: center;
-  position: absolute;
-  bottom: 0px;
-`;
-const CarrotButton = styled.TouchableOpacity`
-  background-color: ${theme.color['carrot']};
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-`;
-const VegetableButton = styled(CarrotButton)`
-  background-color: ${theme.color['vegetable']};
-`;
 const CheckButton = styled.TouchableOpacity`
   flex-direction: row;
   width: auto;
@@ -299,10 +280,6 @@ interface CategoryState {
   sub: string | null;
 }
 
-interface AddModalProps {
-  number: number;
-  onPress: Function;
-}
 interface CheckBoxProps {
   handleAllAdd: Function;
   handleAllDelete: Function;

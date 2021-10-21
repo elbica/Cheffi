@@ -247,7 +247,7 @@ const DeleteContainer = styled.Image<ImageStyleProps>`
 const ColorCheckContainer = styled.Image<ImageStyleProps>`
   width: 18px;
   height: 18px;
-  margin-right: 8px;
+  /* margin-right: 8px; */
   ${({ color }) =>
     color &&
     css`

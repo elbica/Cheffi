@@ -25,6 +25,23 @@ export function debounce<T extends (...args: any[]) => any>(
   }) as (...args: Parameters<T>) => ReturnType<T>;
 }
 
+export function throttle<T extends (...args: any[]) => any>(
+  func: T,
+  delay: number,
+): (...args: Parameters<T>) => ReturnType<T> {
+  let timer: boolean;
+
+  return ((...args: any) => {
+    if (!timer) {
+      timer = true;
+      func(...args);
+      setTimeout(() => {
+        timer = false;
+      }, delay);
+    }
+  }) as (...args: Parameters<T>) => ReturnType<T>;
+}
+
 /**
  * @param input 사용자가 입력한 query
  * @return query로 시작하는 연관 검색어 배열

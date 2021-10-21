@@ -136,8 +136,10 @@ const ButtonsWrap = styled.View`
   background-color: transparent;
   align-self: flex-end;
   width: auto;
-  bottom: ${3 * vh}px;
+  bottom: ${2 * vh}px;
+  right: -10px;
   position: absolute;
+  padding: 10px;
 `;
 
 const EmptyMessage = styled(Fonts)`
@@ -173,7 +175,7 @@ const PlusWrap = styled.TouchableOpacity`
 `;
 
 const NavigationPlusWrap = styled(PlusWrap)`
-  top: -9%;
+  top: ${-6.5 * vh}px;
 `;
 
 const Divider = styled.View`
@@ -186,13 +188,16 @@ const Divider = styled.View`
 const SaveButton = styled.TouchableOpacity`
   width: ${14 * vw}px;
   height: ${14 * vw}px;
-  /* height:  */
   background-color: ${theme.color['vegetable']};
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  /* margin: 5px; */
   margin-top: 10px;
+  shadow-color: black;
+  shadow-opacity: 0.45;
+  shadow-offset: 0 0;
+  shadow-radius: 4px;
+  elevation: 1;
 `;
 const CancleButton = styled(SaveButton)`
   background-color: ${theme.color['carrot']};
