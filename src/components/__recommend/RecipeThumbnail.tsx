@@ -26,7 +26,6 @@ export default React.memo(function RecipeThumbmail({
         width="100%"
         height="130px"
         onPress={() => onPress(recipeid, platform)}
-        marginV="1%"
         radius={10}
       />
       <FontContainer>
@@ -35,6 +34,7 @@ export default React.memo(function RecipeThumbmail({
             children={title ? title : '없음'}
             color="black"
             size="large"
+            padV="4px"
             bold
             lineHeight="large"
           />

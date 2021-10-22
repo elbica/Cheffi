@@ -111,7 +111,7 @@ const FontsWrap = styled.View`
 `;
 const ButtonsWrap = styled.View`
   flex-direction: row;
-  height: ${8 * vh}px;
+  height: ${7.5 * vh}px;
   align-self: center;
   width: ${100 * vw}px;
   justify-content: center;

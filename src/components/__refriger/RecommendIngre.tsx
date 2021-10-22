@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components/native';
 import { MOCK_RECOMMEND_INGRE } from '../../assets/data/mockRecipeData';
 import { emptyRefriger } from '../../assets/data/mockUserData';
+import { defaultShadow } from '../../assets/data/shadow';
 import { theme, vh } from '../../assets/styles/theme';
 import { useRecipeNumber } from '../../hooks/useRecipe';
 import { IngredientButton } from '../elements/Buttons';
@@ -22,9 +23,8 @@ export const RecommendIngre = ({ save }: RecommendIngreProps) => {
     [recommends],
   );
   const calculPick = useCallback(
-    (ingredient: Ingredient) => {
-      return recommends.includes(ingredient);
-    },
+    (ingredient: Ingredient) =>
+      recommends.findIndex(origin => origin.name === ingredient.name) !== -1,
     [recommends],
   );
 
@@ -91,7 +91,7 @@ const convertToRefriger = (ingredients: Ingredient[]) => {
   return ret;
 };
 
-const NumberButtonWrap = styled.TouchableOpacity`
+const NumberButtonWrap = styled(defaultShadow)`
   width: 100%;
   height: ${6 * vh}px;
   border-radius: 10px;

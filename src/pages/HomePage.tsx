@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AppWrap } from '../assets/styles/theme';
+import { AppWrap, vh } from '../assets/styles/theme';
 import styled from 'styled-components/native';
 import { ScrollView } from 'react-native';
 import MyRefriger from '../components/__home/MyRefriger';
@@ -15,6 +15,7 @@ import { ProgressBar } from '../components/elements/Indicators';
 const HomeWrap = styled(AppWrap)`
   flex: 1;
   background-color: white;
+  padding-top: ${14 * vh}px;
 `;
 
 export default function HomePage() {

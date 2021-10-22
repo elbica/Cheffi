@@ -20,6 +20,7 @@ export const useRecipeNumber = (data: Refriger) => {
       enabled: !!data,
       ...(timer < 1 && { cacheTime: 0 }),
       staleTime: 1000 * 60 * 60 * 12,
+      keepPreviousData: true,
     },
   );
 };

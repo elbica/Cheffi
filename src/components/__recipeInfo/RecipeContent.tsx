@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Modalize } from 'react-native-modalize';
 import styled from 'styled-components/native';
 import { OPEN_HAEMUK_URL, OPEN_MANGAE_URL } from '../../../config';
+import { defaultShadow } from '../../assets/data/shadow';
 import { theme, vh } from '../../assets/styles/theme';
 import Divs from '../elements/Divs';
 import Fonts from '../elements/Fonts';
@@ -135,7 +136,7 @@ const IngredientAmountWrap = styled.View`
   margin-bottom: 4px;
 `;
 
-const GotoButton = styled.TouchableOpacity`
+const GotoButton = styled(defaultShadow)`
   border-radius: 6px;
   width: 100%;
   height: 50px;
@@ -144,8 +145,4 @@ const GotoButton = styled.TouchableOpacity`
   background-color: ${theme.color.carrot};
   justify-content: center;
   align-items: center;
-  shadow-color: black;
-  shadow-opacity: 0.45;
-  shadow-offset: 0 0;
-  shadow-radius: 4px;
 `;

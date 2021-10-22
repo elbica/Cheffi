@@ -27,7 +27,7 @@ export const theme: DefaultTheme = {
   },
   padding: {
     android: `${12.5 * vh}px 5% 0% 5%`,
-    ios: `${14 * vh}px 5% 0% 5%`,
+    ios: `${13 * vh}px 5% 0% 5%`,
   },
   text: {
     xlarge: '24px',

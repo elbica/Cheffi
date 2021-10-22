@@ -218,6 +218,23 @@ export function Undo() {
     />
   );
 }
+export function Scale() {
+  return (
+    <ScaleContainer
+      source={require('../../assets/icons/homeIcon2.png')}
+      resizeMode="contain"
+    />
+  );
+}
+export function Note() {
+  return (
+    <ScrapContainer
+      source={require('../../assets/icons/note.png')}
+      style={{ margin: 16 }}
+      resizeMode="contain"
+    />
+  );
+}
 
 const prevArrowStyle: ImageStyle = {
   marginLeft: 6 * vw,
@@ -273,4 +290,9 @@ const ColorCheckContainer = styled.Image<ImageStyleProps>`
       width: 36px;
       height: 36px;
     `}
+`;
+
+const ScaleContainer = styled.Image`
+  width: 26px;
+  height: 26px;
 `;

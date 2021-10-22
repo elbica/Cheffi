@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Animated,
   Easing,
@@ -20,16 +20,18 @@ export const OpenLinkModal = ({
   setIsOpen,
   URL,
 }: OpenLinkModalProps) => {
-  const overlay = React.useRef(new Animated.Value(0)).current;
-
+  const overlay = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(0)).current;
   useEffect(() => {
-    if (isOpen)
+    if (isOpen) {
       Animated.timing(overlay, {
         toValue: 1,
         duration: 500,
         easing: Easing.quad,
         useNativeDriver: true,
       }).start();
+      if (translateY) translateY.setValue(0);
+    }
   }, [isOpen]);
 
   const handleClose = () => {
@@ -45,9 +47,8 @@ export const OpenLinkModal = ({
   const handleGestureEvent = ({
     nativeEvent: { translationY },
   }: GestureEvent<PanGestureHandlerEventPayload>) => {
-    if (translationY > 5) {
-      handleClose();
-    }
+    if (translationY > 0) translateY.setValue(translationY);
+    if (translationY > 150) handleClose();
   };
 
   const renderHeader = () => (
@@ -80,17 +81,19 @@ export const OpenLinkModal = ({
         transparent
         onRequestClose={handleClose}
         animationType="slide">
-        <View style={s.content}>
-          {renderHeader()}
-          <WebView
-            source={{
-              uri: URL,
-            }}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            style={s.modal_radius}
-          />
-        </View>
+        <Animated.View style={{ transform: [{ translateY: translateY }] }}>
+          <View style={s.content}>
+            {renderHeader()}
+            <WebView
+              source={{
+                uri: URL,
+              }}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              style={s.modal_radius}
+            />
+          </View>
+        </Animated.View>
       </Modal>
     </>
   );

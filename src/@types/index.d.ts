@@ -29,7 +29,7 @@ declare type MainCategory =
   | OneDepthCategory
   | '전체'
   | '추천'
-  | '검색 결과';
+  | '검색';
 
 declare interface Recipe {
   _id: string;
@@ -88,6 +88,8 @@ declare type FormInfo = {
 type RouteProp<T, K> = import('@react-navigation/core').RouteProp<T, K>;
 type StackNavigationProp<T, K> =
   import('@react-navigation/stack').StackNavigationProp<T, K>;
+type TabNavigationProp<T, K> =
+  import('@react-navigation/bottom-tabs').BottomTabNavigationProp<T, K>;
 
 type RootStackParamList = {
   myRecipe: undefined;
@@ -114,4 +116,12 @@ type IntroNavParamList = {
   join5: undefined;
   join6: { param: string };
 };
+type TabNavParamList = {
+  '내 냉장고': undefined;
+  '내 레시피': undefined;
+  홈: undefined;
+  추천레시피: undefined;
+  마이페이지: undefined;
+};
+type RecommendTabProp = TabNavigationProp<TabNavParamList, 'recommend'>;
 type Join6RouteProp = RouteProp<IntroNavParamList, 'join6'>;

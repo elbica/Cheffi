@@ -82,7 +82,7 @@ export const getRecommendIngres = async (
   const {
     data: { ingredient },
   } = await API.post('/user/ingre-recc', { refriger });
-  console.log('🐹recommend ingredient call', ingredient);
+  // console.log('🐹recommend ingredient call', ingredient);
 
   return ingredient;
 };

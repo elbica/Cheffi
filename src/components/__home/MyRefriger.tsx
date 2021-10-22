@@ -17,18 +17,16 @@ const TouchIconAndText = ({
 }: TouchIconTextProps) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <Section row flexNumber={flexNumber} justify="flex-start">
+      <Section row flexNumber={flexNumber} justify="flex-start" height="auto">
         <Image source={homeIcons[imageName]} style={IconStyleOption} />
-        <Fonts padV="6%" lineHeight="medium">
-          {text}
-        </Fonts>
+        <Fonts lineHeight="medium">{text}</Fonts>
       </Section>
     </TouchableOpacity>
   );
 };
 export const EmptyRefriger = () => {
   return (
-    <EmptyRefrigerWrap padV={`${4 * vh}px`}>
+    <EmptyRefrigerWrap padV={`${5 * vh}px`}>
       <CenterTouchOpacity goal="refrigerator">
         <Image
           source={require('../../assets/icons/emptyRefriger.png')}
@@ -67,9 +65,9 @@ const ExistRefirger = () => {
           text={`${recipeCount} 개의 레시피를\n만들 수 있어요!`}
         />
       </OrangeContainer>
-      <OrangeContainer justify="flex-start" row>
+      <OrangeContainer justify="flex-start" row flexNumber={0.7}>
         <TouchIconAndText
-          flexNumber={1}
+          flexNumber={0.5}
           imageName="homeIcon3"
           onPress={() => handleNavigation('내 냉장고')}
           text={'이 재료로 어떤 음식을 만들 수 있을까?'}
@@ -88,7 +86,7 @@ export default function MyRefriger({ empty }: { empty: boolean }) {
 }
 const Container: any = styled(Section)`
   /* height: 200px; */
-  height: ${23 * vh}px;
+  height: ${22 * vh}px;
   margin-bottom: ${3 * vh}px;
   /* ${(props: any) =>
     props.empty &&
@@ -109,8 +107,9 @@ const OrangeContainer = styled(Section)`
   border-radius: 16px;
   border-width: 1px;
   background-color: ${({ theme }) => theme.color.carrot + '22'};
-  margin: 10px 0;
-  flex: 1;
+  margin: 12px 0 5px 0;
+  /* flex: 1; */
+  height: auto;
 `;
 
 const EmptyRefrigerWrap = styled(Divs)`
@@ -120,6 +119,7 @@ const EmptyRefrigerWrap = styled(Divs)`
       border-bottom-width: 1px;
     `}
   height: ${23 * vh}px;
+  margin-bottom: ${1 * vh}px;
 `;
 
 const ImageStyleOption: ImageStyle = {
@@ -129,8 +129,8 @@ const ImageStyleOption: ImageStyle = {
   top: -1 * vh,
 };
 const IconStyleOption: ImageStyle = {
-  width: 8 * vw,
-  height: 5.5 * vh,
+  width: 9 * vw,
+  height: 5 * vh,
   resizeMode: 'contain',
   marginRight: 3 * vw,
   marginLeft: 4 * vw,
