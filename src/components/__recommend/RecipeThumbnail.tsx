@@ -4,7 +4,6 @@ import { getRecipeImageUri } from '../../api';
 import { ImageButton } from '../elements/Buttons';
 import Divs from '../elements/Divs';
 import Fonts from '../elements/Fonts';
-import { Calories, Clock, EmptyStar } from '../elements/Images';
 import { RecipeInfo } from './RecipeInfo';
 
 export default React.memo(function RecipeThumbmail({

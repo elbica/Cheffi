@@ -14,7 +14,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 const persistConfig: any = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['auth', 'refriger', 'user'],
+  whitelist: ['auth', 'refriger', 'user', 'recipe'],
   stateReconciler: autoMergeLevel2,
 };
 

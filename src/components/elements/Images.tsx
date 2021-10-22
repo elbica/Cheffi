@@ -30,7 +30,7 @@ export function Star() {
   return (
     <StarContainer
       source={require('../../assets/icons/star.png')}
-      // style={{width: 40 * vw, height: 15 * vh}}
+      style={{ width: 15 * vw, height: 15 * vw }}
       resizeMode="contain"
     />
   );
@@ -39,7 +39,16 @@ export function Scrap() {
   return (
     <ScrapContainer
       source={require('../../assets/icons/star.png')}
-      // style={{width: 40 * vw, height: 15 * vh}}
+      style={{ width: 9 * vw, height: 9 * vw }}
+      resizeMode="contain"
+    />
+  );
+}
+export function EmptyScrap() {
+  return (
+    <ScrapContainer
+      source={require('../../assets/icons/star.png')}
+      style={{ width: 9 * vw, height: 9 * vw, tintColor: 'white' }}
       resizeMode="contain"
     />
   );

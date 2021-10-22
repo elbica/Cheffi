@@ -32,14 +32,14 @@ declare type MainCategory =
   | '검색';
 
 declare interface Recipe {
-  _id: string;
+  _id?: string;
   scrap: number | null;
   time?: string;
   calories: number | null;
   recipeid: number;
   title?: string;
   platform: 'haemuk' | 'mangae' | 'dummy';
-  size: number;
+  size?: number;
   difficulty?: string;
 }
 declare interface RecipeInfo extends Recipe {

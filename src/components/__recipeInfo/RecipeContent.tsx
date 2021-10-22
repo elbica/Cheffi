@@ -1,9 +1,13 @@
 import React, { useRef, useState } from 'react';
 import { Modalize } from 'react-native-modalize';
-import styled from 'styled-components/native';
+import { useDispatch } from 'react-redux';
+import { Colors } from 'styled-components';
+import styled, { css } from 'styled-components/native';
 import { OPEN_HAEMUK_URL, OPEN_MANGAE_URL } from '../../../config';
 import { defaultShadow } from '../../assets/data/shadow';
-import { theme, vh } from '../../assets/styles/theme';
+import { theme, vh, vw } from '../../assets/styles/theme';
+import { useIsRecipeComplete } from '../../hooks/useRedux';
+import { toggleRecipeComplete } from '../../redux/modules';
 import Divs from '../elements/Divs';
 import Fonts from '../elements/Fonts';
 import { GreenCheck, ReplaceCheck } from '../elements/Images';
@@ -26,9 +30,12 @@ export default function RecipeContent({ data }: { data: RecipeInfo }) {
     <RecipeContentContainer>
       {data && (
         <>
-          <Divs height="auto">
-            <Fonts size="large" children={data.title} bold />
-          </Divs>
+          <RowTitle>
+            <TitleContainer>
+              <Fonts size="large" children={data.title} bold />
+            </TitleContainer>
+            <CompleteCookButton recipeid={data.recipeid} />
+          </RowTitle>
           <RecipeInfo
             calories={data.calories}
             time={data.time}
@@ -95,6 +102,23 @@ const RecipeIngredients = ({ ingredient }: Pick<RecipeInfo, 'ingredient'>) => {
   );
 };
 
+const CompleteCookButton = ({ recipeid }: Pick<RecipeInfo, 'recipeid'>) => {
+  const isComplete = useIsRecipeComplete(recipeid);
+  const dispatch = useDispatch();
+  const onPress = () => {
+    /**
+     * @todo popup 띄워서 별점 준 후 서버로 보내기
+     */
+    dispatch(toggleRecipeComplete(recipeid));
+  };
+  const fontColor: Colors = isComplete ? 'white' : 'tableGray';
+  return (
+    <CompleteCookButtonWrap isComplete={isComplete} onPress={onPress}>
+      <Fonts children="요리 완료" padH="11px" padV="7px" color={fontColor} />
+    </CompleteCookButtonWrap>
+  );
+};
+
 const RecipeContentContainer = styled.View`
   width: 86%;
   margin: 0 auto;
@@ -125,6 +149,15 @@ const Row = styled.View`
   height: auto;
   align-items: center;
 `;
+const TitleContainer = styled.View`
+  width: ${62 * vw}px;
+`;
+const RowTitle = styled(Row)`
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  position: relative;
+`;
 const IngredientAmountWrap = styled.View`
   flex-direction: row;
   justify-content: space-between;
@@ -145,4 +178,24 @@ const GotoButton = styled(defaultShadow)`
   background-color: ${theme.color.carrot};
   justify-content: center;
   align-items: center;
+`;
+
+const CompleteCookButtonWrap = styled.TouchableOpacity<{ isComplete: boolean }>`
+  border-width: 1px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  right: ${-2 * vw}px;
+  position: absolute;
+
+  ${({ isComplete }) =>
+    isComplete
+      ? css`
+          border-color: ${theme.color.vegetable};
+          background-color: ${theme.color.vegetable};
+        `
+      : css`
+          border-color: #dadada;
+          background-color: white;
+        `}
 `;

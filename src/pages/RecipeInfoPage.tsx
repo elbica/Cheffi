@@ -23,7 +23,7 @@ export default function RecipeInfoPage() {
           showsVerticalScrollIndicator={false}
           style={{ backgroundColor: 'white' }}
           contentContainerStyle={{ flexGrow: 1 }}>
-          <RecipeImage uri={uri} />
+          <RecipeImage uri={uri} {...data} />
           <RecipeContent data={data} />
         </ScrollView>
       ) : (
