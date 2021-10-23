@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AppWrap } from '../assets/styles/theme';
+import { AppWrap, vh } from '../assets/styles/theme';
 import styled from 'styled-components/native';
 import { ScrollView } from 'react-native';
 import MyRefriger from '../components/__home/MyRefriger';
@@ -15,6 +15,7 @@ import { ProgressBar } from '../components/elements/Indicators';
 const HomeWrap = styled(AppWrap)`
   flex: 1;
   background-color: white;
+  /* padding-top: ${14 * vh}px; */
 `;
 
 export default function HomePage() {
@@ -26,6 +27,7 @@ export default function HomePage() {
   const empty = JSON.stringify(refriger) === JSON.stringify(emptyRefriger);
 
   const [list, setList] = useState<Recipe[]>();
+  const [recipe, setRecipe] = useState<Recipe>();
   const [loading, setLoaing] = useState(true);
   useEffect(() => {
     if (!ingredient.length) {
@@ -40,8 +42,10 @@ export default function HomePage() {
        *
        * 레시피 개수의 경우 추후 api로 불러오지 않고 persist의 값을 사용하는 방식으로 deprecated 될 수 있다
        */
-      const { error, login, number, randomList } = await getInitialRecipe();
+      const { error, login, number, randomList, recommendRecipe } =
+        await getInitialRecipe();
       setList(randomList);
+      setRecipe(recommendRecipe);
       if (login) {
         dispatch(userRecipeCount(number));
       } else if (error) {
@@ -51,7 +55,7 @@ export default function HomePage() {
     })();
   }, [dispatch]);
   useEffect(() => {
-    setTimeout(() => setLoaing(false), 2000);
+    setTimeout(() => setLoaing(false), 2500);
   }, []);
 
   return (
@@ -64,7 +68,7 @@ export default function HomePage() {
           showsVerticalScrollIndicator={false}>
           <HomeWrap>
             <MyRefriger empty={empty} />
-            <ForMe />
+            <ForMe recipe={recipe as Recipe} />
             <HotRecipes data={list} />
           </HomeWrap>
         </ScrollView>

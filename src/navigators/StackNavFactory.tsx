@@ -65,7 +65,15 @@ export default function StackNavFactory({
   return (
     <Stack.Navigator screenOptions={Header} headerMode="float">
       {screenName === 'myRecipe' ? (
-        <Stack.Screen name={'myRecipe'} component={MyRecipePage} />
+        <Stack.Screen
+          name={'myRecipe'}
+          component={MyRecipePage}
+          options={{
+            headerBackground: undefined,
+            headerTitleStyle: { color: 'black', fontSize: 22 },
+            headerTitle: '내 레시피',
+          }}
+        />
       ) : null}
       {screenName === 'home' ? (
         <>

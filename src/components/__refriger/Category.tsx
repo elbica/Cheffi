@@ -13,7 +13,6 @@ const ingredient = Object.values(categoryData).reduce(
   (acc, cur) => ({ ...acc, ...cur }),
   {},
 ) as { [key: string]: string[] };
-// console.log(ingredient);
 const subCategory: { [key: string]: string[] } = mainCategory.reduce(
   (acc, cur) => ({
     ...acc,
@@ -27,11 +26,10 @@ const subCategory: { [key: string]: string[] } = mainCategory.reduce(
 export const MainCategory = React.memo(
   ({ setCategory, notAll, selectCategory, recommend }: MainCategoryProps) => {
     const changeCategory: MainCategory[] = recommend
-      ? ['검색 결과', '추천', ...mainCategory]
+      ? ['검색', '추천', ...mainCategory]
       : !notAll
       ? ['전체', ...mainCategory]
       : [...mainCategory];
-    // console.log(changeCategory);
     return (
       <MainCategoryWrap>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>

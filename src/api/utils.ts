@@ -86,6 +86,8 @@ export const addIngreToRefriger = (
     const index = newState.findIndex(
       refriger => refriger.title === ingredient.category,
     );
+    if (index == -1)
+      console.log('⚔️refriger index err: ', refriger, ingredient.category);
     if (!newState[index].data.includes(ingredient.name))
       newState[index].data = [...newState[index].data, ingredient.name];
   });
@@ -100,7 +102,7 @@ export const addIngreToRefriger = (
 export const isOneDepth = (category: any): category is OneDepthCategory =>
   OneDepthCategory.includes(category as OneDepthCategory);
 
-export const mapWithCategory = (names: string[]) => {
+export const mapWithCategory = (names: string[] = []) => {
   const ret: Ingredient[] = names.map(item => ({
     category: getMainCategory(item),
     name: item,

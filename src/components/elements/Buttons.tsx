@@ -197,6 +197,7 @@ export function ImageButton({
     uri,
     priority: FastImage.priority.normal,
   };
+  const [error, setError] = useState(false);
   return (
     <CenterTouchOpacity onPress={onPress} goal="home">
       <ImageButtonContainer
@@ -213,6 +214,16 @@ export function ImageButton({
                 ? require('../../assets/images/Dummy.png')
                 : source
             }
+            onError={() => setError(true)}
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{ flex: 1, justifyContent: 'center' }}
+            resizeMode={FastImage.resizeMode.cover}>
+            {children}
+          </FastImage>
+        ) : error ? (
+          <FastImage
+            source={require('../../assets/images/Dummy.png')}
+            onError={() => setError(true)}
             // eslint-disable-next-line react-native/no-inline-styles
             style={{ flex: 1, justifyContent: 'center' }}
             resizeMode={FastImage.resizeMode.cover}>
@@ -344,8 +355,7 @@ const IngredientButtonWrap = styled.TouchableOpacity<{
   padding-bottom: 8px;
   /* background-color: red; */
   flex-direction: row;
-  /* justify-content: center;
-   */
+  background-color: ${theme.color.white};
   align-items: center;
   border-radius: 15px;
   border-width: 1.2px;
@@ -357,7 +367,7 @@ const IngredientButtonWrap = styled.TouchableOpacity<{
     init &&
     css`
       border-color: transparent;
-      background-color: #f5f3e8;
+      background-color: ${theme.color.light};
     `}
 `;
 

@@ -1,10 +1,23 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import { AppWrap } from '../assets/styles/theme';
+import { ScrapRecipeCount } from '../components/elements/Recipe';
+import { EmptyRecipe } from '../components/__myRecipe/EmptyScrap';
+import { ScrapRecipes } from '../components/__myRecipe/ScrapRecipes';
+import { useRecipeScrap } from '../hooks/useRedux';
 
 export default function MyRecipePage() {
+  const scrapIds = useRecipeScrap();
+
   return (
-    <View>
-      <Text>MyRecipePage</Text>
-    </View>
+    <AppWrap>
+      {scrapIds.length > 0 ? (
+        <>
+          <ScrapRecipeCount number={scrapIds.length} />
+          <ScrapRecipes scrapIds={scrapIds} />
+        </>
+      ) : (
+        <EmptyRecipe />
+      )}
+    </AppWrap>
   );
 }

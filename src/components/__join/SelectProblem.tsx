@@ -59,7 +59,7 @@ export default function SelectProblem() {
           </Section>
           <CheckBoxes />
           <Section row justify="flex-end" flexNumber="0.35">
-            <NextSubmit goal="join5" />
+            <NextSubmit goal="join4-1" />
           </Section>
         </Section>
       )}

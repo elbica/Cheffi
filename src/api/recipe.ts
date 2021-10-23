@@ -68,10 +68,30 @@ export const getRecipeList = async (
     nextPage: page + 1,
   };
 };
+export const getScrapList = async (
+  page: number = 1,
+  recipeids: number[],
+  count: number,
+): Promise<Omit<getRecipeListReturn, 'maxPage'>> => {
+  const ids = recipeids
+    .reduce((acc, cur) => acc + '%2C' + cur.toString(), '')
+    .slice(3);
+  const { data } = await API.get(
+    `/recipe/info-list?ids=${ids}&page=${page}&step=${RECIPE_LIST_STEP}`,
+  );
+  console.log('scrap list call', data);
+
+  return {
+    recipe: data ?? [],
+    // current: page,
+    available: page ? page * RECIPE_LIST_STEP < count : false,
+    nextPage: page + 1,
+  };
+};
 export const getRecipeRandomList = async (num?: number): Promise<Recipe[]> => {
   const {
     data: { recipe },
-  } = await API.get(`/recipe/random-list?num=${num || 3}`);
+  } = await API.get(`/recipe/random-list?num=${num || 6}`);
   // console.log('🐹recipe random list call', recipe);
 
   return recipe;
@@ -82,7 +102,7 @@ export const getRecommendIngres = async (
   const {
     data: { ingredient },
   } = await API.post('/user/ingre-recc', { refriger });
-  console.log('🐹recommend ingredient call', ingredient);
+  // console.log('🐹recommend ingredient call', ingredient);
 
   return ingredient;
 };
@@ -102,20 +122,38 @@ export const getInitialRecipe = async () => {
     let number = 0,
       list: getRecipeListReturn,
       randomList: Recipe[] = [],
-      recommendIngre: Ingredient[] = [];
+      recommendIngre: Ingredient[] = [],
+      recommendRecipe: Recipe,
+      scrapRecipes: Omit<getRecipeListReturn, 'maxPage'>;
     if (login) {
       const ingre = store.getState().refriger;
+      const scrap = store.getState().user.scrapRecipesId;
 
-      [number, randomList, list, recommendIngre] = await Promise.all([
-        getRecipeNumber(ingre),
-        getRecipeRandomList(),
-        getRecipeList(),
-        getRecommendIngres(ingre),
-      ]);
+      [number, randomList, list, recommendIngre, scrapRecipes] =
+        await Promise.all([
+          getRecipeNumber(ingre),
+          getRecipeRandomList(),
+          getRecipeList(),
+          getRecommendIngres(ingre),
+          getScrapList(1, scrap, scrap.length),
+        ]);
+
+      recommendRecipe = randomList.pop() as Recipe;
       const initList = { pageParams: [1], pages: [list] };
-      setCachedInit(randomList, number, initList, ingre, recommendIngre);
+      const initScrap = { pageParams: [1], pages: [scrapRecipes] };
+      setCachedInit(
+        randomList,
+        number,
+        initList,
+        ingre,
+        recommendIngre,
+        initScrap,
+        scrap,
+      );
+      return { login, number, randomList, recommendRecipe };
     }
-    return { login, number, randomList };
+    console.log('not login error:');
+    return { error: true, number: 0 };
   } catch (e) {
     console.log('recipe init error:', e);
     return { error: true, number: 0 };
@@ -138,4 +176,8 @@ type getRecipeListReturn = {
   maxPage: number;
   nextPage: number;
   available: boolean;
+};
+type getScrapListReturn = {
+  recipe: Recipe[];
+  current: number;
 };

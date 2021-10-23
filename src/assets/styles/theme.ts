@@ -27,7 +27,7 @@ export const theme: DefaultTheme = {
   },
   padding: {
     android: `${12.5 * vh}px 5% 0% 5%`,
-    ios: `${14 * vh}px 5% 0% 5%`,
+    ios: `${13 * vh}px 5% 0% 5%`,
   },
   text: {
     xlarge: '24px',
@@ -55,6 +55,7 @@ export const AppWrap = styled.View`
   flex: 1;
   height: 100%;
   background-color: white;
+  position: relative;
 `;
 export const Section = styled.View`
   flex: ${(props: SectionProps) => props.flexNumber};

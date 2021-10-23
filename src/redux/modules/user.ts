@@ -11,9 +11,9 @@ const initState = {
   statusMessage: '안녕하세요',
   photo: 's3.url.com',
   dislikeIngredient: ['민트', '당근'],
-  scrapRecipesId: ['1', '2'],
-  likeRecipesId: ['3', '4'],
-  historyRecipesId: ['5', '6'],
+  scrapRecipesId: [],
+  likeRecipesId: [],
+  historyRecipesId: [],
 };
 
 /**
@@ -34,17 +34,15 @@ export const userProfile = (profile: UserProfile) => ({
   type: USER_PROFILE_ACTION,
   payload: profile,
 });
-export const userScrapRecipe = (recipeId: string) => ({
-  type: USER_SCRAPRECIPE_ACTION,
-  payload: { recipeId, key: 'scrapRecipesId' },
-});
-export const userLikeRecipe = (recipeId: string) => ({
-  type: USER_LIKERECIPE_ACTION,
-  payload: { recipeId, key: 'likeRecipesId' },
-});
-export const userHistoryRecipe = (recipeId: string) => ({
+
+export const userRecipeHistory = (recipe: number) => ({
   type: USER_HISTORYRECIPE_ACTION,
-  payload: { recipeId, key: 'historyRecipesId' },
+  payload: recipe,
+});
+
+export const userRecipeScrap = (recipe: number) => ({
+  type: USER_SCRAPRECIPE_ACTION,
+  payload: recipe,
 });
 
 type UserProfile = {
@@ -56,16 +54,14 @@ type UserProfile = {
 export type UserState = {
   [key: string]: any;
   recipeCount?: number;
-  scrapRecipesId?: string[];
-  likeRecipesId?: string[];
-  historyRecipesId?: string[];
+  scrapRecipesId: number[];
+  historyRecipesId: number[];
 } & UserProfile;
 type UserAction = ReturnType<
   | typeof userRecipeCount
   | typeof userProfile
-  | typeof userLikeRecipe
-  | typeof userHistoryRecipe
-  | typeof userScrapRecipe
+  | typeof userRecipeHistory
+  | typeof userRecipeScrap
   | typeof userInit
 >;
 
@@ -80,15 +76,27 @@ export default function reducer(
     case USER_INIT_ACTION:
       return { ...state, ...action.payload };
     case USER_HISTORYRECIPE_ACTION:
-    case USER_LIKERECIPE_ACTION:
-    case USER_SCRAPRECIPE_ACTION:
+      const newHistoryState = state.historyRecipesId
+        .filter(id => id !== action.payload)
+        .slice(0, 29);
       return {
         ...state,
-        [action.payload.key]: [
-          ...state[action.payload.key],
-          action.payload.recipeId,
-        ],
+        historyRecipesId: [action.payload, ...newHistoryState],
       };
+    case USER_SCRAPRECIPE_ACTION:
+      const exist = state.scrapRecipesId.includes(action.payload);
+      const newScrapState = exist
+        ? {
+            ...state,
+            scrapRecipesId: state.scrapRecipesId.filter(
+              old => old !== action.payload,
+            ),
+          }
+        : {
+            ...state,
+            scrapRecipesId: [action.payload, ...state.scrapRecipesId],
+          };
+      return newScrapState;
 
     default:
       return state;
