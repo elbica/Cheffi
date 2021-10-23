@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
+import { deleteUserScrap, putUserScrap } from '../../api';
 import { vh } from '../../assets/styles/theme';
 import { useIsRecipeScrap } from '../../hooks/useRedux';
 import { userRecipeScrap } from '../../redux/modules';
@@ -14,10 +15,8 @@ export default function RecipeImage({
   const isScrap = useIsRecipeScrap(recipeid);
   const dispatch = useDispatch();
   const onPress = () => {
-    /**
-     * @todo 스크랩 기록 서버로 보내기 rating은 3으로
-     */
     dispatch(userRecipeScrap(recipeid));
+    isScrap ? deleteUserScrap(recipeid) : putUserScrap(recipeid, place);
   };
   return (
     <Position>

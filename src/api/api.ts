@@ -60,7 +60,15 @@ const onRejected = (err: Error | AxiosError) => {
         type: API_ERROR_TYPE.FORBIDDEN,
       };
     }
-    console.log('api err : ', ret, '\nmessage', err, '\nconfig ', err.config);
+    console.log(
+      'api err : ',
+      ret,
+      '\nmessage',
+      err,
+      '\nconfig ',
+      err.config,
+      err.response,
+    );
     return Promise.reject(ret);
   }
 };

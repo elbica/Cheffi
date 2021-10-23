@@ -14,8 +14,8 @@ export default function HotRecipes({ data }: { data: Recipe[] | undefined }) {
   );
   return (
     <HotRecipeWrap>
-      <Fonts size="large" padH="2%" padV="10px">
-        Hot 레시피
+      <Fonts size="large" padH="0" padV="12px" color="tableBlack">
+        🔥 Hot 레시피
       </Fonts>
       {data
         ? data.map((recipe, idx) => (
@@ -41,5 +41,5 @@ export default function HotRecipes({ data }: { data: Recipe[] | undefined }) {
 const HotRecipeWrap = styled.View`
   /* flex-wrap: wrap; */
   height: auto;
-  margin-top: 16px;
+  /* margin-top: 16px; */
 `;

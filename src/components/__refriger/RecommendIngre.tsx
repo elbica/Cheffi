@@ -35,7 +35,12 @@ export const RecommendIngre = ({ save }: RecommendIngreProps) => {
 
   return (
     <RecommendIngreWrap>
-      <Fonts children="추천 재료" size="large" padV={`${2.7 * vh}px`} />
+      <Fonts
+        children="🌟 추천 재료"
+        size="large"
+        padV={`${2.7 * vh}px`}
+        color="tableBlack"
+      />
       <IngreButtons onPress={handleIngredient} calculPick={calculPick} />
       <RecommendButton onPress={handleRefriger} number={recommends.length} />
     </RecommendIngreWrap>

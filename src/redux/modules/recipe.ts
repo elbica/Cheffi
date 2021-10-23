@@ -4,7 +4,7 @@ const initState: RecipeState = {
   complete: [],
 };
 
-export const toggleRecipeComplete = (recipeid: number) => ({
+export const userRecipeComplete = (recipeid: number) => ({
   type: RECIPE_COMPLETE_ACTION,
   payload: recipeid,
 });
@@ -13,7 +13,7 @@ type RecipeState = {
   complete: number[];
 };
 
-type RecipeAction = ReturnType<typeof toggleRecipeComplete>;
+type RecipeAction = ReturnType<typeof userRecipeComplete>;
 
 export default function reducer(
   state: RecipeState = initState,
@@ -21,14 +21,8 @@ export default function reducer(
 ) {
   switch (action.type) {
     case RECIPE_COMPLETE_ACTION:
-      const isExist = state.complete.includes(action.payload);
-      const newState = isExist
-        ? {
-            ...state,
-            complete: state.complete.filter(old => old !== action.payload),
-          }
-        : { ...state, complete: [...state.complete, action.payload] };
-      return newState;
+      const newArray = state.complete.filter(old => old !== action.payload);
+      return { ...state, complete: [...newArray, action.payload] };
     default:
       return state;
   }

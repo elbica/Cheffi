@@ -33,7 +33,7 @@ declare type MainCategory =
 
 declare type Platform = 'haemuk' | 'mangae' | 'dummy';
 declare interface Recipe {
-  _id?: string;
+  _id: string;
   scrap: number | null;
   time?: string;
   calories: number | null;
@@ -111,6 +111,10 @@ type RecipeInfoNavigationProp = StackNavigationProp<
   'recipeInfo'
 >;
 type AddIngredientRouteProp = RouteProp<RootStackParamList, 'addIngredient'>;
+type AddIngredientNavProp = StackNavigationProp<
+  RootStackParamList,
+  'addIngredient'
+>;
 
 type IntroNavParamList = {
   intro: undefined;
@@ -128,5 +132,6 @@ type TabNavParamList = {
   추천레시피: undefined;
   마이페이지: undefined;
 };
-type RecommendTabProp = TabNavigationProp<TabNavParamList, 'recommend'>;
+type RecommendTabProp = TabNavigationProp<TabNavParamList, '추천레시피'>;
+type RefrigerTabProp = TabNavigationProp<TabNavParamList, '내 냉장고'>;
 type Join6RouteProp = RouteProp<IntroNavParamList, 'join6'>;

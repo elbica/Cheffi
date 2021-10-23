@@ -197,6 +197,7 @@ export function ImageButton({
     uri,
     priority: FastImage.priority.normal,
   };
+  const [error, setError] = useState(false);
   return (
     <CenterTouchOpacity onPress={onPress} goal="home">
       <ImageButtonContainer
@@ -213,6 +214,16 @@ export function ImageButton({
                 ? require('../../assets/images/Dummy.png')
                 : source
             }
+            onError={() => setError(true)}
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{ flex: 1, justifyContent: 'center' }}
+            resizeMode={FastImage.resizeMode.cover}>
+            {children}
+          </FastImage>
+        ) : error ? (
+          <FastImage
+            source={require('../../assets/images/Dummy.png')}
+            onError={() => setError(true)}
             // eslint-disable-next-line react-native/no-inline-styles
             style={{ flex: 1, justifyContent: 'center' }}
             resizeMode={FastImage.resizeMode.cover}>

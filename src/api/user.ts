@@ -22,11 +22,11 @@ export const putUserScrap = async (
   place: number,
   rating: number = 3,
 ) => {
-  await API.put('user/scrap', { recipeInfo: { id, place, rating } });
+  await API.put('/user/scrap', { recipeInfo: { id, place, rating } });
   console.log('✅put redux user scrap, save server');
 };
-export const deletetUserScrap = async (id: number) => {
-  await API.delete('user/scrap', { data: { id } });
+export const deleteUserScrap = async (id: number) => {
+  await API.delete('/user/scrap', { data: { id } });
   console.log('❌delete redux user scrap, save server');
 };
 
@@ -38,10 +38,10 @@ export const putUserHistory = async (
   place: number,
   rating: number = 3,
 ) => {
-  await API.put('user/scrap', { recipeInfo: { id, place, rating } });
-  console.log('✅put redux user history, save server');
+  await API.put('/user/history', { recipeInfo: { id, place, rating } });
+  console.log('✅put user history, save server');
 };
-export const deletetUserHistory = async (id: number) => {
-  await API.delete('user/scrap', { data: { id } });
-  console.log('❌delete redux user history, save server');
+export const deleteUserHistory = async (id: number) => {
+  await API.delete('/user/history', { data: { id } });
+  console.log('❌delete user history, save server');
 };

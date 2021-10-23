@@ -1,33 +1,28 @@
-import React from 'react';
+import { useNavigation } from '@react-navigation/core';
+import React, { useCallback } from 'react';
 import styled from 'styled-components/native';
-import { vh } from '../../assets/styles/theme';
-import { ImageButton } from '../elements/Buttons';
 import Fonts from '../elements/Fonts';
+import RecipeThumbnail from '../__recommend/RecipeThumbnail';
 
-const DUMMY_URI =
-  'https://cheffi.s3.ap-northeast-2.amazonaws.com/Image/Haemuk/5738.jpg';
-const DUMMY_TEXT = '1+1 더 주니어 세트 15종';
-const DUMMY_TEXT_DESC = '15종 다이어트 식판';
-
-export default function ForMe() {
+export default function ForMe({ recipe }: { recipe: Recipe }) {
+  const navigation = useNavigation<RecipeInfoNavigationProp>();
+  const onPress = useCallback(
+    (recipeid: number, platform: Platform, place: number) =>
+      navigation.navigate('recipeInfo', { recipeid, platform, place }),
+    [navigation],
+  );
   return (
     <ForMeContainer>
-      <Fonts size="large" padH="2%" padV="10px">
-        나를 위한 추천 레시피
+      <Fonts size="large" padH="0" padV="12px" color="tableBlack">
+        ⭐️ 나를 위한 추천 레시피
       </Fonts>
-      <ImageButton uri={DUMMY_URI} width="100%" height="200px" marginV="2%" />
-      <ImageButton uri={DUMMY_URI} width="100%" height="66px" marginV="2%">
-        <Fonts color="white" padH="5%" padV="1%" size="large" bold>
-          {DUMMY_TEXT}
-        </Fonts>
-        <Fonts color="white" padH="5%">
-          {DUMMY_TEXT_DESC}
-        </Fonts>
-      </ImageButton>
+      <RecipeThumbnail {...recipe} onPress={onPress} place={0} />
     </ForMeContainer>
   );
 }
 
 const ForMeContainer = styled.View`
-  height: ${40 * vh}px;
+  height: auto;
+  justify-content: space-between;
+  /* background-color: red; */
 `;

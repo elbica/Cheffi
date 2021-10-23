@@ -3,17 +3,28 @@ import styled from 'styled-components/native';
 import { OPEN_HAEMUK_URL, OPEN_MANGAE_URL } from '../../../config';
 import { defaultShadow } from '../../assets/data/shadow';
 import { theme, vh, vw } from '../../assets/styles/theme';
-import { useIsRecipeComplete } from '../../hooks/useRedux';
-import { toggleRecipeComplete } from '../../redux/modules';
+import { useIsRecipeComplete, useIsRecipeScrap } from '../../hooks/useRedux';
 import Divs from '../elements/Divs';
 import Fonts from '../elements/Fonts';
 import { GreenCheck, ReplaceCheck } from '../elements/Images';
 import { RecipeInfo } from '../__recommend/RecipeInfo';
 import { OpenLinkModal } from './OpenLinkModal';
+import Modal from 'react-native-modal';
+import { StyleSheet } from 'react-native';
+import { RecipeRating } from './RecipeRating';
+import { putUserHistory, putUserScrap } from '../../api';
+import { useDispatch } from 'react-redux';
+import { userRecipeComplete } from '../../redux/modules';
 
 const DUMMY_TEXT = '레시피 소개 글이 없어요! 😅';
 
-export default function RecipeContent({ data }: { data: RecipeInfo }) {
+export default function RecipeContent({
+  data,
+  place,
+}: {
+  data: RecipeInfo;
+  place: number;
+}) {
   const [openModal, setOpenModal] = useState(false);
   const url =
     data.platform === 'mangae'
@@ -30,7 +41,7 @@ export default function RecipeContent({ data }: { data: RecipeInfo }) {
             <TitleContainer>
               <Fonts size="large" children={data.title} bold />
             </TitleContainer>
-            <CompleteCookButton recipeid={data.recipeid} />
+            <RatingButton recipeid={data.recipeid} place={place} />
           </RowTitle>
           <RecipeInfo
             calories={data.calories}
@@ -76,7 +87,7 @@ const RecipeIngredients = ({ ingredient }: Pick<RecipeInfo, 'ingredient'>) => {
       {ingredient.map(ingre => {
         const isReplace = ingre.replace !== '';
         return (
-          <IngredientAmountWrap key={ingre.name}>
+          <IngredientAmountWrap key={ingre.name + ingre.replace}>
             {isReplace ? (
               <Row>
                 <Fonts children={ingre.name} />
@@ -98,19 +109,67 @@ const RecipeIngredients = ({ ingredient }: Pick<RecipeInfo, 'ingredient'>) => {
   );
 };
 
-const CompleteCookButton = ({ recipeid }: Pick<RecipeInfo, 'recipeid'>) => {
-  const onPress = () => {
-    /**
-     * @todo popup 띄워서 별점 준 후 서버로 보내기
-     */
-    // dispatch(toggleRecipeComplete(recipeid));
+const RatingButton = ({
+  recipeid,
+  place,
+}: Pick<RecipeInfo, 'recipeid'> & { place: number }) => {
+  const [rating, setRating] = useState(5);
+  const [isVisible, setIsVisible] = useState(false);
+  const isScrap = useIsRecipeScrap(recipeid);
+  const dispatch = useDispatch();
+  const onPress = () => setIsVisible(true);
+  const handleCheck = () => {
+    putUserHistory(recipeid, place, rating);
+    if (isScrap) putUserScrap(recipeid, place, rating);
+    setIsVisible(false);
+    dispatch(userRecipeComplete(recipeid));
   };
   return (
-    <CompleteCookButtonWrap onPress={onPress}>
-      <Fonts children="요리 평가" padH="11px" padV="7px" color="tableGray" />
-    </CompleteCookButtonWrap>
+    <>
+      <CompleteCookButtonWrap onPress={onPress}>
+        <Fonts children="요리 평가" padH="11px" padV="7px" color="tableGray" />
+      </CompleteCookButtonWrap>
+      <Modal
+        isVisible={isVisible}
+        backdropOpacity={0.3}
+        onSwipeComplete={() => setIsVisible(false)}
+        style={s.content__modal}
+        swipeDirection="down">
+        <PopUp>
+          <PopUpTitle>
+            <Fonts
+              children="🎊 별점을 매겨주세요! 🎊"
+              color="tableBlack"
+              size="mediumLarge"
+            />
+          </PopUpTitle>
+          <RecipeRating setRating={setRating} rating={rating} />
+          <PopUpButton>
+            <PopUpButtonClose onPress={() => setIsVisible(false)}>
+              <Fonts children="닫기" color="tableGray" />
+            </PopUpButtonClose>
+
+            <PopUpButtonCheck onPress={() => handleCheck()}>
+              <Fonts children="확인" color="white" />
+            </PopUpButtonCheck>
+          </PopUpButton>
+        </PopUp>
+      </Modal>
+    </>
   );
 };
+
+const s = StyleSheet.create({
+  content__modal: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.45,
+    shadowRadius: 24,
+    margin: 0,
+    elevation: 4,
+    alignSelf: 'center',
+  },
+});
 
 const RecipeContentContainer = styled.View`
   width: 86%;
@@ -182,4 +241,47 @@ const CompleteCookButtonWrap = styled.TouchableOpacity`
   position: absolute;
   border-color: #dadada;
   background-color: white;
+`;
+const PopUp = styled.View`
+  height: ${25 * vh}px;
+  width: ${85 * vw}px;
+  /* justify-content: center; */
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: white;
+  border-radius: 30px;
+  padding: 2% 5% 0 5%;
+`;
+
+const PopUpTitle = styled.View`
+  justify-content: center;
+  align-items: center;
+  border-bottom-width: 1.2px;
+  border-bottom-color: ${theme.color.tableGray + '77'};
+  padding-bottom: 10px;
+  width: 85%;
+`;
+
+const PopUpButton = styled.View`
+  flex-direction: row;
+  justify-content: space-evenly;
+  /* background-color: green; */
+  height: 40px;
+  width: 100%;
+`;
+
+const PopUpButtonClose = styled.TouchableOpacity`
+  width: 33%;
+  height: 100%;
+  border-color: #dadada;
+  border-width: 1px;
+  border-radius: 12px;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+`;
+
+const PopUpButtonCheck = styled(PopUpButtonClose)`
+  background-color: ${theme.color.vegetable};
+  border-color: ${theme.color.vegetable};
 `;

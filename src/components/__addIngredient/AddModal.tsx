@@ -21,7 +21,7 @@ export const AddModal = React.memo(
         </ButtonsWrap>
         <Modal
           isVisible={isVisible}
-          backdropOpacity={0.5}
+          backdropOpacity={0.3}
           onBackdropPress={() => setIsVisible(false)}
           onSwipeComplete={() => setIsVisible(false)}
           style={s.content__modal}

@@ -244,6 +244,24 @@ export function Note() {
     />
   );
 }
+export function Rating() {
+  return (
+    <ScrapContainer
+      source={require('../../assets/icons/star.png')}
+      style={{ width: 10 * vw, height: 10 * vw }}
+      resizeMode="contain"
+    />
+  );
+}
+export function EmptyRating() {
+  return (
+    <ScrapContainer
+      source={require('../../assets/icons/star.png')}
+      style={{ width: 10 * vw, height: 10 * vw, tintColor: theme.color.light }}
+      resizeMode="contain"
+    />
+  );
+}
 
 const prevArrowStyle: ImageStyle = {
   marginLeft: 6 * vw,

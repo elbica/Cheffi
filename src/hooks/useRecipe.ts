@@ -5,6 +5,7 @@ import {
   getRecipeList,
   getRecipeNumber,
   getRecommendIngres,
+  getScrapList,
 } from '../api';
 import { useRefrigerIngredient } from './useRedux';
 
@@ -44,7 +45,18 @@ export const useRecipeList = () => {
     {
       staleTime: 1000 * 60 * 60 * 12,
       getNextPageParam: lastpage =>
-        lastpage.available ? lastpage.nextPage : 0,
+        lastpage.available ? lastpage.nextPage : undefined,
+    },
+  );
+};
+export const useScrapList = (recipeids: number[]) => {
+  return useInfiniteQuery(
+    ['ScrapList', ...recipeids],
+    ({ pageParam = 1 }) => getScrapList(pageParam, recipeids, recipeids.length),
+    {
+      staleTime: 1000 * 60 * 60 * 12,
+      getNextPageParam: lastpage =>
+        lastpage.available ? lastpage.nextPage : undefined,
     },
   );
 };
@@ -56,7 +68,6 @@ export const useRecommendIngres = () => {
     {
       staleTime: 1000 * 60 * 60 * 12,
       cacheTime: 1000 * 60 * 60,
-      keepPreviousData: true,
     },
   );
 };

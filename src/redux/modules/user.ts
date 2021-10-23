@@ -76,9 +76,9 @@ export default function reducer(
     case USER_INIT_ACTION:
       return { ...state, ...action.payload };
     case USER_HISTORYRECIPE_ACTION:
-      const newHistoryState = state.historyRecipesId.filter(
-        id => id !== action.payload,
-      );
+      const newHistoryState = state.historyRecipesId
+        .filter(id => id !== action.payload)
+        .slice(0, 29);
       return {
         ...state,
         historyRecipesId: [action.payload, ...newHistoryState],
