@@ -8,12 +8,40 @@ import API from './api';
  *
  * @param recipeCount
  */
-export const sendRecipeCount = async () => {
-  await API.get('/user/recipe-count');
-  console.log('update redux recipe count, save server');
-};
 
 export const sendRefriger = async (refriger: Refriger) => {
   await API.put('/user/refriger', { refriger });
-  console.log('update redux refriger, save server');
+  console.log('✅update redux refriger, save server');
+};
+
+/**
+ * @description defualt star 3
+ */
+export const putUserScrap = async (
+  id: number,
+  place: number,
+  rating: number = 3,
+) => {
+  await API.put('user/scrap', { recipeInfo: { id, place, rating } });
+  console.log('✅put redux user scrap, save server');
+};
+export const deletetUserScrap = async (id: number) => {
+  await API.delete('user/scrap', { data: { id } });
+  console.log('❌delete redux user scrap, save server');
+};
+
+/**
+ * @description defualt star 3
+ */
+export const putUserHistory = async (
+  id: number,
+  place: number,
+  rating: number = 3,
+) => {
+  await API.put('user/scrap', { recipeInfo: { id, place, rating } });
+  console.log('✅put redux user history, save server');
+};
+export const deletetUserHistory = async (id: number) => {
+  await API.delete('user/scrap', { data: { id } });
+  console.log('❌delete redux user history, save server');
 };

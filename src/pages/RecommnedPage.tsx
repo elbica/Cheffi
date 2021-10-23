@@ -17,10 +17,10 @@ export default function RecommendPage() {
     (acc, cur) => [...acc, ...cur.recipe],
     [],
   );
-  const navigation = useNavigation();
+  const navigation = useNavigation<RecipeInfoNavigationProp>();
   const onPress = useCallback(
-    (recipeid: number, platform: string) =>
-      navigation.navigate('recipeInfo', { recipeid, platform }),
+    (recipeid: number, platform: Platform, place: number) =>
+      navigation.navigate('recipeInfo', { recipeid, platform, place }),
     [navigation],
   );
   return (
@@ -32,8 +32,8 @@ export default function RecommendPage() {
         <FlatList
           showsVerticalScrollIndicator={false}
           data={recipe}
-          renderItem={({ item }) => (
-            <RecipeThumbmail {...item} onPress={onPress} />
+          renderItem={({ item, index }) => (
+            <RecipeThumbmail {...item} onPress={onPress} place={index} />
           )}
           keyExtractor={item => item.recipeid}
           onEndReached={() => fetchNextPage()}

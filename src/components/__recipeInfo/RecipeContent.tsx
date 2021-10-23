@@ -1,8 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { Modalize } from 'react-native-modalize';
-import { useDispatch } from 'react-redux';
-import { Colors } from 'styled-components';
-import styled, { css } from 'styled-components/native';
+import React, { useState } from 'react';
+import styled from 'styled-components/native';
 import { OPEN_HAEMUK_URL, OPEN_MANGAE_URL } from '../../../config';
 import { defaultShadow } from '../../assets/data/shadow';
 import { theme, vh, vw } from '../../assets/styles/theme';
@@ -18,7 +15,6 @@ const DUMMY_TEXT = '레시피 소개 글이 없어요! 😅';
 
 export default function RecipeContent({ data }: { data: RecipeInfo }) {
   const [openModal, setOpenModal] = useState(false);
-  let modals = useRef<Modalize>(null).current;
   const url =
     data.platform === 'mangae'
       ? `${OPEN_MANGAE_URL}/${data.recipeid}`
@@ -103,18 +99,15 @@ const RecipeIngredients = ({ ingredient }: Pick<RecipeInfo, 'ingredient'>) => {
 };
 
 const CompleteCookButton = ({ recipeid }: Pick<RecipeInfo, 'recipeid'>) => {
-  const isComplete = useIsRecipeComplete(recipeid);
-  const dispatch = useDispatch();
   const onPress = () => {
     /**
      * @todo popup 띄워서 별점 준 후 서버로 보내기
      */
-    dispatch(toggleRecipeComplete(recipeid));
+    // dispatch(toggleRecipeComplete(recipeid));
   };
-  const fontColor: Colors = isComplete ? 'white' : 'tableGray';
   return (
-    <CompleteCookButtonWrap isComplete={isComplete} onPress={onPress}>
-      <Fonts children="요리 완료" padH="11px" padV="7px" color={fontColor} />
+    <CompleteCookButtonWrap onPress={onPress}>
+      <Fonts children="요리 평가" padH="11px" padV="7px" color="tableGray" />
     </CompleteCookButtonWrap>
   );
 };
@@ -180,22 +173,13 @@ const GotoButton = styled(defaultShadow)`
   align-items: center;
 `;
 
-const CompleteCookButtonWrap = styled.TouchableOpacity<{ isComplete: boolean }>`
+const CompleteCookButtonWrap = styled.TouchableOpacity`
   border-width: 1px;
   justify-content: center;
   align-items: center;
   border-radius: 10px;
   right: ${-2 * vw}px;
   position: absolute;
-
-  ${({ isComplete }) =>
-    isComplete
-      ? css`
-          border-color: ${theme.color.vegetable};
-          background-color: ${theme.color.vegetable};
-        `
-      : css`
-          border-color: #dadada;
-          background-color: white;
-        `}
+  border-color: #dadada;
+  background-color: white;
 `;

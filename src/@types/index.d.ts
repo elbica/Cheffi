@@ -31,6 +31,7 @@ declare type MainCategory =
   | '추천'
   | '검색';
 
+declare type Platform = 'haemuk' | 'mangae' | 'dummy';
 declare interface Recipe {
   _id?: string;
   scrap: number | null;
@@ -38,7 +39,7 @@ declare interface Recipe {
   calories: number | null;
   recipeid: number;
   title?: string;
-  platform: 'haemuk' | 'mangae' | 'dummy';
+  platform: Platform;
   size?: number;
   difficulty?: string;
 }
@@ -97,7 +98,11 @@ type RootStackParamList = {
   recommend: undefined;
   profile: undefined;
   refrigerator: undefined;
-  recipeInfo: { recipeid: number; platform: 'haemuk' | 'mangae' | 'dummy' };
+  recipeInfo: {
+    recipeid: number;
+    platform: Platform;
+    place: number;
+  };
   addIngredient: { category: MainCategory };
 };
 type RecipeInfoRouteProp = RouteProp<RootStackParamList, 'recipeInfo'>;

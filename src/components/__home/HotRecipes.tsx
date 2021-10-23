@@ -6,13 +6,10 @@ import RecipeThumbmail from '../__recommend/RecipeThumbnail';
 import { MOCK_HOT_RECIPE } from '../../assets/data/mockRecipeData';
 
 export default function HotRecipes({ data }: { data: Recipe[] | undefined }) {
-  // const { data, isLoading } = useRecipeRandomList();
-  // queryClient.get
-  const navigation = useNavigation();
-  // console.log(data, isLoading);
+  const navigation = useNavigation<RecipeInfoNavigationProp>();
   const onPress = useCallback(
-    (recipeid: number, platform: string) =>
-      navigation.navigate('recipeInfo', { recipeid, platform }),
+    (recipeid: number, platform: Platform, place: number) =>
+      navigation.navigate('recipeInfo', { recipeid, platform, place }),
     [navigation],
   );
   return (
@@ -21,18 +18,20 @@ export default function HotRecipes({ data }: { data: Recipe[] | undefined }) {
         Hot 레시피
       </Fonts>
       {data
-        ? data.map(recipe => (
+        ? data.map((recipe, idx) => (
             <RecipeThumbmail
               key={recipe.recipeid}
               {...recipe}
               onPress={onPress}
+              place={idx}
             />
           ))
-        : MOCK_HOT_RECIPE.map(recipe => (
+        : MOCK_HOT_RECIPE.map((recipe, idx) => (
             <RecipeThumbmail
               key={recipe.recipeid}
               {...recipe}
               onPress={onPress}
+              place={idx}
             />
           ))}
     </HotRecipeWrap>

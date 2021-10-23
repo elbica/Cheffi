@@ -35,12 +35,12 @@ export const userProfile = (profile: UserProfile) => ({
   payload: profile,
 });
 
-export const userRecipeHistory = (recipeid: number) => ({
+export const userRecipeHistory = (recipe: number) => ({
   type: USER_HISTORYRECIPE_ACTION,
-  payload: recipeid,
+  payload: recipe,
 });
 
-export const userRecipeScrap = (recipe: Recipe) => ({
+export const userRecipeScrap = (recipe: number) => ({
   type: USER_SCRAPRECIPE_ACTION,
   payload: recipe,
 });
@@ -54,7 +54,7 @@ type UserProfile = {
 export type UserState = {
   [key: string]: any;
   recipeCount?: number;
-  scrapRecipesId: Recipe[];
+  scrapRecipesId: number[];
   historyRecipesId: number[];
 } & UserProfile;
 type UserAction = ReturnType<
@@ -76,25 +76,25 @@ export default function reducer(
     case USER_INIT_ACTION:
       return { ...state, ...action.payload };
     case USER_HISTORYRECIPE_ACTION:
+      const newHistoryState = state.historyRecipesId.filter(
+        id => id !== action.payload,
+      );
       return {
         ...state,
-        historyRecipesId: [...state.historyRecipesId, action.payload],
+        historyRecipesId: [action.payload, ...newHistoryState],
       };
     case USER_SCRAPRECIPE_ACTION:
-      const exist =
-        state.scrapRecipesId.findIndex(
-          old => old.recipeid === action.payload.recipeid,
-        ) !== -1;
+      const exist = state.scrapRecipesId.includes(action.payload);
       const newScrapState = exist
         ? {
             ...state,
             scrapRecipesId: state.scrapRecipesId.filter(
-              old => old.recipeid !== action.payload.recipeid,
+              old => old !== action.payload,
             ),
           }
         : {
             ...state,
-            scrapRecipesId: [...state.scrapRecipesId, action.payload],
+            scrapRecipesId: [action.payload, ...state.scrapRecipesId],
           };
       return newScrapState;
 

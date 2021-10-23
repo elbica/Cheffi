@@ -14,17 +14,18 @@ export default React.memo(function RecipeThumbmail({
   title,
   onPress,
   platform,
+  place,
 }: RecipeThumbnailProps) {
   const uri = getRecipeImageUri(recipeid, platform);
   // console.log('thumbnail: ', title);
   return (
-    <WrapTouchableOpacity onPress={() => onPress(recipeid, platform)}>
+    <WrapTouchableOpacity onPress={() => onPress(recipeid, platform, place)}>
       <ImageButton
         key={recipeid}
         uri={uri}
         width="100%"
         height="130px"
-        onPress={() => onPress(recipeid, platform)}
+        onPress={() => onPress(recipeid, platform, place)}
         radius={10}
       />
       <FontContainer>
@@ -63,5 +64,6 @@ const WrapTouchableOpacity = styled.TouchableOpacity`
 `;
 
 interface RecipeThumbnailProps extends Recipe {
-  onPress: (recipeid: number, platform: string) => void;
+  onPress: (recipeid: number, platform: Platform, place: number) => void;
+  place: number;
 }

@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from '@react-navigation/core';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import {
@@ -10,7 +10,7 @@ import {
 } from '../../api';
 import { vh, vw } from '../../assets/styles/theme';
 import { useModifyIngredient } from '../../hooks/useIngredient';
-import { useRecipeNumber, useRecommendIngres } from '../../hooks/useRecipe';
+import { useRecipeNumber } from '../../hooks/useRecipe';
 import { useCommonIngredient } from '../../hooks/useRedux';
 import { useIngredientSearch } from '../../hooks/useSearch';
 import { IngredientButton } from '../elements/Buttons';
@@ -34,11 +34,14 @@ const mapToIngredients = (target: Map<string, MainCategory>) => {
   return ingreState;
 };
 
-export const AddIngredient = () => {
+export const AddIngredient = ({
+  recommendIngres,
+}: {
+  recommendIngres?: Ingredient[];
+}) => {
   const { results, onChangeText } = useIngredientSearch();
   const { saveIngredient } = useModifyIngredient();
   const ingre = useCommonIngredient();
-  const { data: recommendIngres } = useRecommendIngres();
   const { category: init } = useRoute<AddIngredientRouteProp>().params;
   const navigation = useNavigation();
   const [category, setCategory] = useState<CategoryState>({

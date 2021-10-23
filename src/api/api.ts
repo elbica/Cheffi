@@ -16,28 +16,10 @@ const API = axios.create({
   baseURL: API_URL,
 });
 
-/**
- * @todo
- * 추후 스플래시 화면 제작 시 default header에
- * 구글,카카오 토큰을 라이브러리 함수로 불러와 저장한다.
- * 플랫폼 구별은 persist storage에 저장된 platform으로 한다.
- *
- * 로그인 시에도 default header를 변경한다.
- *
- * 토큰은 리덕스에 저장하지 않고
- * interceptor는 사용하지 않는다.
- */
-
-/**
- * @typedef API_ERROR_TYPE
- *    enum { EXPIRE, INVALID, FORBIDDEN }
- */
-
 const onFulfilled = (res: AxiosResponse) => {
   console.log('api response: ', res);
   return res;
 };
-// const retryAPI = (config : AxiosRequestConfig)=> new Promise(())
 const onRejected = (err: Error | AxiosError) => {
   if (axios.isAxiosError(err)) {
     const status = err.response?.status;

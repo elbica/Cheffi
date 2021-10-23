@@ -9,22 +9,15 @@ import { EmptyScrap, Scrap } from '../elements/Images';
 export default function RecipeImage({
   uri,
   recipeid,
-  scrap,
-  title,
-  calories,
-  time,
-  platform,
-}: {
-  uri: string;
-} & RecipeInfo) {
+  place,
+}: RecipeImageProps) {
   const isScrap = useIsRecipeScrap(recipeid);
   const dispatch = useDispatch();
   const onPress = () => {
     /**
-     * @todo popup 띄워서 별점 준 후 서버로 보내기
+     * @todo 스크랩 기록 서버로 보내기 rating은 3으로
      */
-    const param: Recipe = { recipeid, scrap, title, calories, time, platform };
-    dispatch(userRecipeScrap(param));
+    dispatch(userRecipeScrap(recipeid));
   };
   return (
     <Position>
@@ -51,3 +44,9 @@ const ScrapWrap = styled.TouchableOpacity`
   top: ${7.5 * vh}px;
   right: 5%;
 `;
+
+interface RecipeImageProps {
+  uri: string;
+  recipeid: number;
+  place: number;
+}

@@ -9,7 +9,7 @@ import { useRecipeInfo } from '../hooks/useRecipe';
 
 export default function RecipeInfoPage() {
   const route = useRoute<RecipeInfoRouteProp>();
-  const { recipeid, platform } = route.params;
+  const { recipeid, platform, place } = route.params;
   const { data } = useRecipeInfo(recipeid);
 
   const uri =
@@ -23,7 +23,7 @@ export default function RecipeInfoPage() {
           showsVerticalScrollIndicator={false}
           style={{ backgroundColor: 'white' }}
           contentContainerStyle={{ flexGrow: 1 }}>
-          <RecipeImage uri={uri} {...data} />
+          <RecipeImage uri={uri} recipeid={data.recipeid} place={place} />
           <RecipeContent data={data} />
         </ScrollView>
       ) : (
