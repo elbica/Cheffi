@@ -18,7 +18,7 @@ export default function SelectNickname() {
             />
           </Section>
           <Section row justify="flex-end" flexNumber={0.5} paddings="0% 8%">
-            <NextSubmit goal="join2" />
+            <NextSubmit goal="join3" />
           </Section>
         </Section>
       )}

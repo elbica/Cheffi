@@ -15,7 +15,6 @@ export default function RecipeInfoPage() {
   const route = useRoute<RecipeInfoRouteProp>();
   const { recipeid, platform, place } = route.params;
   const { data } = useRecipeInfo(recipeid);
-  // const isComplete = useIsRecipeComplete(recipeid);
   const isHistory = useIsRecipeHistory(recipeid);
   const dispatch = useDispatch();
   useEffect(() => {

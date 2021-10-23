@@ -5,7 +5,6 @@ import form from './form';
 import ingredient from './ingredient';
 import refriger from './refriger';
 import user from './user';
-import recipe from './recipe';
 
 const appReducer = combineReducers({
   auth,
@@ -13,7 +12,6 @@ const appReducer = combineReducers({
   ingredient,
   refriger,
   user,
-  recipe,
 });
 
 const rootReducer = (state: RootState | undefined, action) => {
@@ -33,4 +31,3 @@ export * from './form';
 export * from './ingredient';
 export * from './refriger';
 export * from './user';
-export * from './recipe';

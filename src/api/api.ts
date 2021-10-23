@@ -32,19 +32,19 @@ const onRejected = (err: Error | AxiosError) => {
 
       //자동 로그인하고 retry하기
       // if (type === API_ERROR_TYPE.EXPIRE) {
-      console.log('👓자동 로그인 응답');
-      return silentLogin().then(token => {
-        err.config.headers.Authorization = `Bearer ${token}`;
-        console.log('바뀐 config: ', err.config, 'token: ', token);
-        return API.request(err.config);
-      });
+      // console.log('👓자동 로그인 응답');
+      // return silentLogin().then(token => {
+      //   err.config.headers.Authorization = `Bearer ${token}`;
+      //   console.log('바뀐 config: ', err.config, 'token: ', token);
+      //   return API.request(err.config);
+      // });
       // }
 
       //상위 함수에서 초기 화면으로 이동해야 함
-      // ret = {
-      //   message: '❌인증이 필요합니다',
-      //   type,
-      // };
+      ret = {
+        message: '❌인증이 필요합니다',
+        type,
+      };
     } else if (status === 403) {
       /**
        * @todo 사용자에게 권한 없다는 알림창 띄우기

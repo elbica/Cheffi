@@ -31,7 +31,7 @@ export default React.memo(function RecipeThumbmail({
       <FontContainer>
         <RecipeTitle>
           <Fonts
-            children={title ? title : '없음'}
+            children={title ? title : '로딩중..'}
             color="black"
             size="large"
             padV="4px"

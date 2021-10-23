@@ -1,28 +1,41 @@
 import { useRoute } from '@react-navigation/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sendForm } from '../../api';
+import { addIngreToRefriger, mapWithCategory, sendForm } from '../../api';
+import { emptyRefriger } from '../../assets/data/mockUserData';
 import { BackgroundSection, Section } from '../../assets/styles/theme';
 import Fonts from '../../components/elements/Fonts';
 import { FryPan } from '../../components/elements/Images';
+import { useModifyIngredient } from '../../hooks/useIngredient';
 import { formInit, RootState, userLogin } from '../../redux/modules';
 
 export default function Join6() {
   const dispatch = useDispatch();
   const formData = useSelector((state: RootState) => state.form);
   const route = useRoute<Join6RouteProp>();
+  const { saveIngredient } = useModifyIngredient();
 
+  //   const handleSave = useCallback(() => {
+
+  //     saveIngredient(queryRefriger);
+  //   }, [saveIngredient]);
   const nickname = route.params.param || '익명';
   useEffect(() => {
-    const sendFormData = async () => {
+    const sendFormData = () => {
       /**
        * @todo
        * 추후 axios를 이용해 formData를 백엔드로 보내야 한다
        * formData를 user redux에 저장해야 한다
        */
-      await sendForm(formData);
 
+      const computedIngre = mapWithCategory(formData.ingredients as string[]);
+      const queryRefriger = addIngreToRefriger(
+        computedIngre,
+        JSON.parse(JSON.stringify(emptyRefriger)),
+      );
+      sendForm(formData);
       dispatch(formInit());
+      saveIngredient(queryRefriger);
       setTimeout(() => dispatch(userLogin({ isLogin: true })), 2000);
     };
     sendFormData();

@@ -355,8 +355,7 @@ const IngredientButtonWrap = styled.TouchableOpacity<{
   padding-bottom: 8px;
   /* background-color: red; */
   flex-direction: row;
-  /* justify-content: center;
-   */
+  background-color: ${theme.color.white};
   align-items: center;
   border-radius: 15px;
   border-width: 1.2px;
@@ -368,7 +367,7 @@ const IngredientButtonWrap = styled.TouchableOpacity<{
     init &&
     css`
       border-color: transparent;
-      background-color: #f5f3e8;
+      background-color: ${theme.color.light};
     `}
 `;
 

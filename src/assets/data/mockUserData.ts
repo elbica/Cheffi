@@ -1,4 +1,4 @@
-export const emptyRefriger = [
+export const emptyRefriger: { title: MainCategory; data: string[] }[] = [
   {
     title: '떡/곡류',
     data: [],

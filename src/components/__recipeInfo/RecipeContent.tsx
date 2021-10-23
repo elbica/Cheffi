@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import { OPEN_HAEMUK_URL, OPEN_MANGAE_URL } from '../../../config';
 import { defaultShadow } from '../../assets/data/shadow';
 import { theme, vh, vw } from '../../assets/styles/theme';
-import { useIsRecipeComplete, useIsRecipeScrap } from '../../hooks/useRedux';
+import { useIsRecipeScrap } from '../../hooks/useRedux';
 import Divs from '../elements/Divs';
 import Fonts from '../elements/Fonts';
 import { GreenCheck, ReplaceCheck } from '../elements/Images';
@@ -14,7 +14,6 @@ import { StyleSheet } from 'react-native';
 import { RecipeRating } from './RecipeRating';
 import { putUserHistory, putUserScrap } from '../../api';
 import { useDispatch } from 'react-redux';
-import { userRecipeComplete } from '../../redux/modules';
 
 const DUMMY_TEXT = '레시피 소개 글이 없어요! 😅';
 
@@ -122,7 +121,6 @@ const RatingButton = ({
     putUserHistory(recipeid, place, rating);
     if (isScrap) putUserScrap(recipeid, place, rating);
     setIsVisible(false);
-    dispatch(userRecipeComplete(recipeid));
   };
   return (
     <>

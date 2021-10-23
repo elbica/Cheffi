@@ -66,9 +66,9 @@ declare interface AuthResult {
     statusMessage: string;
     photo: string;
     dislikeIngredient: string[];
-    scrapRecipesId: string[];
-    likeRecipesId: string[];
-    historyRecipesId: string[];
+    scrapRecipesId: number[];
+    likeRecipesId: number[];
+    historyRecipesId: number[];
   };
   refriger: { title: MainCategory; data: string[] }[];
 }
@@ -84,6 +84,7 @@ declare type FormInfo = {
   problems?: string[];
   likeRecipesId?: string[];
   dislikeIngredient?: string[];
+  ingredients?: string[];
 };
 
 type RouteProp<T, K> = import('@react-navigation/core').RouteProp<T, K>;
@@ -122,6 +123,7 @@ type IntroNavParamList = {
   join2: undefined;
   join3: undefined;
   join4: undefined;
+  'join4-1': undefined;
   join5: undefined;
   join6: { param: string };
 };
