@@ -13,7 +13,7 @@ import ProfilePage from '../pages/ProfilePage';
 import { StackNavFactoryScreenName } from './Interface';
 import { Platform } from 'react-native';
 import styled from 'styled-components/native';
-import { vh } from '../assets/styles/theme';
+import { vh, vw } from '../assets/styles/theme';
 import RecipeInfoPage from '../pages/RecipeInfoPage';
 import { PrevArrow } from '../components/elements/Images';
 import { AddIngredientPage } from '../pages/AddIngredientPage';
@@ -22,6 +22,7 @@ import {
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
+import HistoryRecipePage from '../pages/HistoryRecipePage';
 
 const tabHiddenRoutes = ['addIngredient', 'recipeInfo'];
 const Stack = createStackNavigator();
@@ -85,7 +86,34 @@ export default function StackNavFactory({
         <Stack.Screen name={'recommend'} component={RecommendPage} />
       ) : null}
       {screenName === 'profile' ? (
-        <Stack.Screen name={'profile'} component={ProfilePage} />
+        <>
+          <Stack.Screen
+            name={'profile'}
+            component={ProfilePage}
+            options={{
+              headerBackground: undefined,
+              headerTitle: '',
+            }}
+          />
+          <Stack.Screen
+            name={'myRecipe'}
+            component={MyRecipePage}
+            options={{
+              headerBackground: undefined,
+              headerTitleStyle: { color: 'black', fontSize: 22 },
+              headerTitle: '내 레시피',
+            }}
+          />
+          <Stack.Screen
+            name={'history'}
+            component={HistoryRecipePage}
+            options={{
+              headerBackground: undefined,
+              headerTitleStyle: { color: 'black', fontSize: 22 },
+              headerTitle: '열람 기록',
+            }}
+          />
+        </>
       ) : null}
       <Stack.Screen
         name={'refrigerator'}
@@ -125,6 +153,7 @@ const CustomStackHeader = styled.View`
   border-bottom-right-radius: 20px;
   flex: 1;
 `;
+
 const CustomBorderRadiusHeader = styled.View`
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;

@@ -235,21 +235,43 @@ export function Scale() {
     />
   );
 }
-export function Note() {
+export function Note({ ...rest }) {
   return (
     <ScrapContainer
       source={require('../../assets/icons/note.png')}
       style={{ margin: 16 }}
+      {...rest}
       resizeMode="contain"
     />
   );
 }
-export function Rating() {
+export function Rating({ ...rest }) {
   return (
     <ScrapContainer
       source={require('../../assets/icons/star.png')}
       style={{ width: 10 * vw, height: 10 * vw }}
       resizeMode="contain"
+      {...rest}
+    />
+  );
+}
+export function MyProfile({ ...rest }) {
+  return (
+    <ScrapContainer
+      source={require('../../assets/icons/myProfile.png')}
+      style={{ width: 10 * vw, height: 10 * vw }}
+      resizeMode="contain"
+      {...rest}
+    />
+  );
+}
+export function Logout({ ...rest }) {
+  return (
+    <ScrapContainer
+      source={require('../../assets/icons/logout.png')}
+      style={{ width: 8 * vw, height: 8 * vw }}
+      resizeMode="contain"
+      {...rest}
     />
   );
 }

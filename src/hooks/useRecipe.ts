@@ -60,6 +60,17 @@ export const useScrapList = (recipeids: number[]) => {
     },
   );
 };
+export const useHistoryList = (recipeids: number[]) => {
+  return useInfiniteQuery(
+    ['HistoryList', ...recipeids],
+    ({ pageParam = 1 }) => getScrapList(pageParam, recipeids, recipeids.length),
+    {
+      staleTime: 1000 * 60 * 60 * 12,
+      getNextPageParam: lastpage =>
+        lastpage.available ? lastpage.nextPage : undefined,
+    },
+  );
+};
 export const useRecommendIngres = () => {
   const refriger = useRefrigerIngredient();
   return useQuery(

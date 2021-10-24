@@ -1,4 +1,4 @@
-import {ImageSourcePropType} from 'react-native';
+import { ImageSourcePropType } from 'react-native';
 
 interface TabIconsTypes {
   [index: string]: {
@@ -37,11 +37,11 @@ interface HomeIconTypes {
 export const icons: TabIconsTypes = {
   home: {
     active: require('./homeActive.png'),
-    default: require('./homeDefault.png'),
+    default: require('./homeActive.png'),
   },
   myRecipe: {
     active: require('./myRecipeActive.png'),
-    default: require('./myRecipeDefault.png'),
+    default: require('./myRecipeActive.png'),
   },
   profile: {
     active: require('./profileActive.png'),

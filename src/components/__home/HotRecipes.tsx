@@ -14,7 +14,7 @@ export default function HotRecipes({ data }: { data: Recipe[] | undefined }) {
   );
   return (
     <HotRecipeWrap>
-      <Fonts size="large" padH="0" padV="12px" color="tableBlack">
+      <Fonts size="large" padH="0" padV="16px" color="tableBlack">
         🔥 Hot 레시피
       </Fonts>
       {data
@@ -42,4 +42,5 @@ const HotRecipeWrap = styled.View`
   /* flex-wrap: wrap; */
   height: auto;
   /* margin-top: 16px; */
+  top: -18px;
 `;

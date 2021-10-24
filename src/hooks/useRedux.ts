@@ -16,7 +16,10 @@ export const useIsRecipeScrap = (recipeid: number) =>
   );
 export const useRecipeScrap = () =>
   useSelector((state: RootState) => state.user.scrapRecipesId);
+export const useRecipeHistory = () =>
+  useSelector((state: RootState) => state.user.historyRecipesId);
 export const useIsRecipeHistory = (recipeid: number) =>
   useSelector((state: RootState) => state.user.historyRecipesId).includes(
     recipeid,
   );
+export const useUserInfo = () => useSelector((state: RootState) => state.user);

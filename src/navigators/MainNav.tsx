@@ -7,6 +7,7 @@ import StackNavFactory from './StackNavFactory';
 import { TabScreenDataProps } from './Interface';
 import { Image, Platform } from 'react-native';
 import { icons } from '../assets/icons/icons';
+import { theme } from '../assets/styles/theme';
 
 const Tabs = createBottomTabNavigator();
 const tabBarOption: BottomTabBarOptions = {
@@ -44,7 +45,14 @@ export default function MainNav() {
                 <Image
                   source={source}
                   // eslint-disable-next-line react-native/no-inline-styles
-                  style={{ height: 28 }}
+                  style={{
+                    height: 28,
+                    ...(!focused &&
+                      (tabData.iconName === 'home' ||
+                        tabData.iconName === 'myRecipe') && {
+                        tintColor: theme.color.tableGray,
+                      }),
+                  }}
                   resizeMode="contain"
                 />
               );

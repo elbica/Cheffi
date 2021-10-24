@@ -13,7 +13,7 @@ export default function ForMe({ recipe }: { recipe: Recipe }) {
   );
   return (
     <ForMeContainer>
-      <Fonts size="large" padH="0" padV="12px" color="tableBlack">
+      <Fonts size="large" padH="0" padV="16px" color="tableBlack">
         ⭐️ 나를 위한 추천 레시피
       </Fonts>
       <RecipeThumbnail {...recipe} onPress={onPress} place={0} />
@@ -25,4 +25,5 @@ const ForMeContainer = styled.View`
   height: auto;
   justify-content: space-between;
   /* background-color: red; */
+  top: -18px;
 `;
