@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { AppWrap, vh } from '../assets/styles/theme';
 import styled from 'styled-components/native';
 import { ScrollView } from 'react-native';
@@ -29,7 +29,9 @@ export default function HomePage() {
   const [list, setList] = useState<Recipe[]>();
   const [recipe, setRecipe] = useState<Recipe>();
   const [loading, setLoaing] = useState(true);
-  useEffect(() => {
+  useLayoutEffect(() => {
+    setTimeout(() => setLoaing(false), 4000);
+
     if (!ingredient.length) {
       dispatch(setIngredient(refriger));
     }
@@ -54,9 +56,6 @@ export default function HomePage() {
       }
     })();
   }, [dispatch]);
-  useEffect(() => {
-    setTimeout(() => setLoaing(false), 2500);
-  }, []);
 
   return (
     <>

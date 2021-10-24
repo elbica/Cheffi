@@ -25,7 +25,7 @@ export const Setting = () => {
     <Position>
       <LogoutWrap onPress={() => handleLogout()}>
         <Logout />
-        <Fonts children="Logout" padH="8px" color="tableGray" />
+        <Fonts children="로그아웃" padH="8px" color="tableGray" />
       </LogoutWrap>
     </Position>
   );

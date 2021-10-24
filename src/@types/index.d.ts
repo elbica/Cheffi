@@ -73,7 +73,7 @@ declare type FormInfo = {
   nickname?: string;
   photo?: any;
   problems?: string[];
-  likeRecipesId?: string[];
+  likeRecipesId?: number[];
   dislikeIngredient?: string[];
   ingredients?: string[];
 };

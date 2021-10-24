@@ -29,5 +29,5 @@ export default function ForMe({ recipe }: { recipe: Recipe }) {
 const ForMeContainer = styled.View`
   height: auto;
   justify-content: space-between;
-  top: -18px;
+  /* top: -18px; */
 `;

@@ -1,7 +1,6 @@
 const USER_RECIPECOUNT_ACTION = 'user/RECIPECOUNT' as const;
 const USER_PROFILE_ACTION = 'user/PROFILE' as const;
 const USER_SCRAPRECIPE_ACTION = 'user/SCRAPRECIPE' as const;
-const USER_LIKERECIPE_ACTION = 'user/LIKERECIPE' as const;
 const USER_HISTORYRECIPE_ACTION = 'user/HISTORYRECIPE' as const;
 const USER_INIT_ACTION = 'user/INIT' as const;
 
@@ -22,7 +21,7 @@ const initState = {
  * @returns 액션 객체
  *
  */
-export const userInit = (init: UserState) => ({
+export const userInit = (init: Omit<FormInfo, 'problems' | 'ingredients'>) => ({
   type: USER_INIT_ACTION,
   payload: init,
 });

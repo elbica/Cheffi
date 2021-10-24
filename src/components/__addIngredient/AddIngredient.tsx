@@ -73,7 +73,7 @@ export const AddIngredient = ({
   const handleSave = useCallback(() => {
     saveIngredient(queryRefriger);
     navigation.goBack();
-  }, [saveIngredient]);
+  }, [saveIngredient, queryRefriger]);
 
   const handleChangeText = useCallback((text: string) => {
     onChangeText(text);
@@ -82,7 +82,6 @@ export const AddIngredient = ({
   const handleAdd = useCallback((ingredient: string, title: MainCategory) => {
     setPickIngre(state => {
       const newState = new Map(state);
-      // console.log(newState);
       newState.has(ingredient)
         ? newState.delete(ingredient)
         : newState.set(ingredient, title);

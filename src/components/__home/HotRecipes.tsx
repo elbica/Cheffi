@@ -37,5 +37,5 @@ const HotRecipeWrap = styled.View`
   /* flex-wrap: wrap; */
   height: auto;
   /* margin-top: 16px; */
-  top: -18px;
+  top: -10px;
 `;

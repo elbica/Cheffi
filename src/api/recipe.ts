@@ -128,15 +128,13 @@ export const getInitialRecipe = async () => {
     if (login) {
       const ingre = store.getState().refriger;
       const scrap = store.getState().user.scrapRecipesId;
-
-      [number, randomList, list, recommendIngre, scrapRecipes] =
-        await Promise.all([
-          getRecipeNumber(ingre),
+      (number = await getRecipeNumber(ingre)),
+        ([randomList, list, recommendIngre, scrapRecipes] = await Promise.all([
           getRecipeRandomList(),
           getRecipeList(),
           getRecommendIngres(ingre),
           getScrapList(1, scrap, scrap.length),
-        ]);
+        ]));
 
       recommendRecipe = randomList.pop() as Recipe;
       const initList = { pageParams: [1], pages: [list] };

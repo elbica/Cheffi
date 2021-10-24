@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
 import { FlatList } from 'react-native';
 import { useScrapList } from '../../hooks/useRecipe';
-import { Indicator } from '../elements/Indicators';
+import { RelativeIndicator } from '../elements/Indicators';
 import RecipeThumbmail from '../__recommend/RecipeThumbnail';
 
 export const ScrapRecipes = ({ scrapIds }: { scrapIds: number[] }) => {
@@ -30,6 +30,6 @@ export const ScrapRecipes = ({ scrapIds }: { scrapIds: number[] }) => {
       removeClippedSubviews
     />
   ) : (
-    <Indicator />
+    <RelativeIndicator />
   );
 };
