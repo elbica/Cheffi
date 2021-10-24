@@ -12,6 +12,13 @@ export const Indicator = () => {
     </IndicatorWrap>
   );
 };
+export const RelativeIndicator = () => {
+  return (
+    <RelativeIndicatorWrap>
+      <ActivityIndicator size="large" color="#ff9140" />
+    </RelativeIndicatorWrap>
+  );
+};
 
 export const ProgressBar = () => {
   const [progress, setProgress] = useState(0);
@@ -46,6 +53,14 @@ const IndicatorWrap = styled.View`
   align-items: center;
   position: absolute;
   width: ${100 * vw}px;
+  background-color: white;
+`;
+const RelativeIndicatorWrap = styled(IndicatorWrap)`
+  height: auto;
+  min-height: ${25 * vh}px;
+  width: auto;
+  position: relative;
+  align-self: center;
 `;
 const ProgressBarWrap = styled(IndicatorWrap)`
   background-color: ${theme.color['bgColor']};

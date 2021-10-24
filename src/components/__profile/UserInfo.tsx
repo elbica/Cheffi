@@ -83,7 +83,7 @@ const UserService = () => {
         <IconWrap onPress={() => navigation.navigate('myRecipe')}>
           <Scrap />
         </IconWrap>
-        <Fonts children="북마크" color="tableGray" />
+        <Fonts children="내 레시피" color="tableGray" />
       </IconTextWrap>
     </UserServiceWrap>
   );

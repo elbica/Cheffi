@@ -52,7 +52,10 @@ export const AddIngredient = ({
     new Map(),
   );
   const computedIngre = mapToIngredients(pickIngre);
-  const queryRefriger = addIngreToRefriger(computedIngre, ingre);
+  const queryRefriger = addIngreToRefriger(
+    computedIngre,
+    JSON.parse(JSON.stringify(ingre)),
+  );
   const { data: number } = useRecipeNumber(queryRefriger);
 
   const oneDepth = useMemo(() => isOneDepth(category.main), [category]);

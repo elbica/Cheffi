@@ -26,15 +26,15 @@ export const EmptyRefriger = () => {
   const navigation = useNavigation<RefrigerTabProp>();
   return (
     <EmptyRefrigerWrap>
-      <Center onPress={() => navigation.jumpTo('내 냉장고')}>
+      <Center onPress={() => navigation.jumpTo('내 냉장고')} activeOpacity={1}>
         <Image
           source={require('../../assets/icons/emptyRefriger.png')}
           style={ImageStyleOption}
         />
-        <Fonts size="large" padV="0px">
+        <Fonts size="large" padV="0px" color="tableBlack">
           냉장고가 비어있어요.
         </Fonts>
-        <Fonts color="tableBlack" padV="5px">
+        <Fonts padV="5px" color="tableGray">
           지금 냉장고에 뭐가 들어있나요?
         </Fonts>
       </Center>

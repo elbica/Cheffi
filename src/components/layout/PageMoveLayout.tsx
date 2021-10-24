@@ -24,7 +24,7 @@ const leftStyle: ViewStyle = {
 };
 export function CenterTouchOpacity({ children, onPress = () => {} }: Props) {
   return (
-    <TouchableOpacity onPress={onPress} style={centerStyle}>
+    <TouchableOpacity onPress={onPress} style={centerStyle} activeOpacity={1}>
       {children}
     </TouchableOpacity>
   );

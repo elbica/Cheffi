@@ -11,9 +11,9 @@ import { useRefrigerIngredient } from './useRedux';
 
 let recipeNumberTimer = Date.now();
 
-export const useRecipeNumber = (data: Refriger) => {
-  const timer = (Date.now() - recipeNumberTimer) / 1000;
-  recipeNumberTimer = Date.now();
+export const useRecipeNumber = (data: Refriger, date = Date.now()) => {
+  const timer = (date - recipeNumberTimer) / 1000;
+  recipeNumberTimer = date;
   return useQuery<number>(
     ['RecipeNumber', ...data],
     () => getRecipeNumber(data),

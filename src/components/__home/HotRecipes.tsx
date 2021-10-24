@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import Fonts from '../elements/Fonts';
 import { useNavigation } from '@react-navigation/core';
 import RecipeThumbmail from '../__recommend/RecipeThumbnail';
-import { MOCK_HOT_RECIPE } from '../../assets/data/mockRecipeData';
+import { RelativeIndicator } from '../elements/Indicators';
 
 export default function HotRecipes({ data }: { data: Recipe[] | undefined }) {
   const navigation = useNavigation<RecipeInfoNavigationProp>();
@@ -17,23 +17,18 @@ export default function HotRecipes({ data }: { data: Recipe[] | undefined }) {
       <Fonts size="large" padH="0" padV="16px" color="tableBlack">
         🔥 Hot 레시피
       </Fonts>
-      {data
-        ? data.map((recipe, idx) => (
-            <RecipeThumbmail
-              key={recipe.recipeid}
-              {...recipe}
-              onPress={onPress}
-              place={idx}
-            />
-          ))
-        : MOCK_HOT_RECIPE.map((recipe, idx) => (
-            <RecipeThumbmail
-              key={recipe.recipeid}
-              {...recipe}
-              onPress={onPress}
-              place={idx}
-            />
-          ))}
+      {data ? (
+        data.map((recipe, idx) => (
+          <RecipeThumbmail
+            key={recipe.recipeid}
+            {...recipe}
+            onPress={onPress}
+            place={idx}
+          />
+        ))
+      ) : (
+        <RelativeIndicator />
+      )}
     </HotRecipeWrap>
   );
 }

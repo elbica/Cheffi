@@ -25,7 +25,7 @@ export const Setting = () => {
     <Position>
       <LogoutWrap onPress={() => handleLogout()}>
         <Logout />
-        <Fonts children="로그아웃" padH="8px" color="tableBlack" />
+        <Fonts children="Logout" padH="8px" color="tableGray" />
       </LogoutWrap>
     </Position>
   );
@@ -34,7 +34,7 @@ const LogoutWrap = styled.TouchableOpacity`
   justify-content: space-between;
   align-items: center;
   padding: ${1 * vw}px ${3 * vw}px;
-  background-color: ${theme.color.carrot + '33'};
+  background-color: ${theme.color.carrot + '22'};
   border-radius: 50px;
   flex-direction: row;
   /* width: ${33 * vw}px; */
