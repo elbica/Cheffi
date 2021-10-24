@@ -47,8 +47,8 @@ declare interface RecipeInfo extends Recipe {
   ingredient: {
     name: string;
     amount: string;
-    replace: string;
-    replaceAmount: string;
+    replace: string[];
+    replaceAmount: string[];
   }[];
   description: string;
   isReplace: boolean;
@@ -101,6 +101,7 @@ type RootStackParamList = {
   profile: undefined;
   history: undefined;
   refrigerator: undefined;
+  myTaste: undefined;
   recipeInfo: {
     recipeid: number;
     platform: Platform;

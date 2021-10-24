@@ -11,4 +11,5 @@ export const defaultShadowView = styled.View`
   shadow-opacity: 0.45;
   shadow-offset: 0 0;
   shadow-radius: 4px;
+  elevation: 4;
 `;

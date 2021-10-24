@@ -69,7 +69,6 @@ export default function RecipeContent({
             <RecipeIngredients ingredient={data.ingredient} />
           </Divs>
           <OpenLinkModal
-            // ref={el => (modals = el)}
             isOpen={openModal}
             setIsOpen={setOpenModal}
             URL={url}
@@ -81,17 +80,26 @@ export default function RecipeContent({
 }
 
 const RecipeIngredients = ({ ingredient }: Pick<RecipeInfo, 'ingredient'>) => {
+  console.log(ingredient);
   return (
     <IngredientContainer>
       {ingredient.map(ingre => {
-        const isReplace = ingre.replace !== '';
+        const isReplace = ingre.replace && ingre.replace[0].length > 0;
+        const computedReplace = (
+          isReplace
+            ? ingre.replace.reduce(
+                (acc, cur) => (cur !== '' ? acc + ', ' + cur : acc),
+                '',
+              )
+            : ingre.replace
+        ).slice(1);
         return (
           <IngredientAmountWrap key={ingre.name + ingre.replace}>
             {isReplace ? (
               <Row>
                 <Fonts children={ingre.name} />
                 <ReplaceCheck />
-                <Fonts children={ingre.replace} />
+                <Fonts children={computedReplace} />
                 <GreenCheck />
               </Row>
             ) : (
@@ -115,13 +123,13 @@ const RatingButton = ({
   const [rating, setRating] = useState(5);
   const [isVisible, setIsVisible] = useState(false);
   const isScrap = useIsRecipeScrap(recipeid);
-  const dispatch = useDispatch();
   const onPress = () => setIsVisible(true);
   const handleCheck = () => {
     putUserHistory(recipeid, place, rating);
     if (isScrap) putUserScrap(recipeid, place, rating);
     setIsVisible(false);
   };
+
   return (
     <>
       <CompleteCookButtonWrap onPress={onPress}>

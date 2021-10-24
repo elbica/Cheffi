@@ -68,10 +68,10 @@ const UserService = () => {
   return (
     <UserServiceWrap>
       <IconTextWrap>
-        <IconWrap>
+        <IconWrap onPress={() => navigation.navigate('myTaste')}>
           <MyProfile />
         </IconWrap>
-        <Fonts children="내 정보" color="tableGray" />
+        <Fonts children="내 취향" color="tableGray" />
       </IconTextWrap>
       <IconTextWrap>
         <IconWrap onPress={() => navigation.navigate('history')}>
@@ -131,6 +131,8 @@ const UserPhotoWrap = styled(defaultShadowView)`
   margin-bottom: ${1.5 * vh}px;
   width: ${40 * vw}px;
   height: ${40 * vw}px;
+  elevation: 8;
+
   padding: 10px;
   border-radius: ${20 * vw}px;
   border-width: 1px;
@@ -149,6 +151,7 @@ const BackgroundHeader = styled.View`
   shadow-opacity: 0.7;
   shadow-offset: 0 0;
   shadow-radius: 16px;
+  elevation: 6;
   height: ${40 * vh}px;
   width: ${120 * vw}px;
   align-self: center;

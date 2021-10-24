@@ -44,4 +44,5 @@ const GotoButton = styled(defaultShadow)`
   align-items: center;
   margin-top: ${3 * vh}px;
   margin-bottom: ${3 * vh}px;
+  elevation: 4;
 `;

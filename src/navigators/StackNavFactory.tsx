@@ -23,6 +23,7 @@ import {
   useRoute,
 } from '@react-navigation/native';
 import HistoryRecipePage from '../pages/HistoryRecipePage';
+import MyTastePage from '../pages/MyTastePage';
 
 const tabHiddenRoutes = ['addIngredient', 'recipeInfo'];
 const Stack = createStackNavigator();
@@ -31,7 +32,7 @@ const Header: StackNavigationOptions = {
   headerTransparent: true,
   headerBackground: () => <CustomStackHeader />,
   headerStyle: {
-    height: Platform.OS === 'android' ? 10.5 * vh : 13 * vh,
+    height: Platform.OS === 'android' ? 12 * vh : 13 * vh,
   },
   headerBackImage: () => <PrevArrow />,
   headerTitleAlign: 'center',
@@ -111,6 +112,15 @@ export default function StackNavFactory({
               headerBackground: undefined,
               headerTitleStyle: { color: 'black', fontSize: 22 },
               headerTitle: '열람 기록',
+            }}
+          />
+          <Stack.Screen
+            name={'myTaste'}
+            component={MyTastePage}
+            options={{
+              headerBackground: undefined,
+              headerTitleStyle: undefined,
+              headerTitle: '',
             }}
           />
         </>

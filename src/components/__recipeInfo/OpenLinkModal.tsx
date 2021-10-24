@@ -121,9 +121,10 @@ const s = StyleSheet.create({
     width: 100 * vw,
     top: -50 * vh,
     alignSelf: 'center',
+    // elevation: 10,
   },
   content: {
-    paddingTop: 10 * vh,
+    paddingTop: 6 * vh,
     height: 100 * vh,
     shadowColor: 'black',
     shadowOpacity: 1,

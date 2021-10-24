@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { useCallback } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
-import { theme, vh, vw } from '../../assets/styles/theme';
+import { isAndroid, theme, vh, vw } from '../../assets/styles/theme';
 import { useRecipeNumber } from '../../hooks/useRecipe';
 import { useCommonIngredient } from '../../hooks/useRedux';
 import { IngredientButton } from '../elements/Buttons';
@@ -186,7 +186,7 @@ const PlusWrap = styled.TouchableOpacity`
 `;
 
 const NavigationPlusWrap = styled(PlusWrap)`
-  top: ${7.5 * vh}px;
+  top: ${isAndroid ? 5.5 * vh : 7.5 * vh}px;
   right: 5%;
 `;
 
@@ -209,7 +209,7 @@ const SaveButton = styled.TouchableOpacity`
   shadow-opacity: 0.45;
   shadow-offset: 0 0;
   shadow-radius: 4px;
-  elevation: 1;
+  elevation: 4;
 `;
 const CancleButton = styled(SaveButton)`
   background-color: ${theme.color['carrot']};

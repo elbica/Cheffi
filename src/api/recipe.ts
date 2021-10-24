@@ -5,7 +5,7 @@ import { silentLogin } from './auth';
 import { IMAGE_HAEMUK_URL, IMAGE_MANGAE_URL } from '../../config';
 import { setCachedInit } from '.';
 
-const RECIPE_LIST_STEP = 6;
+const RECIPE_LIST_STEP = 10;
 
 /**
  *
