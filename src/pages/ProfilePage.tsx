@@ -1,40 +1,36 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { KakaoLogout, GoogleLogout, clearCache } from '../api';
-import LinkButton from '../components/elements/Buttons';
-import { RootState, userLogout } from '../redux/modules';
-import { CenterDivs } from '../components/elements/Divs';
-
-const array = [1, 2];
+import React, { useState } from 'react';
+import { UserInfo } from '../components/__profile/UserInfo';
+import { Setting } from '../components/__profile/Setting';
+import { AppWrap } from '../assets/styles/theme';
+import { useUserInfo } from '../hooks/useRedux';
+import { useDispatch } from 'react-redux';
+import { userInit } from '../redux/modules';
+import { putUserInfo } from '../api';
 
 export default function ProfilePage() {
+  const info = useUserInfo();
+  const [isChange, setIsChange] = useState(false);
+  const [nickname, setNickname] = useState('익명');
+  const [message, setMessage] = useState('안녕하세요!');
   const dispatch = useDispatch();
-  const platform = useSelector((state: RootState) => state.auth.platform);
-  const handleLogout = async () => {
-    try {
-      if (platform === 'kakao') {
-        await KakaoLogout();
-      } else if (platform === 'google') {
-        await GoogleLogout();
-      }
-      clearCache();
-      dispatch(userLogout());
-    } catch (e) {}
+  const saveChange = () => {
+    dispatch(userInit({ nickname, statusMessage: message }));
+    putUserInfo(message, nickname);
   };
 
   return (
-    <>
-      <CenterDivs height="400px">
-        {array.map((a, idx) => (
-          <LinkButton
-            title="로그아웃 하기"
-            onPress={handleLogout}
-            width="100px"
-            height="100px"
-            key={idx}
-          />
-        ))}
-      </CenterDivs>
-    </>
+    <AppWrap>
+      <UserInfo
+        info={info}
+        isChange={isChange}
+        setNickname={setNickname}
+        setMessage={setMessage}
+      />
+      <Setting
+        isChange={isChange}
+        setIsChange={setIsChange}
+        callback={saveChange}
+      />
+    </AppWrap>
   );
 }

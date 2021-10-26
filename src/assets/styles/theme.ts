@@ -9,6 +9,7 @@ import styled from 'styled-components/native';
 
 export const vw = Dimensions.get('window').width / 100;
 export const vh = Dimensions.get('window').height / 100;
+export const isAndroid = Platform.OS === 'android';
 //자주 쓰는 스타일들 정의
 export const theme: DefaultTheme = {
   color: {
@@ -34,7 +35,7 @@ export const theme: DefaultTheme = {
     large: '20px',
     mediumLarge: '18px',
     medium: '16px',
-    small: '12px',
+    small: '13px',
   },
   lineHeight: {
     xlarge: '32px',

@@ -52,7 +52,10 @@ export const AddIngredient = ({
     new Map(),
   );
   const computedIngre = mapToIngredients(pickIngre);
-  const queryRefriger = addIngreToRefriger(computedIngre, ingre);
+  const queryRefriger = addIngreToRefriger(
+    computedIngre,
+    JSON.parse(JSON.stringify(ingre)),
+  );
   const { data: number } = useRecipeNumber(queryRefriger);
 
   const oneDepth = useMemo(() => isOneDepth(category.main), [category]);
@@ -70,7 +73,7 @@ export const AddIngredient = ({
   const handleSave = useCallback(() => {
     saveIngredient(queryRefriger);
     navigation.goBack();
-  }, [saveIngredient]);
+  }, [saveIngredient, queryRefriger]);
 
   const handleChangeText = useCallback((text: string) => {
     onChangeText(text);
@@ -79,7 +82,6 @@ export const AddIngredient = ({
   const handleAdd = useCallback((ingredient: string, title: MainCategory) => {
     setPickIngre(state => {
       const newState = new Map(state);
-      // console.log(newState);
       newState.has(ingredient)
         ? newState.delete(ingredient)
         : newState.set(ingredient, title);

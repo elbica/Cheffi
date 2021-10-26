@@ -61,11 +61,18 @@ export const SubCategory = ({
 }: SubCategoryProps) => {
   return (
     <HeightWrap>
-      <SubCategoryWrap showsVerticalScrollIndicator={false}>
+      <SubCategoryWrap
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          width: '100%',
+          height: selectCategory === '채소류' ? '135%' : 'auto',
+        }}>
         {subCategory[selectCategory].map((category, idx) => (
           <SubCategoryButton
             key={idx}
-            children={category}
+            children={
+              <Fonts children={category} color="tableGray" size="mediumLarge" />
+            }
             onPress={() => setCategory(category as MainCategory, 'sub')}
             last={idx === subCategory[selectCategory].length - 1 ? true : false}
           />
@@ -190,7 +197,7 @@ const SubCategoryWrap = styled.ScrollView`
   border-bottom-right-radius: ${15 * vw}px;
 `;
 
-const SubCategoryButton = styled(ChipButton)<{ last?: boolean }>`
+const SubCategoryButton = styled.TouchableOpacity<{ last?: boolean }>`
   border-width: 0px;
   ${({ last }) =>
     !last &&
@@ -200,6 +207,9 @@ const SubCategoryButton = styled(ChipButton)<{ last?: boolean }>`
     `}
   width: 100%;
   align-self: center;
-  /* height: auto; */
+  height: auto;
   background-color: transparent;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 2px;
 `;

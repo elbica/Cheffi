@@ -37,7 +37,7 @@ export default function RecommendPage() {
           )}
           keyExtractor={item => item.recipeid}
           onEndReached={() => fetchNextPage()}
-          onEndReachedThreshold={0.5}
+          onEndReachedThreshold={0.7}
           removeClippedSubviews
         />
       ) : recipeCount === 0 ? (

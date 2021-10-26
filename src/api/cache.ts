@@ -1,3 +1,4 @@
+import { getRecipeList } from '.';
 import { queryClient } from '../App';
 
 export const getCachedRecipeCount = (refriger: Refriger) => {
@@ -19,6 +20,16 @@ export const setCachedInit = (
   queryClient.setQueryData(['RecipeList', ...ingre], list);
   queryClient.setQueryData(['RecommendIngre', ...ingre], recommendIngre);
   queryClient.setQueryData(['ScrapList', ...scrapIds], scraps);
+};
+
+export const setCachedRecipeList = async (ingre: Refriger) => {
+  await queryClient.fetchInfiniteQuery(
+    ['RecipeList', ...ingre],
+    () => getRecipeList(),
+    {
+      staleTime: 1000 * 60 * 60 * 12,
+    },
+  );
 };
 
 export const clearCache = () => queryClient.clear();

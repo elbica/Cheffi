@@ -7,7 +7,7 @@ import { BackgroundSection, Section } from '../../assets/styles/theme';
 import Fonts from '../../components/elements/Fonts';
 import { FryPan } from '../../components/elements/Images';
 import { useModifyIngredient } from '../../hooks/useIngredient';
-import { formInit, RootState, userLogin } from '../../redux/modules';
+import { formInit, RootState, userInit, userLogin } from '../../redux/modules';
 
 export default function Join6() {
   const dispatch = useDispatch();
@@ -35,6 +35,7 @@ export default function Join6() {
       );
       sendForm(formData);
       dispatch(formInit());
+      dispatch(userInit(formData));
       saveIngredient(queryRefriger);
       setTimeout(() => dispatch(userLogin({ isLogin: true })), 2000);
     };

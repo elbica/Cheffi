@@ -47,10 +47,10 @@ declare interface RecipeInfo extends Recipe {
   ingredient: {
     name: string;
     amount: string;
-    replace: string;
-    replaceAmount: string;
+    replace: string[];
+    replaceAmount: string[];
   }[];
-  description: string;
+  summary: string;
   isReplace: boolean;
 }
 
@@ -60,16 +60,7 @@ declare interface AuthResult {
     token: string;
     platform: string;
   };
-  info: {
-    recipeCount: number;
-    nickname: string;
-    statusMessage: string;
-    photo: string;
-    dislikeIngredient: string[];
-    scrapRecipesId: number[];
-    likeRecipesId: number[];
-    historyRecipesId: number[];
-  };
+  info: UserInfo;
   refriger: { title: MainCategory; data: string[] }[];
 }
 
@@ -82,9 +73,19 @@ declare type FormInfo = {
   nickname?: string;
   photo?: any;
   problems?: string[];
-  likeRecipesId?: string[];
+  likeRecipesId?: number[];
   dislikeIngredient?: string[];
   ingredients?: string[];
+};
+declare type UserInfo = {
+  recipeCount: number;
+  nickname: string;
+  statusMessage: string;
+  photo: string;
+  dislikeIngredient: string[];
+  scrapRecipesId: number[];
+  likeRecipesId?: number[];
+  historyRecipesId: number[];
 };
 
 type RouteProp<T, K> = import('@react-navigation/core').RouteProp<T, K>;
@@ -98,6 +99,7 @@ type RootStackParamList = {
   home: undefined;
   recommend: undefined;
   profile: undefined;
+  history: undefined;
   refrigerator: undefined;
   recipeInfo: {
     recipeid: number;
@@ -111,6 +113,7 @@ type RecipeInfoNavigationProp = StackNavigationProp<
   RootStackParamList,
   'recipeInfo'
 >;
+type ProfileNavigationProp = StackNavigationProp<RootStackParamList, 'profile'>;
 type AddIngredientRouteProp = RouteProp<RootStackParamList, 'addIngredient'>;
 type AddIngredientNavProp = StackNavigationProp<
   RootStackParamList,

@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
 import { deleteUserScrap, putUserScrap } from '../../api';
-import { vh } from '../../assets/styles/theme';
+import { isAndroid, vh } from '../../assets/styles/theme';
 import { useIsRecipeScrap } from '../../hooks/useRedux';
 import { userRecipeScrap } from '../../redux/modules';
 import { EmptyScrap, Scrap } from '../elements/Images';
@@ -40,7 +40,7 @@ const ScrapWrap = styled.TouchableOpacity`
   position: absolute;
   /* background-color: red; */
   width: auto;
-  top: ${7.5 * vh}px;
+  top: ${isAndroid ? 5 * vh : 7 * vh}px;
   right: 5%;
 `;
 

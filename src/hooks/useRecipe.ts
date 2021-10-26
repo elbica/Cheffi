@@ -11,9 +11,9 @@ import { useRefrigerIngredient } from './useRedux';
 
 let recipeNumberTimer = Date.now();
 
-export const useRecipeNumber = (data: Refriger) => {
-  const timer = (Date.now() - recipeNumberTimer) / 1000;
-  recipeNumberTimer = Date.now();
+export const useRecipeNumber = (data: Refriger, date = Date.now()) => {
+  const timer = (date - recipeNumberTimer) / 1000;
+  recipeNumberTimer = date;
   return useQuery<number>(
     ['RecipeNumber', ...data],
     () => getRecipeNumber(data),
@@ -60,15 +60,21 @@ export const useScrapList = (recipeids: number[]) => {
     },
   );
 };
-export const useRecommendIngres = () => {
-  const refriger = useRefrigerIngredient();
-  return useQuery(
-    ['RecommendIngre', ...refriger],
-    () => getRecommendIngres(refriger),
+export const useHistoryList = (recipeids: number[]) => {
+  return useInfiniteQuery(
+    ['HistoryList', ...recipeids],
+    ({ pageParam = 1 }) => getScrapList(pageParam, recipeids, recipeids.length),
     {
       staleTime: 1000 * 60 * 60 * 12,
-      cacheTime: 1000 * 60 * 60,
+      getNextPageParam: lastpage =>
+        lastpage.available ? lastpage.nextPage : undefined,
     },
+  );
+};
+export const useRecommendIngres = () => {
+  const refriger = useRefrigerIngredient();
+  return useQuery(['RecommendIngre', ...refriger], () =>
+    getRecommendIngres(refriger),
   );
 };
 export const useRecipeRandomList = (num?: number) => {

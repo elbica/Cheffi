@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/core';
 import React, { useCallback } from 'react';
 import styled from 'styled-components/native';
 import Fonts from '../elements/Fonts';
+import { RelativeIndicator } from '../elements/Indicators';
 import RecipeThumbnail from '../__recommend/RecipeThumbnail';
 
 export default function ForMe({ recipe }: { recipe: Recipe }) {
@@ -13,10 +14,14 @@ export default function ForMe({ recipe }: { recipe: Recipe }) {
   );
   return (
     <ForMeContainer>
-      <Fonts size="large" padH="0" padV="12px" color="tableBlack">
+      <Fonts size="large" padH="0" padV="16px" color="tableBlack">
         ⭐️ 나를 위한 추천 레시피
       </Fonts>
-      <RecipeThumbnail {...recipe} onPress={onPress} place={0} />
+      {recipe ? (
+        <RecipeThumbnail {...recipe} onPress={onPress} place={0} />
+      ) : (
+        <RelativeIndicator />
+      )}
     </ForMeContainer>
   );
 }
@@ -24,5 +29,5 @@ export default function ForMe({ recipe }: { recipe: Recipe }) {
 const ForMeContainer = styled.View`
   height: auto;
   justify-content: space-between;
-  /* background-color: red; */
+  /* top: -18px; */
 `;

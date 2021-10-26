@@ -26,6 +26,29 @@ export const EmptyRecipe = () => {
     </EmptyRecipeWrap>
   );
 };
+export const EmptyHistory = () => {
+  const navigation = useNavigation<RecommendTabProp>();
+  return (
+    <EmptyRecipeWrap>
+      <DescriptionWrap>
+        <Note />
+        <Fonts
+          children="최근에 본 레시피가 없어요."
+          color="tableBlack"
+          size="mediumLarge"
+          padV="4px"
+        />
+        <Fonts
+          children="요리하고 싶은 레시피를 클릭해 보세요!"
+          color="tableGray"
+        />
+      </DescriptionWrap>
+      <GotoButton onPress={() => navigation.jumpTo('추천레시피')}>
+        <Fonts children="레시피 보러 가기" color="white" size="mediumLarge" />
+      </GotoButton>
+    </EmptyRecipeWrap>
+  );
+};
 const EmptyRecipeWrap = styled.View`
   margin: auto 0;
   height: auto;
@@ -44,4 +67,5 @@ const GotoButton = styled(defaultShadow)`
   align-items: center;
   margin-top: ${3 * vh}px;
   margin-bottom: ${3 * vh}px;
+  elevation: 4;
 `;

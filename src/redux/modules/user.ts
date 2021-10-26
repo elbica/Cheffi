@@ -1,7 +1,6 @@
 const USER_RECIPECOUNT_ACTION = 'user/RECIPECOUNT' as const;
 const USER_PROFILE_ACTION = 'user/PROFILE' as const;
 const USER_SCRAPRECIPE_ACTION = 'user/SCRAPRECIPE' as const;
-const USER_LIKERECIPE_ACTION = 'user/LIKERECIPE' as const;
 const USER_HISTORYRECIPE_ACTION = 'user/HISTORYRECIPE' as const;
 const USER_INIT_ACTION = 'user/INIT' as const;
 
@@ -22,7 +21,9 @@ const initState = {
  * @returns 액션 객체
  *
  */
-export const userInit = (init: UserState) => ({
+export const userInit = (
+  init: Omit<FormInfo, 'problems' | 'ingredients'> & { statusMessage?: string },
+) => ({
   type: USER_INIT_ACTION,
   payload: init,
 });
@@ -49,14 +50,9 @@ type UserProfile = {
   nickname?: string;
   statusMessage?: string;
   photo?: string;
-  dislikeIngredeint?: string[];
+  dislikeIngredient?: string[];
 };
-export type UserState = {
-  [key: string]: any;
-  recipeCount?: number;
-  scrapRecipesId: number[];
-  historyRecipesId: number[];
-} & UserProfile;
+export type UserState = UserInfo;
 type UserAction = ReturnType<
   | typeof userRecipeCount
   | typeof userProfile
@@ -78,7 +74,7 @@ export default function reducer(
     case USER_HISTORYRECIPE_ACTION:
       const newHistoryState = state.historyRecipesId
         .filter(id => id !== action.payload)
-        .slice(0, 29);
+        .slice(0, 49);
       return {
         ...state,
         historyRecipesId: [action.payload, ...newHistoryState],

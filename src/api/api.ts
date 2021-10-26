@@ -26,21 +26,17 @@ const onRejected = (err: Error | AxiosError) => {
     const type: API_ERROR_TYPE = err.response?.data.type;
     let ret: API_ERROR | undefined;
     if (status === 401) {
-      /**
-       * @todo type에 따라서 자동 로그인 또는 초기 화면으로 이동하기
-       */
+      //자동 로그인하고 retry하기, 무한 루프 방지
+      if (err.config.url !== '/Auth') {
+        console.log('👓자동 로그인 응답');
+        return silentLogin().then(token => {
+          err.config.headers.Authorization = `Bearer ${token}`;
+          console.log('바뀐 config: ', err.config, 'token: ', token);
+          return API.request(err.config);
+        });
+      }
 
-      //자동 로그인하고 retry하기
-      // if (type === API_ERROR_TYPE.EXPIRE) {
-      // console.log('👓자동 로그인 응답');
-      // return silentLogin().then(token => {
-      //   err.config.headers.Authorization = `Bearer ${token}`;
-      //   console.log('바뀐 config: ', err.config, 'token: ', token);
-      //   return API.request(err.config);
-      // });
-      // }
-
-      //상위 함수에서 초기 화면으로 이동해야 함
+      // 상위 함수에서 초기 화면으로 이동해야 함
       ret = {
         message: '❌인증이 필요합니다',
         type,

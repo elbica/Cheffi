@@ -7,7 +7,7 @@ import { useRecipeScrap } from '../hooks/useRedux';
 
 export default function MyRecipePage() {
   const scrapIds = useRecipeScrap();
-
+  // console.log('내레시피', scrapIds);
   return (
     <AppWrap>
       {scrapIds.length > 0 ? (

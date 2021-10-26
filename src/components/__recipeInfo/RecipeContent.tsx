@@ -13,7 +13,6 @@ import Modal from 'react-native-modal';
 import { StyleSheet } from 'react-native';
 import { RecipeRating } from './RecipeRating';
 import { putUserHistory, putUserScrap } from '../../api';
-import { useDispatch } from 'react-redux';
 
 const DUMMY_TEXT = '레시피 소개 글이 없어요! 😅';
 
@@ -30,7 +29,7 @@ export default function RecipeContent({
       ? `${OPEN_MANGAE_URL}/${data.recipeid}`
       : data.platform === 'haemuk'
       ? `${OPEN_HAEMUK_URL}/${data.recipeid}`
-      : 'https://naver.com';
+      : OPEN_MANGAE_URL;
 
   return (
     <RecipeContentContainer>
@@ -51,8 +50,9 @@ export default function RecipeContent({
           <Divs marginV="10px" height="auto">
             <DescriptionWrap>
               <Fonts
-                children={data.description || DUMMY_TEXT}
+                children={data.summary || DUMMY_TEXT}
                 color="tableGray"
+                padH={`${8 * vw}px`}
               />
               <GotoButton onPress={() => setOpenModal(true)}>
                 <Fonts children="레시피 보러가기" size="large" color="white" />
@@ -69,7 +69,6 @@ export default function RecipeContent({
             <RecipeIngredients ingredient={data.ingredient} />
           </Divs>
           <OpenLinkModal
-            // ref={el => (modals = el)}
             isOpen={openModal}
             setIsOpen={setOpenModal}
             URL={url}
@@ -84,14 +83,22 @@ const RecipeIngredients = ({ ingredient }: Pick<RecipeInfo, 'ingredient'>) => {
   return (
     <IngredientContainer>
       {ingredient.map(ingre => {
-        const isReplace = ingre.replace !== '';
+        const isReplace = ingre.replace && ingre.replace[0].length > 0;
+        const computedReplace = (
+          isReplace
+            ? ingre.replace.reduce(
+                (acc, cur) => (cur !== '' ? acc + ', ' + cur : acc),
+                '',
+              )
+            : ingre.replace
+        ).slice(1);
         return (
           <IngredientAmountWrap key={ingre.name + ingre.replace}>
             {isReplace ? (
               <Row>
                 <Fonts children={ingre.name} />
                 <ReplaceCheck />
-                <Fonts children={ingre.replace} />
+                <Fonts children={computedReplace} />
                 <GreenCheck />
               </Row>
             ) : (
@@ -115,13 +122,13 @@ const RatingButton = ({
   const [rating, setRating] = useState(5);
   const [isVisible, setIsVisible] = useState(false);
   const isScrap = useIsRecipeScrap(recipeid);
-  const dispatch = useDispatch();
   const onPress = () => setIsVisible(true);
   const handleCheck = () => {
     putUserHistory(recipeid, place, rating);
     if (isScrap) putUserScrap(recipeid, place, rating);
     setIsVisible(false);
   };
+
   return (
     <>
       <CompleteCookButtonWrap onPress={onPress}>
@@ -136,19 +143,24 @@ const RatingButton = ({
         <PopUp>
           <PopUpTitle>
             <Fonts
-              children="🎊 별점을 매겨주세요! 🎊"
+              children="🎊  별점을 매겨주세요  🎊"
               color="tableBlack"
               size="mediumLarge"
+            />
+            <Fonts
+              children="레시피 추천의 정확도가 올라가요!"
+              color="tableGray"
+              size="small"
             />
           </PopUpTitle>
           <RecipeRating setRating={setRating} rating={rating} />
           <PopUpButton>
             <PopUpButtonClose onPress={() => setIsVisible(false)}>
-              <Fonts children="닫기" color="tableGray" />
+              <Fonts children="다음에.." color="tableGray" />
             </PopUpButtonClose>
 
             <PopUpButtonCheck onPress={() => handleCheck()}>
-              <Fonts children="확인" color="white" />
+              <Fonts children="별점 주기" color="white" />
             </PopUpButtonCheck>
           </PopUpButton>
         </PopUp>
@@ -241,7 +253,7 @@ const CompleteCookButtonWrap = styled.TouchableOpacity`
   background-color: white;
 `;
 const PopUp = styled.View`
-  height: ${25 * vh}px;
+  height: ${28 * vh}px;
   width: ${85 * vw}px;
   /* justify-content: center; */
   justify-content: space-evenly;

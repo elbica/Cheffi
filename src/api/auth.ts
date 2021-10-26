@@ -47,6 +47,7 @@ export const GoogleLogin = async (): Promise<AuthResult> => {
   try {
     const user = await GoogleSignin.signIn();
     updateToken(user.idToken as string, 'google');
+    console.log('get google token', user.idToken);
 
     const data = await sendGoogleToken(user.idToken as string);
     console.log('backend: ', data);
@@ -87,10 +88,11 @@ export const KakaoLogin = async (): Promise<AuthResult> => {
   try {
     const token: KakaoOAuthToken = await login();
     updateToken(token.accessToken, 'kakao');
+    console.log('get kakao token', token.accessToken);
 
     const data = await sendKakaoToken(token.accessToken as string);
 
-    // console.log(data);
+    console.log(data);
     return data;
   } catch (e) {
     console.log(e);

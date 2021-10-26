@@ -30,6 +30,19 @@ export const ScrapRecipeCount = ({ number }: { number?: number }) => {
     </ScrapRecipeCountWrap>
   );
 };
+export const HistoryRecipeCount = ({ number }: { number?: number }) => {
+  return (
+    <ScrapRecipeCountWrap>
+      <Scale />
+      <Fonts
+        color="tableBlack"
+        children={`${number || 0} 개의 레시피를 최근에 봤어요!`}
+        size="mediumLarge"
+        padH="8px"
+      />
+    </ScrapRecipeCountWrap>
+  );
+};
 
 const PossibleRecipeWrap = styled.View`
   border-radius: 10px;
