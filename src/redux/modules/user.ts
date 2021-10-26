@@ -1,7 +1,6 @@
 const USER_RECIPECOUNT_ACTION = 'user/RECIPECOUNT' as const;
 const USER_PROFILE_ACTION = 'user/PROFILE' as const;
 const USER_SCRAPRECIPE_ACTION = 'user/SCRAPRECIPE' as const;
-const USER_LIKERECIPE_ACTION = 'user/LIKERECIPE' as const;
 const USER_HISTORYRECIPE_ACTION = 'user/HISTORYRECIPE' as const;
 const USER_INIT_ACTION = 'user/INIT' as const;
 
@@ -11,9 +10,9 @@ const initState = {
   statusMessage: '안녕하세요',
   photo: 's3.url.com',
   dislikeIngredient: ['민트', '당근'],
-  scrapRecipesId: ['1', '2'],
-  likeRecipesId: ['3', '4'],
-  historyRecipesId: ['5', '6'],
+  scrapRecipesId: [],
+  likeRecipesId: [],
+  historyRecipesId: [],
 };
 
 /**
@@ -22,7 +21,9 @@ const initState = {
  * @returns 액션 객체
  *
  */
-export const userInit = (init: UserState) => ({
+export const userInit = (
+  init: Omit<FormInfo, 'problems' | 'ingredients'> & { statusMessage?: string },
+) => ({
   type: USER_INIT_ACTION,
   payload: init,
 });
@@ -34,38 +35,29 @@ export const userProfile = (profile: UserProfile) => ({
   type: USER_PROFILE_ACTION,
   payload: profile,
 });
-export const userScrapRecipe = (recipeId: string) => ({
-  type: USER_SCRAPRECIPE_ACTION,
-  payload: { recipeId, key: 'scrapRecipesId' },
-});
-export const userLikeRecipe = (recipeId: string) => ({
-  type: USER_LIKERECIPE_ACTION,
-  payload: { recipeId, key: 'likeRecipesId' },
-});
-export const userHistoryRecipe = (recipeId: string) => ({
+
+export const userRecipeHistory = (recipe: number) => ({
   type: USER_HISTORYRECIPE_ACTION,
-  payload: { recipeId, key: 'historyRecipesId' },
+  payload: recipe,
+});
+
+export const userRecipeScrap = (recipe: number) => ({
+  type: USER_SCRAPRECIPE_ACTION,
+  payload: recipe,
 });
 
 type UserProfile = {
   nickname?: string;
   statusMessage?: string;
   photo?: string;
-  dislikeIngredeint?: string[];
+  dislikeIngredient?: string[];
 };
-export type UserState = {
-  [key: string]: any;
-  recipeCount?: number;
-  scrapRecipesId?: string[];
-  likeRecipesId?: string[];
-  historyRecipesId?: string[];
-} & UserProfile;
+export type UserState = UserInfo;
 type UserAction = ReturnType<
   | typeof userRecipeCount
   | typeof userProfile
-  | typeof userLikeRecipe
-  | typeof userHistoryRecipe
-  | typeof userScrapRecipe
+  | typeof userRecipeHistory
+  | typeof userRecipeScrap
   | typeof userInit
 >;
 
@@ -80,15 +72,27 @@ export default function reducer(
     case USER_INIT_ACTION:
       return { ...state, ...action.payload };
     case USER_HISTORYRECIPE_ACTION:
-    case USER_LIKERECIPE_ACTION:
-    case USER_SCRAPRECIPE_ACTION:
+      const newHistoryState = state.historyRecipesId
+        .filter(id => id !== action.payload)
+        .slice(0, 49);
       return {
         ...state,
-        [action.payload.key]: [
-          ...state[action.payload.key],
-          action.payload.recipeId,
-        ],
+        historyRecipesId: [action.payload, ...newHistoryState],
       };
+    case USER_SCRAPRECIPE_ACTION:
+      const exist = state.scrapRecipesId.includes(action.payload);
+      const newScrapState = exist
+        ? {
+            ...state,
+            scrapRecipesId: state.scrapRecipesId.filter(
+              old => old !== action.payload,
+            ),
+          }
+        : {
+            ...state,
+            scrapRecipesId: [action.payload, ...state.scrapRecipesId],
+          };
+      return newScrapState;
 
     default:
       return state;

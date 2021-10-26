@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { AppWrap } from '../assets/styles/theme';
+import React, { useLayoutEffect, useState } from 'react';
+import { AppWrap, vh } from '../assets/styles/theme';
 import styled from 'styled-components/native';
 import { ScrollView } from 'react-native';
 import MyRefriger from '../components/__home/MyRefriger';
@@ -10,7 +10,6 @@ import { emptyRefriger } from '../assets/data/mockUserData';
 import { getInitialRecipe } from '../api';
 import { useDispatch } from 'react-redux';
 import { userRecipeCount, userLogout, setIngredient } from '../redux/modules';
-import { ProgressBar } from '../components/elements/Indicators';
 
 const HomeWrap = styled(AppWrap)`
   flex: 1;
@@ -26,22 +25,19 @@ export default function HomePage() {
   const empty = JSON.stringify(refriger) === JSON.stringify(emptyRefriger);
 
   const [list, setList] = useState<Recipe[]>();
-  const [loading, setLoaing] = useState(true);
-  useEffect(() => {
+  const [recipe, setRecipe] = useState<Recipe>();
+  // const [loading, setLoaing] = useState(true);
+  useLayoutEffect(() => {
+    // setTimeout(() => setLoaing(false), 4000);
+
     if (!ingredient.length) {
       dispatch(setIngredient(refriger));
     }
     (async () => {
-      /**
-       * @description
-       * init 함수를 통해
-       * 로그인 된 유저의 레시피 개수와 레시피 리스트를 미리 불러온다
-       * 레시피 개수는 persist에 저장한다
-       *
-       * 레시피 개수의 경우 추후 api로 불러오지 않고 persist의 값을 사용하는 방식으로 deprecated 될 수 있다
-       */
-      const { error, login, number, randomList } = await getInitialRecipe();
+      const { error, login, number, randomList, recommendRecipe } =
+        await getInitialRecipe();
       setList(randomList);
+      setRecipe(recommendRecipe);
       if (login) {
         dispatch(userRecipeCount(number));
       } else if (error) {
@@ -50,25 +46,16 @@ export default function HomePage() {
       }
     })();
   }, [dispatch]);
-  useEffect(() => {
-    setTimeout(() => setLoaing(false), 2000);
-  }, []);
 
   return (
-    <>
-      {loading ? (
-        <ProgressBar />
-      ) : (
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1 }}
-          showsVerticalScrollIndicator={false}>
-          <HomeWrap>
-            <MyRefriger empty={empty} />
-            <ForMe />
-            <HotRecipes data={list} />
-          </HomeWrap>
-        </ScrollView>
-      )}
-    </>
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      showsVerticalScrollIndicator={false}>
+      <HomeWrap>
+        <MyRefriger empty={empty} />
+        <ForMe recipe={recipe as Recipe} />
+        <HotRecipes data={list} />
+      </HomeWrap>
+    </ScrollView>
   );
 }

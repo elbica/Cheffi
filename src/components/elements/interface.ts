@@ -102,6 +102,7 @@ export interface FormProps {
 }
 export interface NextSubmitProps {
   goal: string;
+  param?: any;
   check?: boolean;
   marginV?: string;
   marginH?: string;

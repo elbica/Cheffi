@@ -1,35 +1,44 @@
-import React, { useRef } from 'react';
-import { StyleSheet } from 'react-native';
-import { Modalize } from 'react-native-modalize';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import styled from 'styled-components/native';
 import { theme, vh, vw } from '../../assets/styles/theme';
 import { IngredientButton } from '../elements/Buttons';
 import Fonts from '../elements/Fonts';
+import Modal from 'react-native-modal';
 
 export const AddModal = React.memo(
   ({ ingredients, handleDelete, number, onPress }: AddModalProps) => {
-    const modalizeRef = useRef<Modalize>(null);
+    const [isVisible, setIsVisible] = useState(false);
     return (
       <>
         <ButtonsWrap>
-          <CarrotButton onPress={() => modalizeRef.current?.open()}>
+          <CarrotButton onPress={() => setIsVisible(true)}>
             <Fonts children={`${number}개 선택`} color="white" size="large" />
           </CarrotButton>
           <VegetableButton onPress={() => onPress()}>
             <Fonts children="재료 추가 하기" color="white" size="large" />
           </VegetableButton>
         </ButtonsWrap>
-        <Modalize
-          ref={modalizeRef}
-          handlePosition="inside"
-          handleStyle={s.handleStyle}
-          overlayStyle={s.overlayStyle}
-          scrollViewProps={{ contentContainerStyle: { height: 'auto' } }}
-          modalStyle={s.content__modal}
-          adjustToContentHeight>
+        <Modal
+          isVisible={isVisible}
+          backdropOpacity={0.3}
+          propagateSwipe
+          onBackdropPress={() => setIsVisible(false)}
+          onSwipeComplete={() => setIsVisible(false)}
+          style={s.content__modal}
+          swipeDirection="down">
           <CenterWrap>
+            <View style={s.header} />
             {number > 0 ? (
-              <IngredientsWrap>
+              <IngredientsWrap
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  width: '100%',
+                  padding: 15,
+                  paddingTop: 20,
+                }}>
                 {ingredients.map(ingredient => (
                   <IngredientButton
                     key={ingredient.name}
@@ -57,7 +66,7 @@ export const AddModal = React.memo(
               </VegetableButton>
             </ButtonsWrap>
           </CenterWrap>
-        </Modalize>
+        </Modal>
       </>
     );
   },
@@ -69,21 +78,21 @@ const s = StyleSheet.create({
     shadowOpacity: 0.45,
     shadowRadius: 24,
     width: 100 * vw,
-    height: 'auto',
+    margin: 0,
     elevation: 4,
     alignSelf: 'center',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    justifyContent: 'flex-end',
   },
-  handleStyle: {
+  header: {
+    height: 26,
     width: 30 * vw,
-  },
-  overlayStyle: {
-    backgroundColor: 'rgba(0,0,0,0.2)',
-    width: 100 * vw,
-    height: 100 * vh,
-    top: -40,
-    left: -20,
+    alignSelf: 'center',
+    backgroundColor: 'white',
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    overflow: 'hidden',
+    position: 'absolute',
+    top: -15,
   },
 });
 
@@ -91,16 +100,18 @@ const CenterWrap = styled.View`
   height: auto;
   justify-content: center;
   align-items: center;
+  background-color: white;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
 `;
 
-const IngredientsWrap = styled.View`
+const IngredientsWrap = styled.ScrollView`
   flex-direction: row;
   flex-wrap: wrap;
   height: auto;
   width: 100%;
-  padding: 15px;
-  padding-top: ${4 * vh}px;
-  padding-bottom: ${9 * vh}px;
+  max-height: ${70 * vh}px;
+  margin-bottom: ${7 * vh}px;
 `;
 const FontsWrap = styled.View`
   height: ${25 * vh}px;
@@ -111,7 +122,7 @@ const FontsWrap = styled.View`
 `;
 const ButtonsWrap = styled.View`
   flex-direction: row;
-  height: ${8 * vh}px;
+  height: ${7.5 * vh}px;
   align-self: center;
   width: ${100 * vw}px;
   justify-content: center;

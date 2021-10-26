@@ -5,14 +5,15 @@ import {
   getRecipeList,
   getRecipeNumber,
   getRecommendIngres,
+  getScrapList,
 } from '../api';
 import { useRefrigerIngredient } from './useRedux';
 
 let recipeNumberTimer = Date.now();
 
-export const useRecipeNumber = (data: Refriger) => {
-  const timer = (Date.now() - recipeNumberTimer) / 1000;
-  recipeNumberTimer = Date.now();
+export const useRecipeNumber = (data: Refriger, date = Date.now()) => {
+  const timer = (date - recipeNumberTimer) / 1000;
+  recipeNumberTimer = date;
   return useQuery<number>(
     ['RecipeNumber', ...data],
     () => getRecipeNumber(data),
@@ -20,6 +21,7 @@ export const useRecipeNumber = (data: Refriger) => {
       enabled: !!data,
       ...(timer < 1 && { cacheTime: 0 }),
       staleTime: 1000 * 60 * 60 * 12,
+      keepPreviousData: true,
     },
   );
 };
@@ -43,20 +45,36 @@ export const useRecipeList = () => {
     {
       staleTime: 1000 * 60 * 60 * 12,
       getNextPageParam: lastpage =>
-        lastpage.available ? lastpage.nextPage : 0,
+        lastpage.available ? lastpage.nextPage : undefined,
+    },
+  );
+};
+export const useScrapList = (recipeids: number[]) => {
+  return useInfiniteQuery(
+    ['ScrapList', ...recipeids],
+    ({ pageParam = 1 }) => getScrapList(pageParam, recipeids, recipeids.length),
+    {
+      staleTime: 1000 * 60 * 60 * 12,
+      getNextPageParam: lastpage =>
+        lastpage.available ? lastpage.nextPage : undefined,
+    },
+  );
+};
+export const useHistoryList = (recipeids: number[]) => {
+  return useInfiniteQuery(
+    ['HistoryList', ...recipeids],
+    ({ pageParam = 1 }) => getScrapList(pageParam, recipeids, recipeids.length),
+    {
+      staleTime: 1000 * 60 * 60 * 12,
+      getNextPageParam: lastpage =>
+        lastpage.available ? lastpage.nextPage : undefined,
     },
   );
 };
 export const useRecommendIngres = () => {
   const refriger = useRefrigerIngredient();
-  return useQuery(
-    ['RecommendIngre', ...refriger],
-    () => getRecommendIngres(refriger),
-    {
-      staleTime: 1000 * 60 * 60 * 12,
-      cacheTime: 1000 * 60 * 60,
-      keepPreviousData: true,
-    },
+  return useQuery(['RecommendIngre', ...refriger], () =>
+    getRecommendIngres(refriger),
   );
 };
 export const useRecipeRandomList = (num?: number) => {

@@ -147,9 +147,8 @@ const PlaceholderIcon = styled.View<{ width: string }>`
 const SearchInputWrap = styled.View<{ width: string }>`
   position: relative;
   width: ${({ width }) => width || '100%'};
-  margin-top: ${2 * vh}px;
-  margin-bottom: ${2.5 * vh}px;
-  height: auto;
+  margin-top: ${1.8 * vh}px;
+  margin-bottom: ${1.8 * vh}px;
   /* background-color: red; */
 `;
 const SearchResultWrap = styled.View`
@@ -169,6 +168,7 @@ const SearchInputElement = styled.TextInput<SearchInputProps>`
   padding-left: ${5 * vw}px;
   font-size: ${({ fontSize }) => theme.text[fontSize || 'medium']};
   background-color: ${theme.color.carrot + '22'};
+  height: 50px;
 `;
 const PlaceholderWrap = styled.View`
   position: absolute;

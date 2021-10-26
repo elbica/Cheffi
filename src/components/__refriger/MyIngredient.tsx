@@ -3,12 +3,13 @@ import React, { useMemo, useState } from 'react';
 import { useCallback } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
-import { theme, vh, vw } from '../../assets/styles/theme';
+import { isAndroid, theme, vh, vw } from '../../assets/styles/theme';
 import { useRecipeNumber } from '../../hooks/useRecipe';
 import { useCommonIngredient } from '../../hooks/useRedux';
 import { IngredientButton } from '../elements/Buttons';
 import Fonts from '../elements/Fonts';
 import { Plus, Undo, WhiteCheck } from '../elements/Images';
+import { PossibleRecipe } from '../elements/Recipe';
 import { MainCategory } from './Category';
 
 export const MyIngredient = React.memo(
@@ -16,7 +17,7 @@ export const MyIngredient = React.memo(
     const ingre = useCommonIngredient();
     const [category, setCategory] = useState<MainCategory>('전체');
     const { data: number } = useRecipeNumber(ingre);
-    const navigation = useNavigation();
+    const navigation = useNavigation<AddIngredientNavProp>();
     const isChange = useMemo(
       () => JSON.stringify(ingre) !== JSON.stringify(init),
       [init, ingre],
@@ -52,10 +53,8 @@ export const MyIngredient = React.memo(
     }, []);
 
     return (
-      <Position>
-        <NavigationPlusWrap onPress={() => handleAddIngredient('추천')}>
-          <NavigationPlus />
-        </NavigationPlusWrap>
+      <>
+        <PossibleRecipe number={number} />
         <MainCategory
           setCategory={handleCategory}
           notAll={false}
@@ -85,7 +84,7 @@ export const MyIngredient = React.memo(
             </SaveButton>
           </ButtonsWrap>
         )}
-      </Position>
+      </>
     );
   },
 );
@@ -123,6 +122,18 @@ const IngredientSection = React.memo(
     );
   },
 );
+
+export const AbsolutePlus = () => {
+  const navigation = useNavigation<AddIngredientNavProp>();
+  return (
+    <NavigationPlusWrap
+      onPress={() =>
+        navigation.navigate('addIngredient', { category: '추천' })
+      }>
+      <NavigationPlus />
+    </NavigationPlusWrap>
+  );
+};
 
 const Position = styled.View`
   position: relative;
@@ -175,7 +186,8 @@ const PlusWrap = styled.TouchableOpacity`
 `;
 
 const NavigationPlusWrap = styled(PlusWrap)`
-  top: ${-6.5 * vh}px;
+  top: ${isAndroid ? 5.5 * vh : 7.5 * vh}px;
+  right: 5%;
 `;
 
 const Divider = styled.View`
@@ -197,7 +209,7 @@ const SaveButton = styled.TouchableOpacity`
   shadow-opacity: 0.45;
   shadow-offset: 0 0;
   shadow-radius: 4px;
-  elevation: 1;
+  elevation: 4;
 `;
 const CancleButton = styled(SaveButton)`
   background-color: ${theme.color['carrot']};

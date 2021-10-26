@@ -30,7 +30,7 @@ export function Star() {
   return (
     <StarContainer
       source={require('../../assets/icons/star.png')}
-      // style={{width: 40 * vw, height: 15 * vh}}
+      style={{ width: 15 * vw, height: 15 * vw }}
       resizeMode="contain"
     />
   );
@@ -39,7 +39,16 @@ export function Scrap() {
   return (
     <ScrapContainer
       source={require('../../assets/icons/star.png')}
-      // style={{width: 40 * vw, height: 15 * vh}}
+      style={{ width: 9 * vw, height: 9 * vw }}
+      resizeMode="contain"
+    />
+  );
+}
+export function EmptyScrap() {
+  return (
+    <ScrapContainer
+      source={require('../../assets/icons/star.png')}
+      style={{ width: 9 * vw, height: 9 * vw, tintColor: 'white' }}
       resizeMode="contain"
     />
   );
@@ -191,12 +200,88 @@ export function WhiteCheck() {
     />
   );
 }
+export function GreenCheck({ ...rest }) {
+  return (
+    <ColorCheckContainer
+      source={require('../../assets/icons/greenCheck.png')}
+      resizeMode="contain"
+      style={{ marginLeft: 8 }}
+      {...rest}
+    />
+  );
+}
+export function ReplaceCheck() {
+  return (
+    <ColorCheckContainer
+      source={require('../../assets/icons/replaceArrow.png')}
+      resizeMode="contain"
+      style={{ marginLeft: 10, marginRight: 10 }}
+    />
+  );
+}
 export function Undo() {
   return (
     <ColorCheckContainer
       source={require('../../assets/icons/undo.png')}
       resizeMode="contain"
       color="white"
+    />
+  );
+}
+export function Scale() {
+  return (
+    <ScaleContainer
+      source={require('../../assets/icons/homeIcon2.png')}
+      resizeMode="contain"
+    />
+  );
+}
+export function Note({ ...rest }) {
+  return (
+    <ScrapContainer
+      source={require('../../assets/icons/note.png')}
+      style={{ margin: 16 }}
+      {...rest}
+      resizeMode="contain"
+    />
+  );
+}
+export function Rating({ ...rest }) {
+  return (
+    <ScrapContainer
+      source={require('../../assets/icons/star.png')}
+      style={{ width: 10 * vw, height: 10 * vw }}
+      resizeMode="contain"
+      {...rest}
+    />
+  );
+}
+export function MyProfile({ ...rest }) {
+  return (
+    <ScrapContainer
+      source={require('../../assets/icons/myProfile.png')}
+      style={{ width: 10 * vw, height: 10 * vw }}
+      resizeMode="contain"
+      {...rest}
+    />
+  );
+}
+export function Logout({ ...rest }) {
+  return (
+    <ScrapContainer
+      source={require('../../assets/icons/logout.png')}
+      style={{ width: 8 * vw, height: 8 * vw }}
+      resizeMode="contain"
+      {...rest}
+    />
+  );
+}
+export function EmptyRating() {
+  return (
+    <ScrapContainer
+      source={require('../../assets/icons/star.png')}
+      style={{ width: 10 * vw, height: 10 * vw, tintColor: theme.color.light }}
+      resizeMode="contain"
     />
   );
 }
@@ -255,4 +340,9 @@ const ColorCheckContainer = styled.Image<ImageStyleProps>`
       width: 36px;
       height: 36px;
     `}
+`;
+
+const ScaleContainer = styled.Image`
+  width: 26px;
+  height: 26px;
 `;

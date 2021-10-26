@@ -16,7 +16,8 @@ type FormState = {
   nickname?: string;
   photo?: any;
   problems?: string[];
-  likeRecipesId?: string[];
+  likeRecipesId?: number[];
+  ingredients?: string[];
   dislikeIngredient?: string[];
 };
 type FormAction = ReturnType<typeof formSet | typeof formInit>;

@@ -147,14 +147,14 @@ export function NextSubmit({ goal, check, ...rest }: NextSubmitProps) {
   );
 }
 
-export function FormCompleteButton({ goal, ...rest }: NextSubmitProps) {
+export function FormCompleteButton({ goal, param, ...rest }: NextSubmitProps) {
   const { handleSubmit } = useFormContext();
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const onSubmit: SubmitHandler<any> = (data: object) => {
     dispatch(formSet(data));
-    navigation.navigate(goal);
+    navigation.navigate(goal, { param });
   };
   return (
     // <Section background="black">

@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components/native';
 import { likeText } from '../../assets/data/join';
 import { Section } from '../../assets/styles/theme';
 import { useFormContainer } from '../../hooks/useFormContainer';
+import { store } from '../../redux/store';
 import Fonts from '../elements/Fonts';
 import { Form, FormSelectButton, FormCompleteButton } from '../elements/Forms';
 import { FormElementProps } from '../elements/interface';
@@ -36,7 +37,10 @@ export default function SelectLike() {
               ))}
             </FormScrollContainer>
           </Section>
-          <FormCompleteButton goal="join6" />
+          <FormCompleteButton
+            goal="join6"
+            param={store.getState().form.nickname}
+          />
         </>
       )}
     </Form>

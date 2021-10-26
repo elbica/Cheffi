@@ -9,6 +9,7 @@ import styled from 'styled-components/native';
 
 export const vw = Dimensions.get('window').width / 100;
 export const vh = Dimensions.get('window').height / 100;
+export const isAndroid = Platform.OS === 'android';
 //자주 쓰는 스타일들 정의
 export const theme: DefaultTheme = {
   color: {
@@ -27,14 +28,14 @@ export const theme: DefaultTheme = {
   },
   padding: {
     android: `${12.5 * vh}px 5% 0% 5%`,
-    ios: `${14 * vh}px 5% 0% 5%`,
+    ios: `${13 * vh}px 5% 0% 5%`,
   },
   text: {
     xlarge: '24px',
     large: '20px',
     mediumLarge: '18px',
     medium: '16px',
-    small: '12px',
+    small: '13px',
   },
   lineHeight: {
     xlarge: '32px',
@@ -55,6 +56,7 @@ export const AppWrap = styled.View`
   flex: 1;
   height: 100%;
   background-color: white;
+  position: relative;
 `;
 export const Section = styled.View`
   flex: ${(props: SectionProps) => props.flexNumber};

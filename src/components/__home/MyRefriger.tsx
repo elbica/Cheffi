@@ -5,71 +5,69 @@ import styled, { css } from 'styled-components/native';
 import { homeIcons } from '../../assets/icons/icons';
 import { Section, vh, vw } from '../../assets/styles/theme';
 import { useRecipeCount } from '../../hooks/useRedux';
-import Divs from '../elements/Divs';
 import Fonts from '../elements/Fonts';
-import { CenterTouchOpacity } from '../layout/PageMoveLayout';
 
 const TouchIconAndText = ({
-  flexNumber,
+  height,
   imageName,
   text,
   onPress,
 }: TouchIconTextProps) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <Section row flexNumber={flexNumber} justify="flex-start">
+      <Section row justify="flex-start" height={height}>
         <Image source={homeIcons[imageName]} style={IconStyleOption} />
-        <Fonts padV="6%" lineHeight="medium">
-          {text}
-        </Fonts>
+        <Fonts lineHeight="medium">{text}</Fonts>
       </Section>
     </TouchableOpacity>
   );
 };
 export const EmptyRefriger = () => {
+  const navigation = useNavigation<RefrigerTabProp>();
   return (
-    <EmptyRefrigerWrap padV={`${4 * vh}px`}>
-      <CenterTouchOpacity goal="refrigerator">
+    <EmptyRefrigerWrap>
+      <Center onPress={() => navigation.jumpTo('내 냉장고')} activeOpacity={1}>
         <Image
           source={require('../../assets/icons/emptyRefriger.png')}
           style={ImageStyleOption}
         />
-        <Fonts size="large" padV="0px">
+        <Fonts size="large" padV="0px" color="tableBlack">
           냉장고가 비어있어요.
         </Fonts>
-        <Fonts color="tableBlack" padV="5px">
+        <Fonts padV="5px" color="tableGray">
           지금 냉장고에 뭐가 들어있나요?
         </Fonts>
-      </CenterTouchOpacity>
+      </Center>
     </EmptyRefrigerWrap>
   );
 };
 
 const ExistRefirger = () => {
   const recipeCount = useRecipeCount();
-  const navigation = useNavigation();
-  const handleNavigation = (goal: string) => navigation.jumpTo(goal);
+  const navigation = useNavigation<RefrigerTabProp>();
+  const handleNavigation = (goal: keyof TabNavParamList) =>
+    navigation.jumpTo(goal);
 
   return (
     <>
-      <OrangeContainer row justify="flex-start">
+      <OrangeContainer>
         <TouchIconAndText
           imageName="homeIcon1"
           text={'냉장고\n관리'}
           onPress={() => handleNavigation('내 냉장고')}
-          flexNumber={1}
+          height="80px"
         />
         <Divider />
         <TouchIconAndText
-          flexNumber={2}
+          height="80px"
           imageName="homeIcon2"
           onPress={() => handleNavigation('추천레시피')}
           text={`${recipeCount} 개의 레시피를\n만들 수 있어요!`}
         />
       </OrangeContainer>
-      <OrangeContainer justify="flex-start" row>
+      <OrangeContainer height="200px">
         <TouchIconAndText
-          flexNumber={1}
+          height="60px"
           imageName="homeIcon3"
           onPress={() => handleNavigation('내 냉장고')}
           text={'이 재료로 어떤 음식을 만들 수 있을까?'}
@@ -86,16 +84,9 @@ export default function MyRefriger({ empty }: { empty: boolean }) {
     </Container>
   );
 }
-const Container: any = styled(Section)`
-  /* height: 200px; */
-  height: ${23 * vh}px;
+const Container: any = styled.View`
+  height: auto;
   margin-bottom: ${3 * vh}px;
-  /* ${(props: any) =>
-    props.empty &&
-    css`
-      border-bottom-color: ${props.theme.color.tableGray};
-      border-bottom-width: 1px;
-    `} */
 `;
 const Divider = styled.View`
   width: 1px;
@@ -104,22 +95,27 @@ const Divider = styled.View`
   margin-left: ${3 * vw}px;
   margin-right: ${1 * vw}px;
 `;
-const OrangeContainer = styled(Section)`
+const OrangeContainer = styled.View<{ height?: string }>`
   border-color: ${({ theme }) => theme.color.carrot + '77'};
   border-radius: 16px;
   border-width: 1px;
   background-color: ${({ theme }) => theme.color.carrot + '22'};
-  margin: 10px 0;
-  flex: 1;
+  height: ${({ height }) => height || '200px'};
+  margin: 20px 0 0px 0;
+  flex-direction: row;
+  height: auto;
+  align-items: center;
+  top: 3px;
 `;
 
-const EmptyRefrigerWrap = styled(Divs)`
+const EmptyRefrigerWrap = styled.View`
   ${(props: any) =>
     css`
       border-bottom-color: ${props.theme.color.tableGray};
       border-bottom-width: 1px;
     `}
   height: ${23 * vh}px;
+  justify-content: center;
 `;
 
 const ImageStyleOption: ImageStyle = {
@@ -129,15 +125,19 @@ const ImageStyleOption: ImageStyle = {
   top: -1 * vh,
 };
 const IconStyleOption: ImageStyle = {
-  width: 8 * vw,
-  height: 5.5 * vh,
+  width: 9 * vw,
+  height: 5 * vh,
   resizeMode: 'contain',
   marginRight: 3 * vw,
   marginLeft: 4 * vw,
 };
 
+const Center = styled.TouchableOpacity`
+  justify-content: center;
+  align-items: center;
+`;
 interface TouchIconTextProps {
-  flexNumber: number;
+  height: string;
   imageName: string;
   text: string;
   onPress: () => void;

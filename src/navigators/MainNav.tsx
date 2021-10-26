@@ -7,6 +7,8 @@ import StackNavFactory from './StackNavFactory';
 import { TabScreenDataProps } from './Interface';
 import { Image, Platform } from 'react-native';
 import { icons } from '../assets/icons/icons';
+import { theme } from '../assets/styles/theme';
+import { StackActions } from '@react-navigation/native';
 
 const Tabs = createBottomTabNavigator();
 const tabBarOption: BottomTabBarOptions = {
@@ -14,11 +16,13 @@ const tabBarOption: BottomTabBarOptions = {
   safeAreaInsets: { bottom: Platform.OS === 'ios' ? 34 : 6 },
   style: {
     height: Platform.OS === 'ios' ? 88 : 62,
+    position: 'absolute',
   },
   labelStyle: {
     fontSize: 12,
     textAlign: 'justify',
   },
+  keyboardHidesTabBar: true,
 };
 const tabScreenData: TabScreenDataProps[] = [
   { name: '내 냉장고', screenName: 'refrigerator', iconName: 'refrigerator' },
@@ -27,6 +31,28 @@ const tabScreenData: TabScreenDataProps[] = [
   { name: '추천레시피', screenName: 'recommend', iconName: 'recommend' },
   { name: '마이페이지', screenName: 'profile', iconName: 'profile' },
 ];
+const resetHomeStackOnTabPress = ({ navigation, route }) => ({
+  tabPress: e => {
+    const state = navigation.dangerouslyGetState();
+
+    if (state) {
+      // Grab all the tabs that are NOT the one we just pressed
+      const nonTargetTabs = state.routes.filter(r => r.key !== e.target);
+
+      nonTargetTabs.forEach(tab => {
+        // Find the tab we want to reset and grab the key of the nested stack
+        const stackKey = tab?.state?.key;
+        if (stackKey) {
+          // Pass the stack key that we want to reset and use popToTop to reset it
+          navigation.dispatch({
+            ...StackActions.popToTop(),
+            target: stackKey,
+          });
+        }
+      });
+    }
+  },
+});
 
 export default function MainNav() {
   return (
@@ -35,6 +61,7 @@ export default function MainNav() {
         <Tabs.Screen
           key={idx}
           name={tabData.name}
+          listeners={resetHomeStackOnTabPress}
           options={{
             tabBarIcon: ({ focused }) => {
               const source = focused
@@ -44,7 +71,14 @@ export default function MainNav() {
                 <Image
                   source={source}
                   // eslint-disable-next-line react-native/no-inline-styles
-                  style={{ height: 28 }}
+                  style={{
+                    height: 28,
+                    ...(!focused &&
+                      (tabData.iconName === 'home' ||
+                        tabData.iconName === 'myRecipe') && {
+                        tintColor: theme.color.tableGray,
+                      }),
+                  }}
                   resizeMode="contain"
                 />
               );

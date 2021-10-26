@@ -23,7 +23,7 @@ export default function IntroPage(): JSX.Element {
   const handleFlow = (result: AuthResult, platform: string) => {
     dispatch(userInit(result.info));
     dispatch(setRefriger(result.refriger));
-    if (result.auth.newUser) {
+    if (true) {
       dispatch(
         userLogin({
           isLogin: false,

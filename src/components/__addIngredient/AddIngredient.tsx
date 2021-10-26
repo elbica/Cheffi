@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from '@react-navigation/core';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import {
@@ -10,13 +10,14 @@ import {
 } from '../../api';
 import { vh, vw } from '../../assets/styles/theme';
 import { useModifyIngredient } from '../../hooks/useIngredient';
-import { useRecommendIngres } from '../../hooks/useRecipe';
+import { useRecipeNumber } from '../../hooks/useRecipe';
 import { useCommonIngredient } from '../../hooks/useRedux';
 import { useIngredientSearch } from '../../hooks/useSearch';
 import { IngredientButton } from '../elements/Buttons';
 import Fonts from '../elements/Fonts';
 import { CarrotCheck, GrayCheck } from '../elements/Images';
 import { SearchInput } from '../elements/Inputs';
+import { PossibleRecipe } from '../elements/Recipe';
 import {
   ContentCategory,
   MainCategory,
@@ -33,15 +34,16 @@ const mapToIngredients = (target: Map<string, MainCategory>) => {
   return ingreState;
 };
 
-export const AddIngredient = () => {
+export const AddIngredient = ({
+  recommendIngres,
+}: {
+  recommendIngres?: Ingredient[];
+}) => {
   const { results, onChangeText } = useIngredientSearch();
   const { saveIngredient } = useModifyIngredient();
   const ingre = useCommonIngredient();
-
-  const { data: recommendIngres } = useRecommendIngres();
   const { category: init } = useRoute<AddIngredientRouteProp>().params;
   const navigation = useNavigation();
-
   const [category, setCategory] = useState<CategoryState>({
     main: init,
     sub: null,
@@ -49,6 +51,12 @@ export const AddIngredient = () => {
   const [pickIngre, setPickIngre] = useState<Map<string, MainCategory>>(
     new Map(),
   );
+  const computedIngre = mapToIngredients(pickIngre);
+  const queryRefriger = addIngreToRefriger(
+    computedIngre,
+    JSON.parse(JSON.stringify(ingre)),
+  );
+  const { data: number } = useRecipeNumber(queryRefriger);
 
   const oneDepth = useMemo(() => isOneDepth(category.main), [category]);
   const handleCategory = useCallback((param: string, key: 'main' | 'sub') => {
@@ -63,31 +71,23 @@ export const AddIngredient = () => {
   }, []);
 
   const handleSave = useCallback(() => {
-    const existIngre: Refriger = JSON.parse(JSON.stringify(ingre));
-    const ingreState: Ingredient[] = mapToIngredients(pickIngre);
-    console.log(existIngre, ingreState);
-    const newIngre = addIngreToRefriger(ingreState, existIngre);
-    saveIngredient(newIngre);
-
+    saveIngredient(queryRefriger);
     navigation.goBack();
-  }, [saveIngredient, ingre, pickIngre]);
+  }, [saveIngredient, queryRefriger]);
 
   const handleChangeText = useCallback((text: string) => {
     onChangeText(text);
-    setCategory({ main: '검색 결과', sub: null });
   }, []);
 
   const handleAdd = useCallback((ingredient: string, title: MainCategory) => {
     setPickIngre(state => {
       const newState = new Map(state);
-      // console.log(newState);
       newState.has(ingredient)
         ? newState.delete(ingredient)
         : newState.set(ingredient, title);
       return newState;
     });
   }, []);
-  console.log(pickIngre);
 
   const handleAllAdd = useCallback((ingredients: Ingredient[]) => {
     setPickIngre(state => {
@@ -115,13 +115,17 @@ export const AddIngredient = () => {
 
   return (
     <AddIngredientWrap>
-      <SearchInput onChangeText={handleChangeText} />
+      {category.main === '검색' ? (
+        <SearchInput onChangeText={handleChangeText} />
+      ) : (
+        <PossibleRecipe number={number} />
+      )}
       <MainCategory
         setCategory={handleCategory}
         selectCategory={category.main}
         recommend
       />
-      {category.main === '검색 결과' ? (
+      {category.main === '검색' ? (
         <>
           {results.length > 0 && (
             <CheckBox
@@ -197,7 +201,7 @@ export const AddIngredient = () => {
         </CategoryWrap>
       )}
       <AddModal
-        ingredients={mapToIngredients(pickIngre)}
+        ingredients={computedIngre}
         handleDelete={handleAdd}
         onPress={handleSave}
         number={pickIngre.size}
