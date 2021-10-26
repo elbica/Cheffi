@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from 'react';
-import { AppWrap, vh } from '../assets/styles/theme';
+import { AppWrap } from '../assets/styles/theme';
 import styled from 'styled-components/native';
 import { ScrollView } from 'react-native';
 import MyRefriger from '../components/__home/MyRefriger';
@@ -42,10 +42,10 @@ export default function HomePage() {
         dispatch(userRecipeCount(number));
       } else if (error) {
         console.log('error 발생. 초기화면 이동이 필요합니다.');
-        // dispatch(userLogout());
+        dispatch(userLogout());
       }
     })();
-  }, [dispatch]);
+  }, []);
 
   return (
     <ScrollView
