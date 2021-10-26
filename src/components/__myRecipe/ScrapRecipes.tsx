@@ -27,7 +27,7 @@ export const ScrapRecipes = ({ scrapIds }: { scrapIds: number[] }) => {
       keyExtractor={item => item.recipeid.toString()}
       onEndReached={() => fetchNextPage()}
       onEndReachedThreshold={0.7}
-      removeClippedSubviews
+      // removeClippedSubviews
     />
   ) : (
     <RelativeIndicator />

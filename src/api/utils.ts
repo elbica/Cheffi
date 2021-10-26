@@ -87,7 +87,12 @@ export const addIngreToRefriger = (
       refriger => refriger.title === ingredient.category,
     );
     if (index == -1)
-      console.log('⚔️refriger index err: ', refriger, ingredient.category);
+      console.log(
+        '⚔️refriger index err: ',
+        refriger,
+        ingredient.category,
+        ingredient,
+      );
     if (!newState[index].data.includes(ingredient.name))
       newState[index].data = [...newState[index].data, ingredient.name];
   });

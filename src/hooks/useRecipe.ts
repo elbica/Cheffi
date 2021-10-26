@@ -73,13 +73,8 @@ export const useHistoryList = (recipeids: number[]) => {
 };
 export const useRecommendIngres = () => {
   const refriger = useRefrigerIngredient();
-  return useQuery(
-    ['RecommendIngre', ...refriger],
-    () => getRecommendIngres(refriger),
-    {
-      staleTime: 1000 * 60 * 60 * 12,
-      cacheTime: 1000 * 60 * 60,
-    },
+  return useQuery(['RecommendIngre', ...refriger], () =>
+    getRecommendIngres(refriger),
   );
 };
 export const useRecipeRandomList = (num?: number) => {

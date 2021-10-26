@@ -40,7 +40,7 @@ const ScrapWrap = styled.TouchableOpacity`
   position: absolute;
   /* background-color: red; */
   width: auto;
-  top: ${isAndroid ? 5 * vh : 7.5 * vh}px;
+  top: ${isAndroid ? 5 * vh : 7 * vh}px;
   right: 5%;
 `;
 

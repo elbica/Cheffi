@@ -21,7 +21,9 @@ const initState = {
  * @returns 액션 객체
  *
  */
-export const userInit = (init: Omit<FormInfo, 'problems' | 'ingredients'>) => ({
+export const userInit = (
+  init: Omit<FormInfo, 'problems' | 'ingredients'> & { statusMessage?: string },
+) => ({
   type: USER_INIT_ACTION,
   payload: init,
 });

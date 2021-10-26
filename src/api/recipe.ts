@@ -3,7 +3,7 @@ import API from './api';
 import { store } from '../redux/store';
 import { silentLogin } from './auth';
 import { IMAGE_HAEMUK_URL, IMAGE_MANGAE_URL } from '../../config';
-import { setCachedInit } from '.';
+import { putUserPreference, setCachedInit } from '.';
 
 const RECIPE_LIST_STEP = 10;
 
@@ -79,7 +79,7 @@ export const getScrapList = async (
   const { data } = await API.get(
     `/recipe/info-list?ids=${ids}&page=${page}&step=${RECIPE_LIST_STEP}`,
   );
-  console.log('scrap list call', data);
+  console.log('⚱️scrap list call', data);
 
   return {
     recipe: data ?? [],
@@ -128,13 +128,17 @@ export const getInitialRecipe = async () => {
     if (login) {
       const ingre = store.getState().refriger;
       const scrap = store.getState().user.scrapRecipesId;
-      (number = await getRecipeNumber(ingre)),
-        ([randomList, list, recommendIngre, scrapRecipes] = await Promise.all([
+      try {
+        await putUserPreference();
+      } catch (e) {}
+      [number, randomList, list, recommendIngre, scrapRecipes] =
+        await Promise.all([
+          getRecipeNumber(ingre),
           getRecipeRandomList(),
           getRecipeList(),
           getRecommendIngres(ingre),
           getScrapList(1, scrap, scrap.length),
-        ]));
+        ]);
 
       recommendRecipe = randomList.pop() as Recipe;
       const initList = { pageParams: [1], pages: [list] };
@@ -174,8 +178,4 @@ type getRecipeListReturn = {
   maxPage: number;
   nextPage: number;
   available: boolean;
-};
-type getScrapListReturn = {
-  recipe: Recipe[];
-  current: number;
 };

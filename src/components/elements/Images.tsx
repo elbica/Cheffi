@@ -200,12 +200,13 @@ export function WhiteCheck() {
     />
   );
 }
-export function GreenCheck() {
+export function GreenCheck({ ...rest }) {
   return (
     <ColorCheckContainer
       source={require('../../assets/icons/greenCheck.png')}
       resizeMode="contain"
       style={{ marginLeft: 8 }}
+      {...rest}
     />
   );
 }

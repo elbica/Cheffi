@@ -22,6 +22,7 @@ export const AddModal = React.memo(
         <Modal
           isVisible={isVisible}
           backdropOpacity={0.3}
+          propagateSwipe
           onBackdropPress={() => setIsVisible(false)}
           onSwipeComplete={() => setIsVisible(false)}
           style={s.content__modal}
@@ -29,7 +30,15 @@ export const AddModal = React.memo(
           <CenterWrap>
             <View style={s.header} />
             {number > 0 ? (
-              <IngredientsWrap>
+              <IngredientsWrap
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  width: '100%',
+                  padding: 15,
+                  paddingTop: 20,
+                }}>
                 {ingredients.map(ingredient => (
                   <IngredientButton
                     key={ingredient.name}
@@ -96,14 +105,13 @@ const CenterWrap = styled.View`
   border-top-left-radius: 20px;
 `;
 
-const IngredientsWrap = styled.View`
+const IngredientsWrap = styled.ScrollView`
   flex-direction: row;
   flex-wrap: wrap;
   height: auto;
   width: 100%;
-  padding: 15px;
-  padding-top: ${4 * vh}px;
-  padding-bottom: ${9 * vh}px;
+  max-height: ${70 * vh}px;
+  margin-bottom: ${7 * vh}px;
 `;
 const FontsWrap = styled.View`
   height: ${25 * vh}px;

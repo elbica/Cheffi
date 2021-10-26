@@ -1,9 +1,3 @@
-export const MOCK_HOT_RECIPE: Recipe[] = [
-  { recipeid: 1, platform: 'dummy' },
-  { recipeid: 2, platform: 'dummy' },
-  { recipeid: 3, platform: 'dummy' },
-];
-
 export const MOCK_RECOMMEND_INGRE: Ingredient[] = [
   { name: '마늘', category: '채소류' },
   { name: '소금', category: '조미료/양념/육수' },
@@ -12,7 +6,7 @@ export const MOCK_RECOMMEND_INGRE: Ingredient[] = [
   { name: '간장류', category: '조미료/양념/육수' },
   { name: '고추가루', category: '기름/향신료/가루' },
   { name: '후추', category: '조미료/양념/육수' },
-  { name: '파류', category: '채소류' },
+  { name: '대파', category: '채소류' },
   { name: '당근', category: '채소류' },
   { name: '계란', category: '계란/유제품' },
   { name: '고추장', category: '조미료/양념/육수' },
@@ -20,7 +14,6 @@ export const MOCK_RECOMMEND_INGRE: Ingredient[] = [
   { name: '청양고추', category: '채소류' },
   { name: '쌀', category: '떡/곡류' },
   { name: '감자', category: '채소류' },
-  { name: '버터', category: '계란/유제품' },
   { name: '김치', category: '채소류' },
   { name: '굴소스', category: '조미료/양념/육수' },
   { name: '맛술/미림', category: '조미료/양념/육수' },

@@ -35,7 +35,7 @@ export const theme: DefaultTheme = {
     large: '20px',
     mediumLarge: '18px',
     medium: '16px',
-    small: '12px',
+    small: '13px',
   },
   lineHeight: {
     xlarge: '32px',

@@ -30,3 +30,12 @@ export const deleteUserHistory = async (id: number) => {
   await API.delete('/user/history', { data: { id } });
   console.log('❌delete user history, save server');
 };
+
+export const putUserInfo = (
+  statusMessage: string,
+  nickname: string,
+  photo: string = 'dummy',
+) => {
+  API.put('/user/info', { data: { nickname, photo, statusMessage } });
+};
+export const putUserPreference = () => API.put('/user/preference');

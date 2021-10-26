@@ -1,13 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import { KakaoLogout, GoogleLogout, clearCache } from '../../api';
 import { vh, vw, theme } from '../../assets/styles/theme';
 import { RootState, userLogout } from '../../redux/modules';
 import Fonts from '../elements/Fonts';
-import { Logout } from '../elements/Images';
+import { GreenCheck, Logout } from '../elements/Images';
 
-export const Setting = () => {
+export const Setting = ({ isChange, setIsChange, callback }: SettingProps) => {
   const dispatch = useDispatch();
   const platform = useSelector((state: RootState) => state.auth.platform);
   const handleLogout = async () => {
@@ -21,8 +21,23 @@ export const Setting = () => {
       dispatch(userLogout());
     } catch (e) {}
   };
+  const handleSave = () => {
+    if (isChange) callback();
+    setIsChange(state => !state);
+  };
+
   return (
     <Position>
+      <ChangeWrap onPress={handleSave} isChange={isChange}>
+        <CustomCheck isChange={isChange} />
+        <Fonts
+          children={isChange ? '저장' : '정보 변경'}
+          padH={isChange ? '16px' : '8px'}
+          padV="2px"
+          bold={isChange}
+          color={isChange ? 'white' : 'tableGray'}
+        />
+      </ChangeWrap>
       <LogoutWrap onPress={() => handleLogout()}>
         <Logout />
         <Fonts children="로그아웃" padH="8px" color="tableGray" />
@@ -44,8 +59,33 @@ const LogoutWrap = styled.TouchableOpacity`
   top: ${16 * vh}px;
   /* margin: 50px 0; */
 `;
+const CustomCheck = styled(GreenCheck)<{ isChange?: boolean }>`
+  width: 32px;
+  height: 24px;
+  ${({ isChange }) =>
+    isChange
+      ? css`
+          tint-color: ${theme.color.white};
+        `
+      : css`
+          tint-color: ${theme.color.deepGreen};
+        `};
+`;
+const ChangeWrap = styled(LogoutWrap)<{ isChange?: boolean }>`
+  background-color: ${({ isChange }) =>
+    isChange ? theme.color.vegetable + '99' : theme.color.vegetable + '22'};
+  width: ${33 * vw}px;
+  left: 0;
+  justify-content: flex-start;
+`;
 const Position = styled.View`
   position: relative;
   height: 100%;
   /* background-color: red; */
 `;
+
+interface SettingProps {
+  isChange: boolean;
+  setIsChange: React.Dispatch<React.SetStateAction<boolean>>;
+  callback: Function;
+}

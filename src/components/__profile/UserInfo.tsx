@@ -1,22 +1,28 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useState } from 'react';
-import { Image } from 'react-native';
 import styled from 'styled-components/native';
-import { defaultShadow, defaultShadowView } from '../../assets/data/shadow';
+import { defaultShadowView } from '../../assets/data/shadow';
 import { theme, vh, vw } from '../../assets/styles/theme';
 import Fonts from '../elements/Fonts';
 import { MyProfile, Note, Scrap } from '../elements/Images';
 
 export const UserInfo = ({
   info: { nickname, photo, statusMessage },
-}: {
-  info: UserInfo;
-}) => {
+  isChange,
+  setNickname,
+  setMessage,
+}: UserInfoProps) => {
   return (
     <UserInfoWrap>
       <BackgroundHeader />
       <UserPhoto uri={photo} />
-      <UserDescription nickname={nickname} statusMessage={statusMessage} />
+      <UserDescription
+        nickname={nickname}
+        statusMessage={statusMessage}
+        isChange={isChange}
+        setNickname={setNickname}
+        setMessage={setMessage}
+      />
       <Divider />
 
       <UserService />
@@ -29,7 +35,7 @@ const UserPhoto = ({ uri }: { uri: string }) => {
 
   return (
     <UserPhotoWrap>
-      {photoError ? (
+      {photoError || uri === '' ? (
         <UserPhotoElement
           source={require('../../assets/images/CheffiLogoBowl.png')}
           resizeMode="contain"
@@ -50,11 +56,33 @@ const UserPhoto = ({ uri }: { uri: string }) => {
 const UserDescription = ({
   nickname,
   statusMessage,
-}: Pick<UserInfo, 'nickname' | 'statusMessage'>) => {
-  return (
+  setMessage,
+  setNickname,
+  isChange,
+}: Pick<UserInfo, 'nickname' | 'statusMessage'> &
+  Omit<UserInfoProps, 'info'>) => {
+  return isChange ? (
+    <>
+      <UserNickNameInput
+        onChangeText={setNickname}
+        placeholder="닉네임"
+        placeholderTextColor="gray"
+      />
+      <UserMessageInput
+        onChangeText={setMessage}
+        placeholder="상태 메세지를 입력해 주세요."
+        placeholderTextColor="gray"
+      />
+    </>
+  ) : (
     <>
       <UserNickNameWrap>
-        <Fonts children={nickname} color="tableBlack" size="xlarge" bold />
+        <Fonts
+          children={nickname || '익명'}
+          color="tableBlack"
+          size="xlarge"
+          bold
+        />
       </UserNickNameWrap>
       <UserMessageWrap>
         <Fonts children={statusMessage} color="tableGray" size="mediumLarge" />
@@ -68,10 +96,10 @@ const UserService = () => {
   return (
     <UserServiceWrap>
       <IconTextWrap>
-        <IconWrap onPress={() => navigation.navigate('myTaste')}>
+        <IconWrap onPress={() => {}}>
           <MyProfile />
         </IconWrap>
-        <Fonts children="내 취향" color="tableGray" />
+        <Fonts children="설정" color="tableGray" />
       </IconTextWrap>
       <IconTextWrap>
         <IconWrap onPress={() => navigation.navigate('history')}>
@@ -117,10 +145,28 @@ const UserMessageWrap = styled.View`
   height: ${9 * vh}px;
   /* background-color: green; */
 `;
+const UserMessageInput = styled.TextInput`
+  justify-content: center;
+  align-items: center;
+  width: ${55 * vw}px;
+  height: ${9 * vh}px;
+  font-size: ${theme.text.mediumLarge};
+  /* background-color: green; */
+`;
 const UserNickNameWrap = styled.View`
   justify-content: center;
   align-items: center;
   padding: ${1.2 * vh}px ${8 * vw}px;
+  background-color: ${theme.color.carrot + '33'};
+  border-radius: 50px;
+  margin-top: ${1.4 * vh}px;
+  margin-bottom: ${1 * vh}px;
+`;
+const UserNickNameInput = styled.TextInput`
+  font-size: ${theme.text.large};
+  justify-content: center;
+  align-items: center;
+  padding: ${1.1 * vh}px ${8 * vw}px;
   background-color: ${theme.color.carrot + '33'};
   border-radius: 50px;
   margin-top: ${1.4 * vh}px;
@@ -178,3 +224,10 @@ const IconTextWrap = styled.View`
   width: 33%;
   height: 100%;
 `;
+
+interface UserInfoProps {
+  info: UserInfo;
+  isChange: boolean;
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
+  setNickname: React.Dispatch<React.SetStateAction<string>>;
+}

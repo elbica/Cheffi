@@ -107,7 +107,7 @@ export default function SelectIngredient() {
               })}
         </SearchResultWrap>
       </Section>
-      <Section row justify="flex-end" flexNumber="0.35">
+      <Section row justify="flex-end" flexNumber="0.2">
         <NextSubmit onPress={handleNext}>
           <Fonts children="다음" padH="14px" />
           <NextArrow />
@@ -163,7 +163,9 @@ const NextSubmit = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   right: 4px;
-  top: 16px;
+  background-color: ${theme.color.bgColor};
+  border-radius: 10px;
+  top: -7px;
 `;
 const FormCategoryWrap = styled.View`
   flex-direction: row;
