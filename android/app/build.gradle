@@ -78,7 +78,8 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    enableHermes: false,  // clean and rebuild if changing
+    enableHermes: false,
+    entryFile: "index.js",  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -91,7 +92,7 @@ apply from: "../../node_modules/react-native/react.gradle"
  * Upload all the APKs to the Play Store and people will download
  * the correct one based on the CPU architecture of their device.
  */
-def enableSeparateBuildPerCPUArchitecture = false
+def enableSeparateBuildPerCPUArchitecture = true
 
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
@@ -135,8 +136,8 @@ android {
         applicationId "com.cheffi_frontend"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 4
+        versionName "1.0.3"
     }
     splits {
         abi {
@@ -153,15 +154,27 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+         release {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+
+        //         storeFile file('debug.keystore')
+        //         storePassword 'android'
+        //         keyAlias 'androiddebugkey'
+        //         keyPassword 'android'
+        }
     }
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -190,7 +203,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'com.google.android.gms:play-services-auth:19.2.0'   
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-//   implementation "com.kakao.sdk:v2-user:2.8.0" // 카카오 로그인
+//    implementation "com.kakao.sdk:v2-user:2.8.0" // 카카오 로그인
 //   implementation "com.kakao.sdk:v2-talk:2.8.0" // 친구, 메시지(카카오톡)
 //   implementation "com.kakao.sdk:v2-link:2.8.0" // 메시지(카카오링크)
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {

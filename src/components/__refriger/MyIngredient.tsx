@@ -134,20 +134,13 @@ export const AbsolutePlus = () => {
     </NavigationPlusWrap>
   );
 };
-
-const Position = styled.View`
-  position: relative;
-  height: 100%;
-  /* background-color: red; */
-`;
-
 const ButtonsWrap = styled.View`
   height: auto;
   /* flex-direction: row; */
   background-color: transparent;
   align-self: flex-end;
   width: auto;
-  bottom: ${2 * vh}px;
+  bottom: ${9 * vh}px;
   right: -10px;
   position: absolute;
   padding: 10px;
@@ -204,7 +197,7 @@ const SaveButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  margin-top: 10px;
+  margin-top: 5px;
   shadow-color: black;
   shadow-opacity: 0.45;
   shadow-offset: 0 0;

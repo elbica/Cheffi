@@ -139,4 +139,5 @@ type TabNavParamList = {
 };
 type RecommendTabProp = TabNavigationProp<TabNavParamList, '추천레시피'>;
 type RefrigerTabProp = TabNavigationProp<TabNavParamList, '내 냉장고'>;
+type ProfileTabProp = TabNavigationProp<TabNavParamList, '마이페이지'>;
 type Join6RouteProp = RouteProp<IntroNavParamList, 'join6'>;

@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components/native';
@@ -9,6 +10,7 @@ import { GreenCheck, Logout } from '../elements/Images';
 
 export const Setting = ({ isChange, setIsChange, callback }: SettingProps) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation<ProfileTabProp>();
   const platform = useSelector((state: RootState) => state.auth.platform);
   const handleLogout = async () => {
     try {
@@ -18,6 +20,14 @@ export const Setting = ({ isChange, setIsChange, callback }: SettingProps) => {
         await GoogleLogout();
       }
       clearCache();
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: '홈',
+          },
+        ],
+      });
       dispatch(userLogout());
     } catch (e) {}
   };

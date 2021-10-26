@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import styled from 'styled-components/native';
-import { theme, vh, vw } from '../../assets/styles/theme';
+import { isAndroid, theme, vh, vw } from '../../assets/styles/theme';
 import { IngredientButton } from '../elements/Buttons';
 import Fonts from '../elements/Fonts';
 import Modal from 'react-native-modal';
@@ -60,11 +60,11 @@ export const AddModal = React.memo(
               </FontsWrap>
             )}
 
-            <ButtonsWrap>
+            <ModalButtonsWrap>
               <VegetableButton onPress={() => onPress()}>
                 <Fonts children="재료 추가 하기" color="white" size="large" />
               </VegetableButton>
-            </ButtonsWrap>
+            </ModalButtonsWrap>
           </CenterWrap>
         </Modal>
       </>
@@ -127,8 +127,11 @@ const ButtonsWrap = styled.View`
   width: ${100 * vw}px;
   justify-content: center;
   position: absolute;
-  bottom: 0px;
+  bottom: ${isAndroid ? '-66px' : '-95px'};
   z-index: 10;
+`;
+const ModalButtonsWrap = styled(ButtonsWrap)`
+  bottom: 0px;
 `;
 const CarrotButton = styled.TouchableOpacity`
   background-color: ${theme.color['carrot']};

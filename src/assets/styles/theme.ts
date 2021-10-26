@@ -27,8 +27,8 @@ export const theme: DefaultTheme = {
     deepYellow: '#fae01e',
   },
   padding: {
-    android: `${12.5 * vh}px 5% 0% 5%`,
-    ios: `${13 * vh}px 5% 0% 5%`,
+    android: `${12.5 * vh}px 5% 66px 5%`,
+    ios: `${13 * vh}px 5% 95px 5%`,
   },
   text: {
     xlarge: '24px',
