@@ -47,11 +47,10 @@ export const GoogleLogin = async (): Promise<AuthResult> => {
   try {
     const user = await GoogleSignin.signIn();
     updateToken(user.idToken as string, 'google');
-    console.log('get google token', user.idToken);
+    // console.log('get google token', user.idToken);
 
     const data = await sendGoogleToken(user.idToken as string);
-    console.log('backend: ', data);
-    // console.log('axios : ', API);
+    console.log('google auth: ', data);
 
     return data;
   } catch (e) {
@@ -88,11 +87,10 @@ export const KakaoLogin = async (): Promise<AuthResult> => {
   try {
     const token: KakaoOAuthToken = await login();
     updateToken(token.accessToken, 'kakao');
-    console.log('get kakao token', token.accessToken);
+    // console.log('get kakao token', token.accessToken);
 
     const data = await sendKakaoToken(token.accessToken as string);
-
-    console.log(data);
+    console.log('kakao auth: ', data);
     return data;
   } catch (e) {
     console.log(e);

@@ -71,7 +71,7 @@ export const SubCategory = ({
           <SubCategoryButton
             key={idx}
             children={
-              <Fonts children={category} color="tableGray" size="mediumLarge" />
+              <Fonts children={category} color="tableGray" size="medium" />
             }
             onPress={() => setCategory(category as MainCategory, 'sub')}
             last={idx === subCategory[selectCategory].length - 1 ? true : false}
@@ -88,6 +88,7 @@ export const ContentCategory = ({
   ingredientSet,
   handleAllAdd,
   handleAllDelete,
+  initIngreSet,
 }: ContentCategoryProps) => {
   const ingredients = isOneDepth(pickCategory.main)
     ? subCategory[pickCategory.main]
@@ -95,16 +96,19 @@ export const ContentCategory = ({
     ? ingredient[pickCategory.sub]
     : null;
   const calculContent = () =>
-    ingredients?.map(ingre => (
-      <IngredientButton
-        category={pickCategory.main}
-        key={ingre}
-        children={ingre}
-        isPick={ingredientSet.has(ingre)}
-        onPress={handleAdd}
-        init
-      />
-    ));
+    ingredients?.map(
+      ingre =>
+        !initIngreSet.has(ingre) && (
+          <IngredientButton
+            category={pickCategory.main}
+            key={ingre}
+            children={ingre}
+            isPick={ingredientSet.has(ingre)}
+            onPress={handleAdd}
+            init
+          />
+        ),
+    );
 
   return (
     <>
@@ -149,6 +153,7 @@ interface ContentCategoryProps {
   ingredientSet: Map<string, MainCategory>;
   handleAllAdd: Function;
   handleAllDelete: Function;
+  initIngreSet: Set<string>;
 }
 
 const MainCategoryButtonWrap = styled.TouchableOpacity<{ select: boolean }>`

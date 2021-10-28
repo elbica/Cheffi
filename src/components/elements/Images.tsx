@@ -35,12 +35,13 @@ export function Star() {
     />
   );
 }
-export function Scrap() {
+export function Scrap({ ...rest }) {
   return (
     <ScrapContainer
       source={require('../../assets/icons/star.png')}
       style={{ width: 9 * vw, height: 9 * vw }}
       resizeMode="contain"
+      {...rest}
     />
   );
 }
@@ -98,12 +99,13 @@ export function Review() {
     />
   );
 }
-export function NextArrow() {
+export function NextArrow({ ...rest }) {
   return (
     <Image
       source={require('../../assets/icons/nextArrow.png')}
       style={nextArrowStyle}
       resizeMode="contain"
+      {...rest}
     />
   );
 }

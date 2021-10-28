@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from '@react-navigation/core';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import {
@@ -51,14 +51,21 @@ export const AddIngredient = ({
   const [pickIngre, setPickIngre] = useState<Map<string, MainCategory>>(
     new Map(),
   );
+  const [initIngreSet, setInitIngreSet] = useState<Set<string>>(new Set());
+
   const computedIngre = mapToIngredients(pickIngre);
   const queryRefriger = addIngreToRefriger(
     computedIngre,
     JSON.parse(JSON.stringify(ingre)),
   );
   const { data: number } = useRecipeNumber(queryRefriger);
-
   const oneDepth = useMemo(() => isOneDepth(category.main), [category]);
+  useEffect(() => {
+    const newSet = new Set<string>();
+    ingre.map(init => init.data.map(ingredient => newSet.add(ingredient)));
+    setInitIngreSet(newSet);
+  }, [ingre]);
+
   const handleCategory = useCallback((param: string, key: 'main' | 'sub') => {
     setCategory(prev =>
       key === 'sub'
@@ -147,14 +154,16 @@ export const AddIngredient = ({
                   name: result,
                 };
                 return (
-                  <IngredientButton
-                    children={ingredient.name}
-                    category={ingredient.category}
-                    onPress={handleAdd}
-                    init
-                    key={result}
-                    isPick={calculPick(ingredient)}
-                  />
+                  !initIngreSet.has(ingredient.name) && (
+                    <IngredientButton
+                      children={ingredient.name}
+                      category={ingredient.category}
+                      onPress={handleAdd}
+                      init
+                      key={result}
+                      isPick={calculPick(ingredient)}
+                    />
+                  )
                 );
               })}
             </ScrollView>
@@ -180,6 +189,7 @@ export const AddIngredient = ({
           ingredientSet={pickIngre}
           handleAllAdd={handleAllAdd}
           handleAllDelete={handleAllDelete}
+          initIngreSet={initIngreSet}
         />
       ) : (
         <CategoryWrap>
@@ -196,6 +206,7 @@ export const AddIngredient = ({
               ingredientSet={pickIngre}
               handleAllAdd={handleAllAdd}
               handleAllDelete={handleAllDelete}
+              initIngreSet={initIngreSet}
             />
           </ContentWrapHelper>
         </CategoryWrap>

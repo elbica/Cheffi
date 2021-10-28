@@ -140,7 +140,7 @@ const ButtonsWrap = styled.View`
   background-color: transparent;
   align-self: flex-end;
   width: auto;
-  bottom: ${9 * vh}px;
+  bottom: ${10 * vh}px;
   right: -10px;
   position: absolute;
   padding: 10px;
