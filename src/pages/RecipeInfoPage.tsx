@@ -84,4 +84,5 @@ const CustomScrap = styled.ImageBackground`
   shadow-radius: 8px;
   width: 40px;
   height: 40px;
+  elevation: 4;
 `;

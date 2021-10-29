@@ -65,4 +65,5 @@ export const homeIcons: HomeIconTypes = {
 export const LoginButtons = {
   kakao: require('./kakao.png'),
   google: require('./google.png'),
+  apple: require('./apple.png'),
 };

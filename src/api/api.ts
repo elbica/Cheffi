@@ -27,10 +27,11 @@ const onRejected = (err: Error | AxiosError) => {
     let ret: API_ERROR | undefined;
     if (status === 401) {
       //자동 로그인하고 retry하기, 무한 루프 방지
-      if (err.config.url !== '/Auth') {
-        console.log('👓자동 로그인 응답');
+      if (!err.config.headers.Loop) {
+        console.log('👓자동 로그인 응답: ', err.config.url);
         return silentLogin().then(token => {
           err.config.headers.Authorization = `Bearer ${token}`;
+          err.config.headers.Loop = true;
           console.log('바뀐 config: ', err.config, 'token: ', token);
           return API.request(err.config);
         });
