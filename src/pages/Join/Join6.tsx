@@ -1,5 +1,5 @@
 import { useRoute } from '@react-navigation/core';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addIngreToRefriger, mapWithCategory, sendForm } from '../../api';
 import { emptyRefriger } from '../../assets/data/mockUserData';
@@ -14,14 +14,9 @@ export default function Join6() {
   const formData = useSelector((state: RootState) => state.form);
   const route = useRoute<Join6RouteProp>();
   const { saveIngredient } = useModifyIngredient();
-
-  //   const handleSave = useCallback(() => {
-
-  //     saveIngredient(queryRefriger);
-  //   }, [saveIngredient]);
   const nickname = route.params.param || '익명';
   useEffect(() => {
-    const sendFormData = () => {
+    const sendFormData = async () => {
       /**
        * @todo
        * 추후 axios를 이용해 formData를 백엔드로 보내야 한다
@@ -33,10 +28,9 @@ export default function Join6() {
         computedIngre,
         JSON.parse(JSON.stringify(emptyRefriger)),
       );
-      sendForm(formData);
       dispatch(formInit());
       dispatch(userInit(formData));
-      saveIngredient(queryRefriger);
+      await Promise.all([saveIngredient(queryRefriger), sendForm(formData)]);
       setTimeout(() => dispatch(userLogin({ isLogin: true })), 2000);
     };
     sendFormData();

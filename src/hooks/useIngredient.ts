@@ -45,6 +45,6 @@ export const useModifyIngredient = (): useIngredientResult => {
 
 export interface useIngredientResult {
   refriger: Refriger;
-  saveIngredient: (ingredients: Refriger) => void;
+  saveIngredient: (ingredients: Refriger) => Promise<void>;
   pushIngredient: (ingredients: Refriger) => void;
 }

@@ -5,9 +5,11 @@ import {
   logout,
   refreshAccessToken,
 } from '@react-native-seoul/kakao-login';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
 import API from './api';
 import { store } from '../redux/store';
 import debounce from 'debounce-promise';
+import { userSetAppleToken } from '../redux/modules';
 
 /**
  * @description,
@@ -42,12 +44,17 @@ const sendKakaoToken = debounce(
   1000 * 3,
   { leading: true },
 );
+const sendAppleToken = debounce(
+  async (token: string) => await sendToken(token, 'apple'),
+  1000 * 3,
+  { leading: true },
+);
 
 export const GoogleLogin = async (): Promise<AuthResult> => {
   try {
     const user = await GoogleSignin.signIn();
     updateToken(user.idToken as string, 'google');
-    // console.log('get google token', user.idToken);
+    console.log('get google token', user.idToken);
 
     const data = await sendGoogleToken(user.idToken as string);
     console.log('google auth: ', data);
@@ -128,6 +135,31 @@ const silentKakaoLogin = async () => {
   return data;
 };
 
+export const appleLogin = async () => {
+  const appleAuthRequestResponse = await appleAuth.performRequest({
+    nonceEnabled: false,
+    requestedOperation: appleAuth.Operation.LOGIN,
+    requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+  });
+  const token = appleAuthRequestResponse.identityToken as string;
+  updateToken(token, 'apple');
+  store.dispatch(userSetAppleToken(token));
+
+  const data = await sendAppleToken(token);
+  console.log('apple auth: ', data);
+  return data;
+};
+
+export const silentAppleLogin = async () => {
+  const newToken = store.getState().auth.appleToken as string;
+  if (newToken === undefined) throw new Error('not exist apple token');
+  updateToken(newToken, 'apple');
+
+  const data = await sendAppleToken(newToken);
+  console.log('👑silent apple auth: ', data);
+  return data;
+};
+
 export const silentLogin = async () => {
   const { platform } = store.getState().auth;
   console.log(`${platform} 🐹 자동 로그인!`);
@@ -137,6 +169,8 @@ export const silentLogin = async () => {
       token = (await silentGoogleLogin()).auth.token;
     } else if (platform === 'kakao') {
       token = (await silentKakaoLogin()).auth.token;
+    } else if (platform === 'apple') {
+      token = (await silentAppleLogin()).auth.token;
     }
     return token;
   } catch (e) {

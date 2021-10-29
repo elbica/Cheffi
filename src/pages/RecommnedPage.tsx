@@ -32,10 +32,12 @@ export default function RecommendPage() {
         <FlatList
           showsVerticalScrollIndicator={false}
           data={recipe}
-          renderItem={({ item, index }) => (
-            <RecipeThumbmail {...item} onPress={onPress} place={index} />
-          )}
-          keyExtractor={item => item.recipeid}
+          renderItem={({ item, index }) =>
+            item && (
+              <RecipeThumbmail {...item} onPress={onPress} place={index} />
+            )
+          }
+          keyExtractor={item => item?.recipeid}
           onEndReached={() => fetchNextPage()}
           onEndReachedThreshold={0.7}
           removeClippedSubviews

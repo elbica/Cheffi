@@ -8,7 +8,7 @@ import { LoginButtons } from '../assets/icons/icons';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { CLIENT_ID, IOS_ID, PRIVACY_POLICY_URL } from '../../config';
 import { useNavigation } from '@react-navigation/core';
-import { GoogleLogin, KakaoLogin } from '../api';
+import { appleLogin, GoogleLogin, KakaoLogin } from '../api';
 import { userInit, setRefriger, userLogin } from '../redux/modules';
 import Fonts from '../components/elements/Fonts';
 import { OpenLinkModal } from '../components/__recipeInfo/OpenLinkModal';
@@ -60,6 +60,14 @@ export default function IntroPage(): JSX.Element {
       console.log(e);
     }
   };
+  const handleAppleLogin = async () => {
+    try {
+      const AuthResult = await appleLogin();
+      handleFlow(AuthResult, 'apple');
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <>
@@ -92,6 +100,18 @@ export default function IntroPage(): JSX.Element {
             children={
               <Image
                 source={LoginButtons.google}
+                style={{ width: 84 * vw }}
+                resizeMode="contain"
+              />
+            }
+          />
+          <ImageButton
+            onPress={handleAppleLogin}
+            height="60px"
+            radius={0}
+            children={
+              <Image
+                source={LoginButtons.apple}
                 style={{ width: 84 * vw }}
                 resizeMode="contain"
               />

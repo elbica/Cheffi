@@ -43,6 +43,7 @@
 		41364854506B1ED1251879A5 /* libPods-Cheffi_frontend.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Cheffi_frontend.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		687BBBEF4D63389723DF788F /* Pods-Cheffi_frontend-Cheffi_frontendTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cheffi_frontend-Cheffi_frontendTests.debug.xcconfig"; path = "Target Support Files/Pods-Cheffi_frontend-Cheffi_frontendTests/Pods-Cheffi_frontend-Cheffi_frontendTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Cheffi_frontend/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8D1B6597272BCD4B00D0B3EB /* Cheffi_frontend.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Cheffi_frontend.entitlements; path = Cheffi_frontend/Cheffi_frontend.entitlements; sourceTree = "<group>"; };
 		8D32A05026F1D69900647C2D /* Cheffi_frontend-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Cheffi_frontend-Bridging-Header.h"; sourceTree = "<group>"; };
 		8D32A05126F1D69900647C2D /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		8D3712DA272596F60051C668 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -91,6 +92,7 @@
 		13B07FAE1A68108700A75B9A /* Cheffi_frontend */ = {
 			isa = PBXGroup;
 			children = (
+				8D1B6597272BCD4B00D0B3EB /* Cheffi_frontend.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -191,6 +193,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				0BAD8174120B6854A2C30649 /* [CP] Embed Pods Frameworks */,
+				BB18D2A84EC70B38ECF572A9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -367,6 +370,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Cheffi_frontend-Cheffi_frontendTests/Pods-Cheffi_frontend-Cheffi_frontendTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		BB18D2A84EC70B38ECF572A9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Cheffi_frontend/Pods-Cheffi_frontend-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Cheffi_frontend/Pods-Cheffi_frontend-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Cheffi_frontend/Pods-Cheffi_frontend-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -480,7 +500,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Cheffi_frontend/Cheffi_frontend.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 77Z6LL52FP;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Cheffi_frontend/Info.plist;
@@ -494,7 +516,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Cheffi-frontend";
 				PRODUCT_NAME = Cheffi_frontend;
 				SWIFT_OBJC_BRIDGING_HEADER = "Cheffi_frontend-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -509,7 +531,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Cheffi_frontend/Cheffi_frontend.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 77Z6LL52FP;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Cheffi_frontend/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -522,7 +546,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Cheffi-frontend";
 				PRODUCT_NAME = Cheffi_frontend;
 				SWIFT_OBJC_BRIDGING_HEADER = "Cheffi_frontend-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -579,7 +603,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -636,7 +660,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",

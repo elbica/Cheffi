@@ -92,7 +92,7 @@ const UserDescription = ({
 };
 
 const UserService = () => {
-  const navigation = useNavigation<ProfileNavigationProp>();
+  const navigation = useNavigation<ProfileNavigationProp & ProfileTabProp>();
   return (
     <UserServiceWrap>
       <IconTextWrap>
@@ -108,7 +108,7 @@ const UserService = () => {
         <Fonts children="열람 기록" color="tableGray" />
       </IconTextWrap>
       <IconTextWrap>
-        <IconWrap onPress={() => navigation.navigate('myRecipe')}>
+        <IconWrap onPress={() => navigation.jumpTo('내 레시피')}>
           <Scrap />
         </IconWrap>
         <Fonts children="내 레시피" color="tableGray" />
