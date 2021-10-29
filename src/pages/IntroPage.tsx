@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Image } from 'react-native';
-import { Section, vw } from '../assets/styles/theme';
+import { isAndroid, Section, vw } from '../assets/styles/theme';
 import styled from 'styled-components/native';
 import { ImageButton } from '../components/elements/Buttons';
 import { useDispatch } from 'react-redux';
@@ -105,18 +105,20 @@ export default function IntroPage(): JSX.Element {
               />
             }
           />
-          <ImageButton
-            onPress={handleAppleLogin}
-            height="60px"
-            radius={0}
-            children={
-              <Image
-                source={LoginButtons.apple}
-                style={{ width: 84 * vw }}
-                resizeMode="contain"
-              />
-            }
-          />
+          {!isAndroid && (
+            <ImageButton
+              onPress={handleAppleLogin}
+              height="60px"
+              radius={0}
+              children={
+                <Image
+                  source={LoginButtons.apple}
+                  style={{ width: 84 * vw }}
+                  resizeMode="contain"
+                />
+              }
+            />
+          )}
         </LoginSection>
         <Footer>
           <Fonts
