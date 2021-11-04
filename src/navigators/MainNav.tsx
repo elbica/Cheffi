@@ -5,17 +5,18 @@ import {
 } from '@react-navigation/bottom-tabs';
 import StackNavFactory from './StackNavFactory';
 import { TabScreenDataProps } from './Interface';
-import { Image, Platform } from 'react-native';
+import { Image } from 'react-native';
 import { icons } from '../assets/icons/icons';
-import { theme } from '../assets/styles/theme';
+import { isAndroid, theme } from '../assets/styles/theme';
 import { StackActions } from '@react-navigation/native';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 
 const Tabs = createBottomTabNavigator();
 const tabBarOption: BottomTabBarOptions = {
   activeTintColor: '#ff9140',
-  safeAreaInsets: { bottom: Platform.OS === 'ios' ? 34 : 6 },
+  safeAreaInsets: { bottom: isAndroid || !isIphoneX() ? 6 : 28 },
   style: {
-    height: Platform.OS === 'ios' ? 88 : 62,
+    height: isAndroid || !isIphoneX() ? 62 : 80,
     position: 'absolute',
   },
   labelStyle: {
@@ -31,9 +32,13 @@ const tabScreenData: TabScreenDataProps[] = [
   { name: '추천레시피', screenName: 'recommend', iconName: 'recommend' },
   { name: '마이페이지', screenName: 'profile', iconName: 'profile' },
 ];
-const resetHomeStackOnTabPress = ({ navigation, route }) => ({
-  tabPress: e => {
-    const state = navigation.dangerouslyGetState();
+const resetHomeStackOnTabPress = ({
+  navigation,
+}: {
+  navigation: ProfileTabProp;
+}) => ({
+  tabPress: (e: any) => {
+    const state = navigation.getState();
 
     if (state) {
       // Grab all the tabs that are NOT the one we just pressed

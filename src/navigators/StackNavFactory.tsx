@@ -11,9 +11,8 @@ import HomePage from '../pages/HomePage';
 import RecommendPage from '../pages/RecommnedPage';
 import ProfilePage from '../pages/ProfilePage';
 import { StackNavFactoryScreenName } from './Interface';
-import { Platform } from 'react-native';
 import styled from 'styled-components/native';
-import { vh, vw } from '../assets/styles/theme';
+import { isAndroid, vh } from '../assets/styles/theme';
 import RecipeInfoPage from '../pages/RecipeInfoPage';
 import { PrevArrow } from '../components/elements/Images';
 import { AddIngredientPage } from '../pages/AddIngredientPage';
@@ -31,7 +30,7 @@ const Header: StackNavigationOptions = {
   headerTransparent: true,
   headerBackground: () => <CustomStackHeader />,
   headerStyle: {
-    height: Platform.OS === 'android' ? 12 * vh : 13 * vh,
+    height: isAndroid ? 12 * vh : Math.min(12.5 * vh, 110),
   },
   headerBackImage: () => <PrevArrow />,
   headerTitleAlign: 'center',

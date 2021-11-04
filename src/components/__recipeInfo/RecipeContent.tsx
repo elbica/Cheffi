@@ -240,6 +240,7 @@ const GotoButton = styled(defaultShadow)`
   background-color: ${theme.color.carrot};
   justify-content: center;
   align-items: center;
+  shadow-radius: 6px;
 `;
 
 const CompleteCookButtonWrap = styled.TouchableOpacity`

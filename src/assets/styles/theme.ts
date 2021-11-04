@@ -10,7 +10,23 @@ import styled from 'styled-components/native';
 export const vw = Dimensions.get('window').width / 100;
 export const vh = Dimensions.get('window').height / 100;
 export const isAndroid = Platform.OS === 'android';
+
+import { NativeModules } from 'react-native';
+
+const DeviceInfo = NativeModules.CustomDeviceInfo;
+const getIosPadding = () => {
+  const IosModel = DeviceInfo.getDeviceName();
+  // let padding  = 0;
+  switch (IosModel) {
+    case 'iPhone 12':
+      return 13 * vh;
+    default:
+      return 0;
+  }
+};
+
 //자주 쓰는 스타일들 정의
+
 export const theme: DefaultTheme = {
   color: {
     black: '#231b16',
@@ -27,8 +43,8 @@ export const theme: DefaultTheme = {
     deepYellow: '#fae01e',
   },
   padding: {
-    android: `${12.5 * vh}px 5% 66px 5%`,
-    ios: `${13 * vh}px 5% 95px 5%`,
+    android: `${12.5 * vh}px 5% 62px 5%`,
+    ios: `${13 * vh}px 5% 80px 5%`,
   },
   text: {
     xlarge: '24px',

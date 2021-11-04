@@ -16,6 +16,7 @@ import { useIngredientSearch } from '../../hooks/useSearch';
 import { IngredientButton } from '../elements/Buttons';
 import Fonts from '../elements/Fonts';
 import { CarrotCheck, GrayCheck } from '../elements/Images';
+import { RelativeIndicator } from '../elements/Indicators';
 import { SearchInput } from '../elements/Inputs';
 import { PossibleRecipe } from '../elements/Recipe';
 import {
@@ -171,16 +172,22 @@ export const AddIngredient = ({
         </>
       ) : category.main === '추천' ? (
         <>
-          <CheckBox
-            handleAllAdd={handleAllAdd}
-            handleAllDelete={handleAllDelete}
-            ingredients={recommendIngres}
-          />
-          <IngreButtons
-            onPress={handleAdd}
-            ingredients={recommendIngres}
-            calculPick={calculPick}
-          />
+          {recommendIngres ? (
+            <>
+              <CheckBox
+                handleAllAdd={handleAllAdd}
+                handleAllDelete={handleAllDelete}
+                ingredients={recommendIngres}
+              />
+              <IngreButtons
+                onPress={handleAdd}
+                ingredients={recommendIngres}
+                calculPick={calculPick}
+              />
+            </>
+          ) : (
+            <CustomIndicator />
+          )}
         </>
       ) : oneDepth ? (
         <ContentCategory
@@ -282,6 +289,10 @@ const SearchResultWrap = styled.View`
   width: 100%;
   height: auto;
   flex-direction: row;
+`;
+
+const CustomIndicator = styled(RelativeIndicator)`
+  margin-top: ${18 * vh}px;
 `;
 
 interface CategoryState {

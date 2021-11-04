@@ -12,9 +12,9 @@ export const Indicator = () => {
     </IndicatorWrap>
   );
 };
-export const RelativeIndicator = () => {
+export const RelativeIndicator = ({ ...rest }) => {
   return (
-    <RelativeIndicatorWrap>
+    <RelativeIndicatorWrap {...rest}>
       <ActivityIndicator size="large" color="#ff9140" />
     </RelativeIndicatorWrap>
   );

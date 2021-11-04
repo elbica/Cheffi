@@ -122,9 +122,9 @@ export const likeText: likeTextElement[] = [
     styles: { top: '260px', left: '370px' },
   },
   {
-    text: '호박죽',
+    text: '김밥',
     radius: 45,
-    id: '6926163',
+    id: '6905398',
     color: 'deepYellow',
     styles: { top: '190px', left: '400px' },
   },
@@ -137,9 +137,9 @@ export const likeText: likeTextElement[] = [
     styles: { top: '225px', left: '495px' },
   },
   {
-    text: '회',
+    text: '샐러드',
     radius: 30,
-    id: '1234',
+    id: '6919435',
     color: 'deepYellow',
     styles: { top: '305px', left: '10px' },
   },

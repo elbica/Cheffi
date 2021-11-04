@@ -216,7 +216,7 @@ const IngredientContainer = styled.View`
 
 interface RefacMyIngredientProps {
   init: Refriger;
-  save(ingredient: Refriger, recipeCount: number): void;
+  save(ingredient: Refriger, recipeCount: number): Promise<void>;
   push(ingredient: Refriger): void;
 }
 

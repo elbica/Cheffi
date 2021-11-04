@@ -21,8 +21,8 @@ export default function RecipeInfoPage() {
   const dispatch = useDispatch();
   const isScrap = useIsRecipeScrap(recipeid);
   const onPress = () => {
-    dispatch(userRecipeScrap(recipeid));
     isScrap ? deleteUserScrap(recipeid) : putUserScrap(recipeid, place);
+    dispatch(userRecipeScrap(recipeid));
   };
 
   useEffect(() => {
@@ -46,6 +46,7 @@ export default function RecipeInfoPage() {
               <CustomScrap
                 source={require('../assets/icons/star.png')}
                 resizeMode="contain"
+                imageStyle={{ tintColor: 'yellow' }}
               />
             ) : (
               <CustomScrap
@@ -84,5 +85,5 @@ const CustomScrap = styled.ImageBackground`
   shadow-radius: 8px;
   width: 40px;
   height: 40px;
-  elevation: 4;
+  elevation: 10;
 `;
