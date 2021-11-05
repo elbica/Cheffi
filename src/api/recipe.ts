@@ -123,7 +123,7 @@ export const getInitialRecipe = async () => {
       list: getRecipeListReturn,
       randomList: Recipe[] = [],
       recommendIngre: Ingredient[] = [],
-      recommendRecipe: Recipe,
+      // recommendRecipe: Recipe,
       scrapRecipes: Omit<getRecipeListReturn, 'maxPage'>;
     if (login) {
       const ingre = store.getState().refriger;
@@ -134,13 +134,13 @@ export const getInitialRecipe = async () => {
       [number, randomList, list, recommendIngre, scrapRecipes] =
         await Promise.all([
           getRecipeNumber(ingre),
-          getRecipeRandomList(),
+          getRecipeRandomList(12),
           getRecipeList(),
           getRecommendIngres(ingre),
           getScrapList(1, scrap, scrap.length),
         ]);
 
-      recommendRecipe = randomList.pop() as Recipe;
+      // recommendRecipe = randomList.pop() as Recipe;
       const initList = { pageParams: [1], pages: [list] };
       const initScrap = { pageParams: [1], pages: [scrapRecipes] };
       setCachedInit(
@@ -152,7 +152,7 @@ export const getInitialRecipe = async () => {
         initScrap,
         scrap,
       );
-      return { login, number, randomList, recommendRecipe };
+      return { login, number, randomList };
     }
     console.log('not login error:');
     return { error: true, number: 0 };

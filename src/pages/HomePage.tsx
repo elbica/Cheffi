@@ -25,19 +25,14 @@ export default function HomePage() {
   const empty = JSON.stringify(refriger) === JSON.stringify(emptyRefriger);
 
   const [list, setList] = useState<Recipe[]>();
-  const [recipe, setRecipe] = useState<Recipe>();
-  // const [loading, setLoaing] = useState(true);
   useLayoutEffect(() => {
-    // setTimeout(() => setLoaing(false), 4000);
-
     if (!ingredient.length) {
       dispatch(setIngredient(refriger));
     }
     (async () => {
-      const { error, login, number, randomList, recommendRecipe } =
-        await getInitialRecipe();
+      const { error, login, number, randomList } = await getInitialRecipe();
       setList(randomList);
-      setRecipe(recommendRecipe);
+      // setRecipe(recommendRecipe);
       if (login) {
         dispatch(userRecipeCount(number));
       } else if (error) {
@@ -53,7 +48,7 @@ export default function HomePage() {
       showsVerticalScrollIndicator={false}>
       <HomeWrap>
         <MyRefriger empty={empty} />
-        <ForMe recipe={recipe as Recipe} />
+        {/* <ForMe recipe={recipe as Recipe} /> */}
         <HotRecipes data={list} />
       </HomeWrap>
     </ScrollView>

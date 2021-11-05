@@ -63,4 +63,3 @@ buck-out/
 config.js
 android/app/release/app-release.aab
 android/java_pid49876.hprof
-android/app/build.gradle

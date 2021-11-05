@@ -40,13 +40,14 @@ export const RecipeInfo = ({ time, calories, scrap }: RecipeInfoProps) => {
 
 const RecipeInfoWrap = styled.View`
   flex-direction: row;
-  height: 40px;
+  height: auto;
+  flex-wrap: wrap;
+  padding-top: 5px;
 `;
 
 const InfoElementWrap = styled.View`
   width: auto;
   flex-direction: row;
-  height: 100%;
   margin-right: 15px;
   align-items: center;
 `;
