@@ -21,7 +21,7 @@ export default function HotRecipes({ data }: { data: Recipe[] | undefined }) {
         ⭐️ 나를 위한 추천 레시피
       </Fonts>
       <ThumbnailWrap>
-        {data ? (
+        {data && (
           <>
             <ThumbnailSectionWrap>
               {section1?.map((recipe, idx) => (
@@ -44,10 +44,9 @@ export default function HotRecipes({ data }: { data: Recipe[] | undefined }) {
               ))}
             </ThumbnailSectionWrap>
           </>
-        ) : (
-          <RelativeIndicator />
         )}
       </ThumbnailWrap>
+      {!data && <RelativeIndicator />}
     </HotRecipeWrap>
   );
 }

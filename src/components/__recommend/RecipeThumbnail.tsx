@@ -79,8 +79,8 @@ export const HomeRecipeThumbnail = ({
           <Fonts
             children={
               title
-                ? title.length > 20
-                  ? title.slice(0, 20) + ' ・・・'
+                ? title.length > 18
+                  ? title.slice(0, 18) + '...'
                   : title
                 : '로딩중..'
             }
