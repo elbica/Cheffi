@@ -15,7 +15,8 @@
 		675DC940D8E4B8DEA6A4FDB1 /* libPods-Cheffi_frontend.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41364854506B1ED1251879A5 /* libPods-Cheffi_frontend.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8D32A05226F1D69900647C2D /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D32A05126F1D69900647C2D /* File.swift */; };
-		8D3712DB272596F60051C668 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D3712DA272596F60051C668 /* Assets.xcassets */; };
+		8D5187462735D6AF00845ADA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D5187452735D6AF00845ADA /* Assets.xcassets */; };
+		8D5187472735D6AF00845ADA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D5187452735D6AF00845ADA /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +47,7 @@
 		8D1B6597272BCD4B00D0B3EB /* Cheffi_frontend.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Cheffi_frontend.entitlements; path = Cheffi_frontend/Cheffi_frontend.entitlements; sourceTree = "<group>"; };
 		8D32A05026F1D69900647C2D /* Cheffi_frontend-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Cheffi_frontend-Bridging-Header.h"; sourceTree = "<group>"; };
 		8D32A05126F1D69900647C2D /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
-		8D3712DA272596F60051C668 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8D5187452735D6AF00845ADA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9A563CFF2D0A7F0A9EDC0D27 /* Pods-Cheffi_frontend.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cheffi_frontend.release.xcconfig"; path = "Target Support Files/Pods-Cheffi_frontend/Pods-Cheffi_frontend.release.xcconfig"; sourceTree = "<group>"; };
 		B5BA4B829922838A0BB0DE5F /* Pods-Cheffi_frontend-Cheffi_frontendTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cheffi_frontend-Cheffi_frontendTests.release.xcconfig"; path = "Target Support Files/Pods-Cheffi_frontend-Cheffi_frontendTests/Pods-Cheffi_frontend-Cheffi_frontendTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -125,7 +126,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				8D3712DA272596F60051C668 /* Assets.xcassets */,
+				8D5187452735D6AF00845ADA /* Assets.xcassets */,
 				13B07FAE1A68108700A75B9A /* Cheffi_frontend */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* Cheffi_frontendTests */,
@@ -245,6 +246,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D5187472735D6AF00845ADA /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,7 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				8D3712DB272596F60051C668 /* Assets.xcassets in Resources */,
+				8D5187462735D6AF00845ADA /* Assets.xcassets in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
