@@ -6,7 +6,49 @@ import Divs from '../elements/Divs';
 import Fonts from '../elements/Fonts';
 import { RecipeInfo } from './RecipeInfo';
 
-export default React.memo(function RecipeThumbmail({
+const RecipeTumbnail = React.memo(
+  ({
+    recipeid,
+    scrap,
+    time,
+    calories,
+    title,
+    onPress,
+    platform,
+    place,
+  }: RecipeThumbnailProps) => {
+    const uri = getRecipeImageUri(recipeid, platform);
+    return (
+      <WrapTouchableOpacity
+        onPress={() => onPress(recipeid, platform, place)}
+        activeOpacity={1}>
+        <ImageButton
+          key={recipeid}
+          uri={uri}
+          width="100%"
+          height="130px"
+          onPress={() => onPress(recipeid, platform, place)}
+          radius={10}
+        />
+        <FontContainer>
+          <RecipeTitle>
+            <Fonts
+              children={title ? title : '로딩중..'}
+              color="black"
+              size="large"
+              padV="4px"
+              bold
+              lineHeight="large"
+            />
+          </RecipeTitle>
+          <RecipeInfo calories={calories} time={time} scrap={scrap} />
+        </FontContainer>
+      </WrapTouchableOpacity>
+    );
+  },
+);
+
+export const HomeRecipeThumbnail = ({
   recipeid,
   scrap,
   time,
@@ -15,9 +57,11 @@ export default React.memo(function RecipeThumbmail({
   onPress,
   platform,
   place,
-}: RecipeThumbnailProps) {
+}: RecipeThumbnailProps) => {
   const uri = getRecipeImageUri(recipeid, platform);
-  // console.log('thumbnail: ', title);
+  const imageHeight = ['100px', '140px', '180px'][
+    Math.floor(Math.random() * 3)
+  ];
   return (
     <WrapTouchableOpacity
       onPress={() => onPress(recipeid, platform, place)}
@@ -26,26 +70,34 @@ export default React.memo(function RecipeThumbmail({
         key={recipeid}
         uri={uri}
         width="100%"
-        height="130px"
+        height={imageHeight}
         onPress={() => onPress(recipeid, platform, place)}
         radius={10}
       />
       <FontContainer>
         <RecipeTitle>
           <Fonts
-            children={title ? title : '로딩중..'}
+            children={
+              title
+                ? title.length > 20
+                  ? title.slice(0, 20) + ' ・・・'
+                  : title
+                : '로딩중..'
+            }
             color="black"
-            size="large"
-            padV="4px"
+            size="medium"
+            // padV="2px"
             bold
-            lineHeight="large"
+            lineHeight="mediumLarge"
           />
         </RecipeTitle>
         <RecipeInfo calories={calories} time={time} scrap={scrap} />
       </FontContainer>
     </WrapTouchableOpacity>
   );
-});
+};
+
+export default RecipeTumbnail;
 
 const FontContainer = styled(Divs)`
   padding-top: 10px;
@@ -55,14 +107,12 @@ const FontContainer = styled(Divs)`
 
 const RecipeTitle = styled.View`
   width: 90%;
-  /* background-color: red; */
 `;
 
 const WrapTouchableOpacity = styled.TouchableOpacity`
   width: 100%;
   height: auto;
   margin-bottom: 20px;
-  /* background-color: red; */
 `;
 
 interface RecipeThumbnailProps extends Recipe {
