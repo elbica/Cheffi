@@ -46,7 +46,7 @@ export default function RecipeInfoPage() {
               <CustomScrap
                 source={require('../assets/icons/star.png')}
                 resizeMode="contain"
-                imageStyle={{ tintColor: 'yellow' }}
+                imageStyle={{ tintColor: '#FFC107' }}
               />
             ) : (
               <CustomScrap

@@ -5,6 +5,7 @@ import { isAndroid, theme, vh, vw } from '../../assets/styles/theme';
 import { IngredientButton } from '../elements/Buttons';
 import Fonts from '../elements/Fonts';
 import Modal from 'react-native-modal';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 
 export const AddModal = React.memo(
   ({ ingredients, handleDelete, number, onPress }: AddModalProps) => {
@@ -127,7 +128,7 @@ const ButtonsWrap = styled.View`
   width: ${100 * vw}px;
   justify-content: center;
   position: absolute;
-  bottom: ${isAndroid ? '-66px' : '-95px'};
+  bottom: ${isAndroid || !isIphoneX() ? '-62px' : '-80px'};
   z-index: 10;
 `;
 const ModalButtonsWrap = styled(ButtonsWrap)`

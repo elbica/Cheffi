@@ -12,6 +12,14 @@ export const Indicator = () => {
     </IndicatorWrap>
   );
 };
+
+export const LoginIndicator = () => {
+  return (
+    <LoginIndicatorWrap>
+      <ActivityIndicator size="large" color="white" />
+    </LoginIndicatorWrap>
+  );
+};
 export const RelativeIndicator = ({ ...rest }) => {
   return (
     <RelativeIndicatorWrap {...rest}>
@@ -72,6 +80,12 @@ const RelativeIndicatorWrap = styled(IndicatorWrap)`
   position: relative;
   align-self: center;
 `;
+
+const LoginIndicatorWrap = styled(IndicatorWrap)`
+  background-color: black;
+  opacity: 0.35;
+`;
+
 const ProgressBarWrap = styled(IndicatorWrap)`
   background-color: ${theme.color['bgColor']};
   justify-content: center;

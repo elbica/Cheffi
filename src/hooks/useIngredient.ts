@@ -16,12 +16,12 @@ export const useModifyIngredient = (): useIngredientResult => {
   const saveIngredient = useCallback(
     async (ingredients: Refriger) => {
       try {
+        dispatch(setIngredient(ingredients));
         const [recipeNumber, _] = await Promise.all([
           getRecipeNumber(ingredients),
           sendRefriger(ingredients),
         ]);
         dispatch(setRefriger(ingredients));
-        dispatch(setIngredient(ingredients));
         const recipeCount = getCachedRecipeCount(ingredients) || recipeNumber;
         dispatch(userRecipeCount(recipeCount));
         setCachedRecipeList(ingredients);

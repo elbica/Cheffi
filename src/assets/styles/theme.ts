@@ -11,20 +11,6 @@ export const vw = Dimensions.get('window').width / 100;
 export const vh = Dimensions.get('window').height / 100;
 export const isAndroid = Platform.OS === 'android';
 
-import { NativeModules } from 'react-native';
-
-const DeviceInfo = NativeModules.CustomDeviceInfo;
-const getIosPadding = () => {
-  const IosModel = DeviceInfo.getDeviceName();
-  // let padding  = 0;
-  switch (IosModel) {
-    case 'iPhone 12':
-      return 13 * vh;
-    default:
-      return 0;
-  }
-};
-
 //자주 쓰는 스타일들 정의
 
 export const theme: DefaultTheme = {

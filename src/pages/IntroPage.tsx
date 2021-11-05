@@ -13,6 +13,7 @@ import { userInit, setRefriger, userLogin } from '../redux/modules';
 import Fonts from '../components/elements/Fonts';
 import { OpenLinkModal } from '../components/__recipeInfo/OpenLinkModal';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { LoginIndicator } from '../components/elements/Indicators';
 
 GoogleSignin.configure({
   webClientId: CLIENT_ID,
@@ -22,6 +23,7 @@ GoogleSignin.configure({
 
 export default function IntroPage(): JSX.Element {
   const [openModal, setOpenModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const handleFlow = (result: AuthResult, platform: string) => {
@@ -46,27 +48,33 @@ export default function IntroPage(): JSX.Element {
   };
   const handleGoogleLogin = async () => {
     try {
+      setIsLoading(true);
       const AuthResult = await GoogleLogin();
       handleFlow(AuthResult, 'google');
     } catch (e) {
       console.log(e);
     }
+    setIsLoading(false);
   };
   const handleKakaoLogin = async () => {
     try {
+      setIsLoading(true);
       const AuthResult = await KakaoLogin();
       handleFlow(AuthResult, 'kakao');
     } catch (e) {
       console.log(e);
     }
+    setIsLoading(false);
   };
   const handleAppleLogin = async () => {
     try {
+      setIsLoading(true);
       const AuthResult = await appleLogin();
       handleFlow(AuthResult, 'apple');
     } catch (e) {
       console.log(e);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -140,6 +148,7 @@ export default function IntroPage(): JSX.Element {
         isOpen={openModal}
         URL={PRIVACY_POLICY_URL}
       />
+      {isLoading && <LoginIndicator />}
     </>
   );
 }

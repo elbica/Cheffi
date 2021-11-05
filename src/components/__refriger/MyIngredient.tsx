@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/core';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCallback } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
@@ -18,10 +18,7 @@ export const MyIngredient = React.memo(
     const [category, setCategory] = useState<MainCategory>('전체');
     const { data: number } = useRecipeNumber(ingre);
     const navigation = useNavigation<AddIngredientNavProp>();
-    const isChange = useMemo(
-      () => JSON.stringify(ingre) !== JSON.stringify(init),
-      [init, ingre],
-    );
+    const [btnVisible, setBtnVisible] = useState(false);
 
     const handleCategory = useCallback(
       (cate: string) => setCategory(cate as MainCategory),
@@ -30,6 +27,8 @@ export const MyIngredient = React.memo(
 
     const handleRemove = useCallback(
       (name, category) => {
+        setBtnVisible(true);
+
         const newIngredient = ingre.map(cate =>
           cate.title === category
             ? {
@@ -42,15 +41,20 @@ export const MyIngredient = React.memo(
       },
       [ingre],
     );
-    const handleSave = useCallback(
-      () => save(ingre, number as number),
-      [save, ingre, number],
+    const handleSave = useCallback(() => {
+      setBtnVisible(false);
+      save(ingre, number as number);
+    }, [save, ingre, number]);
+    const handleCancle = useCallback(() => {
+      setBtnVisible(false);
+      push(init);
+    }, [init, push]);
+    const handleAddIngredient = useCallback(
+      (category: MainCategory) =>
+        navigation.navigate('addIngredient', { category }),
+      [],
     );
-    const handleCancle = useCallback(() => push(init), [init, push]);
-    const handleAddIngredient = useCallback((category: MainCategory) => {
-      // console.log('handle ', category);
-      navigation.navigate('addIngredient', { category });
-    }, []);
+    useEffect(() => setBtnVisible(false), [init]);
 
     return (
       <>
@@ -74,7 +78,7 @@ export const MyIngredient = React.memo(
               ),
           )}
         </ScrollView>
-        {isChange && (
+        {btnVisible && (
           <ButtonsWrap>
             <CancleButton onPress={handleCancle}>
               <Undo />

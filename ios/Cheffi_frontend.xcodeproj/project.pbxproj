@@ -16,7 +16,6 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8D32A05226F1D69900647C2D /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D32A05126F1D69900647C2D /* File.swift */; };
 		8D3712DB272596F60051C668 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D3712DA272596F60051C668 /* Assets.xcassets */; };
-		8DCEA35D27314DB200008D51 /* RCTCustomDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCEA35C27314DB200008D51 /* RCTCustomDeviceInfo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,8 +47,6 @@
 		8D32A05026F1D69900647C2D /* Cheffi_frontend-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Cheffi_frontend-Bridging-Header.h"; sourceTree = "<group>"; };
 		8D32A05126F1D69900647C2D /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		8D3712DA272596F60051C668 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		8DCEA35B27314D2F00008D51 /* RCTCustomDeviceInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTCustomDeviceInfo.h; sourceTree = "<group>"; };
-		8DCEA35C27314DB200008D51 /* RCTCustomDeviceInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTCustomDeviceInfo.m; sourceTree = "<group>"; };
 		9A563CFF2D0A7F0A9EDC0D27 /* Pods-Cheffi_frontend.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cheffi_frontend.release.xcconfig"; path = "Target Support Files/Pods-Cheffi_frontend/Pods-Cheffi_frontend.release.xcconfig"; sourceTree = "<group>"; };
 		B5BA4B829922838A0BB0DE5F /* Pods-Cheffi_frontend-Cheffi_frontendTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cheffi_frontend-Cheffi_frontendTests.release.xcconfig"; path = "Target Support Files/Pods-Cheffi_frontend-Cheffi_frontendTests/Pods-Cheffi_frontend-Cheffi_frontendTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -95,8 +92,6 @@
 		13B07FAE1A68108700A75B9A /* Cheffi_frontend */ = {
 			isa = PBXGroup;
 			children = (
-				8DCEA35C27314DB200008D51 /* RCTCustomDeviceInfo.m */,
-				8DCEA35B27314D2F00008D51 /* RCTCustomDeviceInfo.h */,
 				8D1B6597272BCD4B00D0B3EB /* Cheffi_frontend.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -429,7 +424,6 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				8D32A05226F1D69900647C2D /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				8DCEA35D27314DB200008D51 /* RCTCustomDeviceInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
