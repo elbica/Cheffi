@@ -1,13 +1,15 @@
 # <img src="./src/assets/images/CheffiLogoBowl.png" width="38px"/> Cheffi - 재료 기반 레시피 추천 서비스
 
-#### 📝 WEB : <https://cheffi.cf>
+#### 📝 Landing Page : <https://elbica.github.io/cheffi-landing>
 
 <br/>
-<img src="https://i.ibb.co/q5zRHWP/1.png" width="19%"/>
-<img src="https://i.ibb.co/NrMVNxP/2.png" width="19%"/>
-<img src="https://i.ibb.co/R3jrkGQ/3.png" width="19%"/>
-<img src="https://i.ibb.co/WsYqHGq/4.png" width="19%"/>
-<img src="https://i.ibb.co/vDCm9JJ/5.png" width="19%"/>
+<p >
+<img src="https://i.ibb.co/q5zRHWP/1.png" width="18%"/>
+<img src="https://i.ibb.co/NrMVNxP/2.png" width="18%"/>
+<img src="https://i.ibb.co/R3jrkGQ/3.png" width="18%"/>
+<img src="https://i.ibb.co/WsYqHGq/4.png" width="18%"/>
+<img src="https://i.ibb.co/vDCm9JJ/5.png" width="18%"/>
+</p>
 <br/>
 
 ### 🍎 기획 계기
@@ -15,7 +17,7 @@
 - 내가 **가진 재료**로 레시피를 찾고 싶어!
 - 이 사이트, 저 사이트 레시피가 너무 많은걸..
 - 재료가 오래돼서 버려야 하네..
-  <br ><br>
+  <br >
   <hr/>
   ✅ 요리를 할 때 우리는 항상 <b>뭘 해먹을지</b>, <b>남는 재료</b>를 어떻게 처리할 지 고민합니다. 심지어 재료를 마저 쓰지 못하고 오래돼 <b>버리는</b> 경우도 많습니다.<br/>
 
